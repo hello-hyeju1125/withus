@@ -10,13 +10,14 @@ export const storageBucket =
   process.env.FIREBASE_STORAGE_BUCKET ||
   "withus-web-99dbf.appspot.com";
 
+// Google이 내려주는 JSON 형식 (snake_case). ServiceAccount 타입에는 type/client_email/private_key가 없어서 별도 체크
 function isServiceAccount(obj: unknown): obj is ServiceAccount {
+  if (typeof obj !== "object" || obj === null) return false;
+  const o = obj as Record<string, unknown>;
   return (
-    typeof obj === "object" &&
-    obj !== null &&
-    (obj as ServiceAccount).type === "service_account" &&
-    typeof (obj as ServiceAccount).client_email === "string" &&
-    typeof (obj as ServiceAccount).private_key === "string"
+    o.type === "service_account" &&
+    typeof o.client_email === "string" &&
+    typeof o.private_key === "string"
   );
 }
 
