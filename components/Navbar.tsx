@@ -14,7 +14,7 @@ const menuItems = [
   {
     label: "시간표",
     href: "/schedule",
-    children: ["대원외고", "한영외고", "일반고", "개인팀수업"],
+    children: ["대원 외고", "한영 외고", "일반고", "개인팀 수업"],
   },
   {
     label: "설명회",
@@ -24,7 +24,7 @@ const menuItems = [
   {
     label: "공지사항",
     href: "/notice",
-    children: ["공지 및 안내", "학원 소개"],
+    children: ["공지 및 안내", "학원 소개", "강사진 소개"],
   },
   {
     label: "오시는길",
@@ -69,7 +69,7 @@ export default function Navbar() {
   return (
     <nav
       ref={navRef}
-      className="sticky top-[92px] z-[100] w-full bg-[#002761] sm:top-[106px]"
+      className="sticky top-[72px] z-[100] w-full bg-[#002761] sm:top-[84px]"
     >
       {/* Top Bar - height 80px */}
       <div className="mx-auto flex h-[60px] max-w-7xl items-center">
@@ -80,7 +80,7 @@ export default function Navbar() {
             const opensAllMenu = item.label === "전체보기" || item.label === "공지사항";
             const canOpenDropdown = hasChildren || opensAllMenu;
             const navButtonClass =
-              "group/menu relative flex h-full flex-1 items-center justify-center gap-1.5 border-b-2 border-transparent font-semibold text-white transition-all duration-300 ease-out hover:border-withus-gold hover:bg-white/25 hover:text-withus-gold hover:shadow-[inset_0_0_20px_rgba(254,246,0,0.08)] focus:outline-none focus-visible:ring-2 focus-visible:ring-withus-gold focus-visible:ring-offset-2 focus-visible:ring-offset-[#002761] active:scale-[0.98] text-sm sm:gap-2 sm:text-[16pt] sm:font-normal";
+              "group/menu relative flex h-full flex-1 items-center justify-center gap-1.5 border-b-2 border-transparent font-semibold text-white transition-all duration-300 ease-out hover:border-withus-gold hover:bg-white/25 hover:text-withus-gold hover:shadow-[inset_0_0_20px_rgba(254,246,0,0.08)] focus:outline-none focus-visible:ring-2 focus-visible:ring-withus-gold focus-visible:ring-offset-2 focus-visible:ring-offset-[#002761] active:scale-[0.98] text-[15px] sm:gap-2 sm:text-[17px] sm:font-normal";
             const hideOnMobile = item.label === "전체보기";
 
             return (
@@ -138,7 +138,7 @@ export default function Navbar() {
       {/* Backdrop - blocks clicks to main content when dropdown is open */}
       {dropdownOpen && (
         <div
-          className="fixed inset-0 top-[calc(92px+60px)] z-[90] hidden sm:block sm:top-[calc(106px+60px)]"
+          className="fixed inset-0 top-[calc(72px+60px)] z-[90] hidden sm:block sm:top-[calc(84px+60px)]"
           aria-hidden
           onClick={closeDropdown}
         />
@@ -164,7 +164,7 @@ export default function Navbar() {
                   {item.children === undefined ? (
                     <Link
                       href={item.href}
-                      className="flex items-center justify-center rounded-lg py-2 px-3 text-xs text-white/90 transition-all duration-200 hover:bg-white/15 hover:text-withus-gold hover:shadow-sm sm:text-sm"
+                      className="flex items-center justify-center rounded-lg py-2 px-3 text-sm text-white/90 transition-all duration-200 hover:bg-white/15 hover:text-withus-gold hover:shadow-sm sm:text-base"
                       onClick={closeDropdown}
                     >
                       전체보기
@@ -173,10 +173,10 @@ export default function Navbar() {
                     <ul className="flex flex-col items-center gap-0.5 px-4 text-center">
                       {(item.children as readonly string[]).map((child) => {
                         const scheduleSlugMap: Record<string, string> = {
-                          대원외고: "daewon",
-                          한영외고: "hanyoung",
+                          "대원 외고": "daewon",
+                          "한영 외고": "hanyoung",
                           일반고: "general",
-                          개인팀수업: "private",
+                          "개인팀 수업": "private",
                         };
                         const campusSlugMap: Record<string, string> = {
                           프리미엄관: "premium",
@@ -191,13 +191,15 @@ export default function Navbar() {
                               : item.href === "/notice"
                                 ? child === "학원 소개"
                                   ? "/academy"
-                                  : "/notice"
+                                  : child === "강사진 소개"
+                                    ? "/instructors"
+                                    : "/notice"
                               : `${item.href}?tab=${encodeURIComponent(child)}`;
                         return (
                           <li key={child}>
                             <Link
                               href={href}
-                              className="group flex items-center justify-center gap-1.5 rounded-lg py-2 px-3 text-xs text-white/90 transition-all duration-200 hover:bg-white/15 hover:text-withus-gold hover:shadow-sm sm:text-sm"
+                              className="group flex items-center justify-center gap-1.5 rounded-lg py-2 px-3 text-sm text-white/90 transition-all duration-200 hover:bg-white/15 hover:text-withus-gold hover:shadow-sm sm:text-base"
                               onClick={closeDropdown}
                             >
                               <ChevronRight className="h-3.5 w-0 shrink-0 overflow-hidden opacity-0 transition-all duration-200 group-hover:w-[14px] group-hover:opacity-100" aria-hidden />
@@ -211,7 +213,7 @@ export default function Navbar() {
                     /* 공지사항: 기본 링크 */
                     <Link
                       href={item.href}
-                      className="flex items-center justify-center rounded-lg py-2 px-3 text-xs text-white/90 transition-all duration-200 hover:bg-white/15 hover:text-withus-gold hover:shadow-sm sm:text-sm"
+                      className="flex items-center justify-center rounded-lg py-2 px-3 text-sm text-white/90 transition-all duration-200 hover:bg-white/15 hover:text-withus-gold hover:shadow-sm sm:text-base"
                       onClick={closeDropdown}
                     >
                       공지 및 안내

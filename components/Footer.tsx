@@ -15,9 +15,13 @@ export default function Footer() {
 
   return (
     <footer className="mt-0">
-      {/* 1. 상단 링크 바 (Top Bar) */}
+      <PrivacyPolicyModal isOpen={privacyModalOpen} onClose={() => setPrivacyModalOpen(false)} />
+      <TermsModal isOpen={termsModalOpen} onClose={() => setTermsModalOpen(false)} />
+      <TuitionModal isOpen={tuitionModalOpen} onClose={() => setTuitionModalOpen(false)} />
+
+      {/* 푸터 바로 위 띠: 개인정보처리방침 · 이용약관 · 교습비 */}
       <div className="bg-[#F0F4F8] py-3">
-        <div className="mx-auto flex max-w-7xl flex-row flex-wrap items-center justify-center gap-x-6 gap-y-1 px-4 sm:gap-x-8">
+        <div className="mx-auto flex max-w-7xl flex-row flex-wrap items-center justify-start gap-x-6 gap-y-1 px-4 sm:gap-x-8">
           {topLinks.map(({ label, href, bold }) =>
             href === "/privacy" ? (
               <button
@@ -59,17 +63,13 @@ export default function Footer() {
         </div>
       </div>
 
-      <PrivacyPolicyModal isOpen={privacyModalOpen} onClose={() => setPrivacyModalOpen(false)} />
-      <TermsModal isOpen={termsModalOpen} onClose={() => setTermsModalOpen(false)} />
-      <TuitionModal isOpen={tuitionModalOpen} onClose={() => setTuitionModalOpen(false)} />
-
-      {/* 2. 하단 메인 정보 (Main Footer) */}
+      {/* 하단 메인 정보 (Main Footer) */}
       <div className="bg-[#002761] text-white">
-        <div className="mx-auto max-w-7xl px-4 py-5 md:py-6">
+        <div className="mx-auto max-w-7xl px-4 py-10 md:py-14">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between lg:gap-6">
-            {/* Left: 브랜드 + 캠퍼스 박스 (좌측에 묶음) */}
+            {/* Left: 브랜드 + 캠퍼스 박스 */}
             <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-8">
-              <div className="flex-shrink-0 space-y-2 lg:min-w-[200px]">
+              <div className="flex-shrink-0 space-y-3 lg:min-w-[200px]">
                 <p className="text-lg font-bold text-white">{brand.name}</p>
                 <p className="text-2xl font-bold tracking-wide text-withus-gold md:text-3xl">
                   {brand.mainPhone}
@@ -77,22 +77,21 @@ export default function Footer() {
                 <p className="text-sm text-white">{brand.consultationHours}</p>
               </div>
 
-              {/* 캠퍼스 정보 카드 3개 (가로 나열) - 캠퍼스명·전화·주소1·주소2 각 1줄 */}
+              {/* 캠퍼스 정보 카드 3개: 관 이름·전화 한 줄, 주소 한 줄 (줄바꿈 없음) */}
               <div className="flex flex-row flex-wrap gap-3">
-                {campuses.map((campus) => {
-                  const [addressLine1, addressLine2] = campus.address.split("\n");
-                  return (
-                    <div
-                      key={campus.name}
-                      className="min-w-[180px] flex-1 rounded-lg bg-white/20 px-3 py-2 backdrop-blur"
-                    >
-                      <p className="text-[11px] font-bold text-white leading-tight md:text-xs">{campus.name}</p>
-                      <p className="mt-0.5 text-[11px] font-bold text-white leading-tight md:text-xs">{campus.phone}</p>
-                      <p className="mt-1 text-[11px] text-white leading-tight md:text-xs">{addressLine1}</p>
-                      <p className="mt-0.5 text-[11px] text-white leading-tight md:text-xs">{addressLine2}</p>
-                    </div>
-                  );
-                })}
+                {campuses.map((campus) => (
+                  <div
+                    key={campus.name}
+                    className="min-w-[180px] flex-1 rounded-lg bg-white/20 px-3 py-2 backdrop-blur"
+                  >
+                    <p className="whitespace-nowrap text-[11px] font-bold text-white leading-tight md:text-xs">
+                      {campus.name} {campus.phone}
+                    </p>
+                    <p className="mt-1 text-[11px] text-white leading-tight md:text-xs">
+                      {campus.address.replace(/\n/g, " ")}
+                    </p>
+                  </div>
+                ))}
               </div>
             </div>
 

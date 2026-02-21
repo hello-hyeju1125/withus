@@ -1,6 +1,6 @@
 export default function SMSBanner() {
   return (
-    <section className="my-12 px-4 sm:px-6 lg:px-8">
+    <section className="px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <a
           href="https://docs.google.com/forms/d/1Avu-t9dSlfYuGvpNOul_p6mBiqVnz2zJvp2zZhkXZ_k/viewform?edit_requested=true"

@@ -19,9 +19,13 @@ export default function BriefingTabContent() {
 
     const base = process.env.NEXT_PUBLIC_BASE_PATH || "";
     fetch(`${base}/api/briefings?category=${encodeURIComponent(tab)}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("설명회를 불러올 수 없습니다.");
-        return res.json();
+      .then(async (res) => {
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          const msg = typeof data?.error === "string" ? data.error : "설명회를 불러올 수 없습니다.";
+          throw new Error(msg);
+        }
+        return data as BriefingItem[];
       })
       .then((list: BriefingItem[]) => {
         if (!cancelled) {

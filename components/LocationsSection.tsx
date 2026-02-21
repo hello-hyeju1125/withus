@@ -156,7 +156,7 @@ export default function LocationsSection() {
 
   return (
     <section
-      className="mx-auto max-w-7xl px-4 py-12 md:py-16"
+      className="mx-auto max-w-7xl px-4 pt-12 pb-2.5 md:py-16"
       aria-labelledby="locations-heading"
     >
       <header className="mb-8 text-center">

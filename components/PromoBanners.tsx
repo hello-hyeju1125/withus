@@ -63,16 +63,16 @@ function BannerSlot({
       <img
         src={src}
         alt={alt}
-        className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover/banner:scale-105"
+        className="h-full w-full object-cover"
       />
       <div
-        className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/20 px-4 transition-colors duration-300 group-hover/banner:bg-black/30"
+        className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/20 px-4 pt-5 transition-colors duration-300 group-hover/banner:bg-black/30"
         style={{ fontFamily: "var(--font-gmarket)" }}
       >
-        <span className="text-center text-[1.35rem] font-medium text-white drop-shadow-md transition-transform duration-300 group-hover/banner:scale-105 sm:text-[1.5rem] md:text-[1.8rem]">
+        <span className="text-center text-[1.35rem] font-medium text-white drop-shadow-md sm:text-[1.5rem] md:text-[1.8rem]">
           {caption}
         </span>
-        <span className="rounded-full bg-white/90 px-4 py-2 text-sm font-semibold text-[#002761] shadow-md transition-all duration-300 group-hover/banner:scale-105 group-hover/banner:bg-white sm:px-5 sm:py-2.5 sm:text-base">
+        <span className="rounded-full bg-white/90 px-4 py-2 text-sm font-semibold text-[#002761] shadow-md transition-colors duration-300 group-hover/banner:bg-white sm:px-5 sm:py-2.5 sm:text-base">
           시간표 바로 가기
         </span>
       </div>
@@ -82,7 +82,7 @@ function BannerSlot({
   return (
     <Link
       href={href}
-      className="block cursor-pointer transition-transform duration-300 ease-out hover:scale-[1.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-withus-gold focus-visible:rounded-2xl"
+      className="block cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-withus-gold focus-visible:rounded-2xl"
     >
       {content}
     </Link>
@@ -96,7 +96,7 @@ export default function PromoBanners() {
   const goNext = () => setCurrentPage((p) => Math.min(TOTAL_PAGES - 1, p + 1));
 
   return (
-    <section className="px-4 pt-6 pb-3 sm:px-6 sm:pt-8 sm:pb-4 lg:px-8">
+    <section className="px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
       <div className="mx-auto max-w-7xl">
         {/* Slider: 2 banners per page, 3 pages total (6 banners), slide on arrow */}
         <div className="overflow-hidden rounded-2xl">
@@ -110,16 +110,17 @@ export default function PromoBanners() {
               return (
                 <div
                   key={pageIndex}
-                  className="grid w-1/3 flex-shrink-0 grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2"
+                  className="grid w-1/3 flex-shrink-0 grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4"
                 >
                   {pageBanners.map((banner) => (
-                    <BannerSlot
-                      key={banner.src}
-                      src={banner.src}
-                      alt={banner.alt}
-                      href={banner.href}
-                      caption={banner.caption}
-                    />
+                    <div key={banner.src} className="lg:col-span-2">
+                      <BannerSlot
+                        src={banner.src}
+                        alt={banner.alt}
+                        href={banner.href}
+                        caption={banner.caption}
+                      />
+                    </div>
                   ))}
                 </div>
               );
@@ -128,7 +129,7 @@ export default function PromoBanners() {
         </div>
 
         {/* Navigation controls - below slider, centered */}
-        <div className="mt-4 flex items-center justify-center gap-4">
+        <div className="mt-3 flex items-center justify-center gap-4 sm:mt-4">
           <button
             type="button"
             onClick={goPrev}

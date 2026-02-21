@@ -3,11 +3,11 @@
 import { useState, useCallback, useEffect } from "react";
 
 /* ========== 상수 ========== */
+/** 탭에 표시되는 학교 (대원, 한영, 일반). 개인팀 수업은 탭 없이 /schedule/private 로만 접근 */
 const SCHOOLS = [
-  { label: "대원외고", slug: "daewon" },
-  { label: "한영외고", slug: "hanyoung" },
-  { label: "일반고", slug: "general" },
-  { label: "개인팀수업", slug: "private" },
+  { label: "대원", slug: "daewon" },
+  { label: "한영", slug: "hanyoung" },
+  { label: "일반", slug: "general" },
 ] as const;
 
 const GRADES = [
@@ -16,7 +16,7 @@ const GRADES = [
   { id: "3", label: "고3" },
 ] as const;
 
-export type SchoolSlug = (typeof SCHOOLS)[number]["slug"];
+export type SchoolSlug = (typeof SCHOOLS)[number]["slug"] | "private";
 
 export interface TimetableNavProps {
   /** 초기 선택 학교 (slug). 미지정 시 'daewon' */
@@ -58,8 +58,8 @@ export default function TimetableNav({
 
   return (
     <div className="w-full" role="navigation" aria-label="시간표 선택">
-      {/* Level 1: 학교 선택 */}
-      <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 px-2">
+      {/* Level 1: 학교 선택 (대원, 한영, 일반) - PC에서 크게 */}
+      <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 px-2 md:gap-x-12 md:gap-y-3 lg:gap-x-16">
         {SCHOOLS.map(({ label, slug }) => {
           const isActive = activeSchool === slug;
           return (
@@ -67,7 +67,7 @@ export default function TimetableNav({
               key={slug}
               type="button"
               onClick={() => handleSchoolChange(slug)}
-              className={`relative pb-3 pt-2 text-xl font-bold transition-colors ${
+              className={`relative pb-3 pt-2 text-xl font-bold transition-colors md:pb-4 md:pt-3 md:text-2xl lg:pb-5 lg:pt-4 lg:text-3xl ${
                 isActive ? "text-[#002761]" : "text-slate-400"
               }`}
               aria-pressed={isActive}
@@ -75,8 +75,8 @@ export default function TimetableNav({
             >
               {label}
               <span
-                className={`absolute bottom-0 left-0 right-0 block border-b-4 ${
-                  isActive ? "border-yellow-400" : "border-slate-200"
+                className={`absolute bottom-0 left-0 right-0 block border-b-4 md:border-b-[6px] ${
+                  isActive ? "border-[#FEF600]" : "border-slate-200"
                 }`}
               />
             </button>

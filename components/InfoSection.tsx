@@ -18,7 +18,7 @@ export default function InfoSection() {
 
   return (
     <>
-      <section className="px-4 pt-4 pb-0 sm:px-6 sm:pt-5 sm:pb-0 lg:px-8">
+      <section className="px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
             {INFO_BUTTONS.map((item) => {

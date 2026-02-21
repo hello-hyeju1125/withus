@@ -15,9 +15,13 @@ export default function NoticePageContent() {
 
     const base = process.env.NEXT_PUBLIC_BASE_PATH || "";
     fetch(`${base}/api/notices`)
-      .then((res) => {
-        if (!res.ok) throw new Error("공지사항을 불러올 수 없습니다.");
-        return res.json();
+      .then(async (res) => {
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          const msg = typeof data?.error === "string" ? data.error : "공지사항을 불러올 수 없습니다.";
+          throw new Error(msg);
+        }
+        return data as NoticeItem[];
       })
       .then((list: NoticeItem[]) => {
         if (!cancelled) {

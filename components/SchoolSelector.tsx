@@ -5,7 +5,7 @@ import { Landmark, School, BookOpen, Users, ArrowRight } from "lucide-react";
 
 const SCHOOLS = [
   {
-    label: "대원외고",
+    label: "대원 외고",
     subLabel: "Daewon F.L.H.S.",
     href: "/schedule/daewon",
     Icon: Landmark,
@@ -17,7 +17,7 @@ const SCHOOLS = [
     },
   },
   {
-    label: "한영외고",
+    label: "한영 외고",
     subLabel: "Hanyoung F.L.H.S.",
     href: "/schedule/hanyoung",
     Icon: School,
@@ -41,7 +41,7 @@ const SCHOOLS = [
     },
   },
   {
-    label: "개인팀수업",
+    label: "개인팀 수업",
     subLabel: "Private Tutoring",
     href: "/schedule/private",
     Icon: Users,
@@ -56,7 +56,7 @@ const SCHOOLS = [
 
 export default function SchoolSelector() {
   return (
-    <section className="px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+    <section className="px-4 pt-2 pb-3 sm:px-6 sm:pt-3 sm:pb-4 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {SCHOOLS.map(({ label, subLabel, href, Icon, theme }) => (

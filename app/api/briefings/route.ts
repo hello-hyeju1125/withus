@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getAdminFirestore } from "@/lib/firebase-admin";
+import { handleFirebaseApiError } from "@/lib/firebase-admin-errors";
 import { FieldValue } from "firebase-admin/firestore";
 
 export const dynamic = "force-dynamic";
@@ -53,11 +54,8 @@ export async function GET(request: Request) {
 
     return NextResponse.json(items);
   } catch (err) {
-    console.error("GET /api/briefings error:", err);
-    return NextResponse.json(
-      { error: err instanceof Error ? err.message : "조회 실패" },
-      { status: 500 }
-    );
+    const { status, body } = handleFirebaseApiError(err, "GET /api/briefings");
+    return NextResponse.json(body, { status });
   }
 }
 
@@ -86,10 +84,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ id: docRef.id });
   } catch (err) {
-    console.error("POST /api/briefings error:", err);
-    return NextResponse.json(
-      { error: err instanceof Error ? err.message : "등록 실패" },
-      { status: 500 }
-    );
+    const { status, body } = handleFirebaseApiError(err, "POST /api/briefings");
+    return NextResponse.json(body, { status });
   }
 }

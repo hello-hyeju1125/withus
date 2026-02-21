@@ -28,7 +28,7 @@ export default function RootLayout({
       <body className="min-h-screen font-sans">
         <Header />
         <Navbar />
-        <main className="relative z-0 pb-24 md:pb-8">{children}</main>
+        <main className="relative z-0 pt-5 pb-14 sm:pt-6 sm:pb-20 md:pb-8">{children}</main>
         <Footer />
         <FloatingBar />
       </body>

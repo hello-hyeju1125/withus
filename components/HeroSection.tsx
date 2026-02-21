@@ -26,7 +26,7 @@ const SCHOOLS = [
 function WMark() {
   return (
     <span
-      className="absolute right-3 top-3 font-serif text-3xl font-bold leading-none text-gray-400 sm:right-4 sm:top-4 sm:text-4xl"
+      className="absolute right-[14px] top-3 font-serif text-3xl font-bold leading-none text-gray-400 sm:right-[18px] sm:top-4 sm:text-4xl"
       aria-hidden
     >
       W

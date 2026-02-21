@@ -76,10 +76,12 @@ function TimetableImage({
   fileUrl,
   resolvedUrl,
   alt,
+  priority = false,
 }: {
   fileUrl: string;
   resolvedUrl?: string;
   alt: string;
+  priority?: boolean;
 }) {
   const displayUrl = resolvedUrl ?? fileUrl;
   const isResolving = isStorageMetadataUrl(fileUrl) && !resolvedUrl;
@@ -98,8 +100,10 @@ function TimetableImage({
       alt={alt}
       width={1200}
       height={1600}
+      sizes="(max-width: 1280px) 100vw, 1280px"
       className="w-full object-contain"
       unoptimized
+      priority={priority}
       style={{ maxWidth: "100%", height: "auto" }}
     />
   );
@@ -186,6 +190,26 @@ export default function TimetablePage({
     toResolve.forEach(resolve);
   }, [items]);
 
+  // 첫 번째 시간표 이미지 URL이 준비되면 preload로 즉시 다운로드 시작
+  const firstImageItem = items.find((i) => i.fileType === "image");
+  const firstImageUrl =
+    firstImageItem &&
+    (isStorageMetadataUrl(firstImageItem.fileUrl)
+      ? resolvedUrls[firstImageItem.id]
+      : firstImageItem.fileUrl);
+
+  useEffect(() => {
+    if (!firstImageUrl) return;
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = firstImageUrl;
+    document.head.appendChild(link);
+    return () => {
+      document.head.removeChild(link);
+    };
+  }, [firstImageUrl]);
+
   return (
     <div className="min-h-screen bg-cool-gray-50/50">
       <div className="mx-auto max-w-7xl px-4 py-6 md:py-8">
@@ -247,6 +271,7 @@ export default function TimetablePage({
                           item.fileName ??
                           `${SCHOOLS.find((s) => s.slug === currentSchool)?.label ?? ""} 고${grade} 시간표 ${i + 1}`
                         }
+                        priority={i === 0}
                       />
                     </div>
                   )}

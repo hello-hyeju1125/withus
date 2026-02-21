@@ -29,7 +29,15 @@ export async function GET(request: Request) {
     const encoded = encodeURIComponent(path);
     const fileUrl = `https://firebasestorage.googleapis.com/v0/b/${storageBucket}/o/${encoded}?alt=media&token=${token}`;
 
-    return NextResponse.json({ fileUrl });
+    return NextResponse.json(
+      { fileUrl },
+      {
+        headers: {
+          "Cache-Control":
+            "public, s-maxage=86400, stale-while-revalidate=604800",
+        },
+      }
+    );
   } catch (err) {
     console.error("timetable-download-url error:", err);
     return NextResponse.json(

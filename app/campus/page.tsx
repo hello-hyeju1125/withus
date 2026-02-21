@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function CampusPage() {
   return (
-    <div className="min-h-screen bg-cool-gray-50/50">
+    <div className="min-h-0 bg-cool-gray-50/50 md:min-h-screen">
       <Suspense fallback={null}>
         <LocationsSection />
       </Suspense>
