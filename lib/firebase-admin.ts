@@ -48,9 +48,11 @@ function getCredential(): { credential: ReturnType<typeof cert>; projectId: stri
     try {
       const parsed = JSON.parse(saJson) as unknown;
       if (isServiceAccount(parsed)) {
+        const resolvedId =
+          (parsed as Record<string, unknown>).project_id ?? parsed.projectId ?? projectId;
         return {
           credential: cert(parsed),
-          projectId: parsed.project_id || projectId,
+          projectId: String(resolvedId),
         };
       }
     } catch {
@@ -61,14 +63,16 @@ function getCredential(): { credential: ReturnType<typeof cert>; projectId: stri
   // 2) 환경 변수에 파일 경로가 있으면 해당 파일 로드
   if (pathEnv && pathEnv.trim()) {
     const sa = loadServiceAccountJson(pathEnv);
-    return { credential: cert(sa), projectId: sa.project_id || projectId };
+    const resolvedId = (sa as Record<string, unknown>).project_id ?? sa.projectId ?? projectId;
+    return { credential: cert(sa), projectId: String(resolvedId) };
   }
 
   // 3) 기본 경로 시도 (프로젝트 루트의 firebase-service-account.json)
   const defaultPath = "firebase-service-account.json";
   if (existsSync(resolve(process.cwd(), defaultPath))) {
     const sa = loadServiceAccountJson(defaultPath);
-    return { credential: cert(sa), projectId: sa.project_id || projectId };
+    const resolvedId = (sa as Record<string, unknown>).project_id ?? sa.projectId ?? projectId;
+    return { credential: cert(sa), projectId: String(resolvedId) };
   }
 
   throw new Error(
