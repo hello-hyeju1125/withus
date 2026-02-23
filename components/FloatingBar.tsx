@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ConsultationModal from "@/components/ConsultationModal";
 
 const FLOATING_ITEMS = [
@@ -17,8 +17,25 @@ const FLOATING_ITEMS = [
 ] as const;
 
 export default function FloatingBar() {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    try {
+      const stored = window.localStorage.getItem("withus-floating-bar-collapsed");
+      if (stored === null) return false; // 기본값: 열림
+      return stored === "true";
+    } catch {
+      return false;
+    }
+  });
   const [consultationOpen, setConsultationOpen] = useState(false);
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem("withus-floating-bar-collapsed", String(collapsed));
+    } catch {
+      // ignore
+    }
+  }, [collapsed]);
 
   const consultationIcon = (
     <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>

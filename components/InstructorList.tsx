@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useId } from "react";
+import { useEffect, useId, useMemo, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import {
   instructors,
@@ -12,9 +12,50 @@ import {
 } from "@/data/instructors";
 
 const SCHOOL_OPTIONS: readonly (SchoolKey | "전체")[] = ["전체", ...SCHOOLS];
+const teacherImageMap: Record<string, string> = {
+  강성현: "/profile/kang_sh_science.png",
+  김경숙: "/profile/kim_ks_japanese.png",
+  김일영: "/profile/kim_iy_society.png",
+  남유리: "/profile/nam_yr_korean.png",
+  엠마: "/profile/emma_french.png",
+  이예슬: "/profile/lee_ys_english.png",
+  이재령2: "/profile/lee_jr2_history.png",
+  이치옥: "/profile/lee_co_math.png",
+  인철우: "/profile/in_cw_spanish.png",
+  채송희: "/profile/chae_sh_chinese.png",
+  함형선: "/profile/ham_hs_math_en.png",
+  홍영아: "/profile/hong_ya_spanish.png",
+};
+
+const teacherNameAliasMap: Record<string, string> = {
+  이예솔: "이예슬",
+  이재령: "이재령2",
+};
+
+const imagePathFallbackMap: Record<string, string[]> = {
+  "/profile/lee_ys_english.png": ["/profile/lee_ys_english..png"],
+};
 
 function InstructorCard({ instructor }: { instructor: Instructor }) {
   const listId = useId();
+  const [isImageError, setIsImageError] = useState(false);
+  const [imageCandidateIndex, setImageCandidateIndex] = useState(0);
+  const imageCandidates = useMemo(() => {
+    const direct = teacherImageMap[instructor.name];
+    const aliasKey = teacherNameAliasMap[instructor.name];
+    const mapped = direct ?? (aliasKey ? teacherImageMap[aliasKey] : undefined);
+    if (!mapped) return [];
+    return [mapped, ...(imagePathFallbackMap[mapped] ?? [])];
+  }, [instructor.name]);
+
+  const imageSrc = imageCandidates[imageCandidateIndex];
+  const shouldShowImage = Boolean(imageSrc) && !isImageError;
+
+  // If source changes (or hot reload updates mappings), retry image loading.
+  useEffect(() => {
+    setIsImageError(false);
+    setImageCandidateIndex(0);
+  }, [instructor.name, imageCandidates.length]);
 
   return (
     <article
@@ -34,10 +75,27 @@ function InstructorCard({ instructor }: { instructor: Instructor }) {
       <div className="flex flex-col gap-4 sm:flex-row sm:gap-5 sm:pr-28 sm:pl-1">
         {/* 아바타 */}
         <div className="flex shrink-0">
-          <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-slate-50 to-slate-100 ring-1 ring-slate-100 sm:h-16 sm:w-16">
-            <span className="text-[10px] font-medium text-slate-400" aria-hidden>
-              Photo
-            </span>
+          <div className="relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-slate-50 to-slate-100 ring-1 ring-slate-100 sm:h-16 sm:w-16">
+            {shouldShowImage ? (
+              <img
+                key={imageSrc}
+                src={imageSrc!}
+                alt={`${instructor.name} 선생님 프로필`}
+                className="h-full w-full object-cover"
+                loading="lazy"
+                onError={() => {
+                  if (imageCandidateIndex + 1 < imageCandidates.length) {
+                    setImageCandidateIndex((prev) => prev + 1);
+                    return;
+                  }
+                  setIsImageError(true);
+                }}
+              />
+            ) : (
+              <span className="text-[10px] font-medium text-slate-400" aria-hidden>
+                Photo
+              </span>
+            )}
           </div>
         </div>
 
@@ -76,11 +134,16 @@ function InstructorCard({ instructor }: { instructor: Instructor }) {
 export default function InstructorList() {
   const [activeSchool, setActiveSchool] = useState<SchoolKey | "전체">("전체");
   const [activeSubject, setActiveSubject] = useState<SubjectKey | "전체">("전체");
+  const [searchName, setSearchName] = useState("");
+
+  const normalizedSearch = searchName.trim().toLowerCase();
 
   const filteredInstructors = instructors.filter((i) => {
     const matchSchool = activeSchool === "전체" || i.school === activeSchool;
     const matchSubject = activeSubject === "전체" || i.subject === activeSubject;
-    return matchSchool && matchSubject;
+    const matchName =
+      !normalizedSearch || i.name.toLowerCase().includes(normalizedSearch);
+    return matchSchool && matchSubject && matchName;
   });
 
   const subjectsInSchool = Array.from(
@@ -159,6 +222,24 @@ export default function InstructorList() {
                 <ChevronDown className="h-5 w-5" strokeWidth={2} aria-hidden />
               </span>
             </div>
+          </div>
+
+          {/* 이름 검색 */}
+          <div className="mt-5">
+            <label
+              htmlFor="instructor-name-search"
+              className="mb-2.5 block font-sans text-xs font-medium uppercase tracking-wider text-slate-400 sm:text-sm"
+            >
+              선생님 이름 검색
+            </label>
+            <input
+              id="instructor-name-search"
+              type="text"
+              value={searchName}
+              onChange={(e) => setSearchName(e.target.value)}
+              placeholder="선생님 이름을 입력하세요"
+              className="w-full max-w-xs rounded-xl border border-slate-200 bg-gradient-to-b from-white to-slate-50/80 px-4 py-3 font-sans text-sm text-slate-700 shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-all focus:border-withus-navy focus:outline-none focus:ring-2 focus:ring-withus-navy/20 focus:ring-offset-0"
+            />
           </div>
         </div>
 

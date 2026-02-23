@@ -21,16 +21,19 @@ export type SchoolSlug = (typeof SCHOOLS)[number]["slug"] | "private";
 export interface TimetableNavProps {
   /** 초기 선택 학교 (slug). 미지정 시 'daewon' */
   initialSchool?: SchoolSlug;
-  /** 초기 선택 학년. 미지정 시 '1' */
+  /** 초기 선택 학년. 미지정 시 '1' (showGradeRow가 true일 때만 사용) */
   initialGrade?: string;
   /** 학교 또는 학년 변경 시 호출. Cloudinary 필터링 등 연동용 */
   onChange?: (activeSchool: SchoolSlug, activeGrade: string) => void;
+  /** false면 학년(고1/고2/고3) 버튼 행을 숨김. 페이지에서 요약/고1/고2/고3 탭을 따로 쓸 때 사용 */
+  showGradeRow?: boolean;
 }
 
 export default function TimetableNav({
   initialSchool = "daewon",
   initialGrade = "1",
   onChange,
+  showGradeRow = true,
 }: TimetableNavProps) {
   const [activeSchool, setActiveSchool] = useState<SchoolSlug>(initialSchool);
   const [activeGrade, setActiveGrade] = useState<string>(initialGrade);
@@ -84,28 +87,30 @@ export default function TimetableNav({
         })}
       </div>
 
-      {/* Level 2: 학년 선택 (클릭 가능한 버튼으로 인지되도록) */}
-      <div className="mt-4 grid grid-cols-3 gap-2 sm:gap-3">
-        {GRADES.map(({ id, label }) => {
-          const isActive = activeGrade === id;
-          return (
-            <button
-              key={id}
-              type="button"
-              onClick={() => handleGradeChange(id)}
-              className={`cursor-pointer rounded-lg border-2 py-3 text-base font-medium transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#002761] focus-visible:ring-offset-2 ${
-                isActive
-                  ? "border-[#002761] bg-[#002761] text-white shadow-md"
-                  : "border-slate-200 bg-white text-slate-500 shadow-sm hover:border-slate-300 hover:bg-slate-50 hover:text-slate-700 hover:shadow"
-              }`}
-              aria-pressed={isActive}
-              aria-current={isActive ? "true" : undefined}
-            >
-              {label}
-            </button>
-          );
-        })}
-      </div>
+      {/* Level 2: 학년 선택 (showGradeRow가 false면 숨김, 요약/고1/고2/고3 탭을 페이지에서 사용할 때) */}
+      {showGradeRow && (
+        <div className="mt-4 grid grid-cols-3 gap-2 sm:gap-3">
+          {GRADES.map(({ id, label }) => {
+            const isActive = activeGrade === id;
+            return (
+              <button
+                key={id}
+                type="button"
+                onClick={() => handleGradeChange(id)}
+                className={`cursor-pointer rounded-lg border-2 py-3 text-base font-medium transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#002761] focus-visible:ring-offset-2 ${
+                  isActive
+                    ? "border-[#002761] bg-[#002761] text-white shadow-md"
+                    : "border-slate-200 bg-white text-slate-500 shadow-sm hover:border-slate-300 hover:bg-slate-50 hover:text-slate-700 hover:shadow"
+                }`}
+                aria-pressed={isActive}
+                aria-current={isActive ? "true" : undefined}
+              >
+                {label}
+              </button>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

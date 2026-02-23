@@ -75,11 +75,14 @@ function getCredential(): { credential: ReturnType<typeof cert>; projectId: stri
     return { credential: cert(sa), projectId: String(resolvedId) };
   }
 
+  const isVercel = process.env.VERCEL === "1";
   throw new Error(
-    "Firebase Admin 인증 정보가 없습니다. 다음 중 하나를 설정하세요: " +
-      "1) 프로젝트 루트에 firebase-service-account.json 저장, " +
-      "2) .env에 GOOGLE_APPLICATION_CREDENTIALS=./firebase-service-account.json, " +
-      "3) .env에 FIREBASE_SERVICE_ACCOUNT_JSON={\"type\":\"service_account\",...}"
+    isVercel
+      ? "Firebase Admin 인증 정보가 없습니다. Vercel에서는 파일 업로드가 불가하므로, Vercel 대시보드 → Settings → Environment Variables에서 FIREBASE_SERVICE_ACCOUNT_JSON에 서비스 계정 JSON 전체를 한 줄로 붙여넣으세요. (docs/VERCEL_ENV.md 참고)"
+      : "Firebase Admin 인증 정보가 없습니다. 다음 중 하나를 설정하세요: " +
+          "1) 프로젝트 루트에 firebase-service-account.json 저장, " +
+          "2) .env에 GOOGLE_APPLICATION_CREDENTIALS=./firebase-service-account.json, " +
+          "3) .env에 FIREBASE_SERVICE_ACCOUNT_JSON={\"type\":\"service_account\",...}"
   );
 }
 
