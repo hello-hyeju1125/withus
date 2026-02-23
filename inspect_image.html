@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Inspector</title>
+</head>
+<body>
+    <h1>Inspecting 인철우 Image</h1>
+    <div id="results"></div>
+    <script>
+        function inspectIncheolwooImage() {
+            const results = [];
+            
+            // Find all article elements
+            const articles = document.querySelectorAll('article');
+            let targetArticle = null;
+            
+            articles.forEach(article => {
+                if (article.textContent.includes('인철우')) {
+                    targetArticle = article;
+                }
+            });
+            
+            if (!targetArticle) {
+                return { error: '인철우 card not found' };
+            }
+            
+            // Find the img element
+            const img = targetArticle.querySelector('img');
+            
+            if (!img) {
+                return { error: 'No img element found in 인철우 card' };
+            }
+            
+            // Get computed styles
+            const computedStyle = window.getComputedStyle(img);
+            
+            return {
+                exists: true,
+                tag: img.tagName,
+                src: img.src,
+                srcAttribute: img.getAttribute('src'),
+                alt: img.alt,
+                complete: img.complete,
+                naturalWidth: img.naturalWidth,
+                naturalHeight: img.naturalHeight,
+                currentSrc: img.currentSrc,
+                computedStyle: {
+                    width: computedStyle.width,
+                    height: computedStyle.height,
+                    display: computedStyle.display,
+                    visibility: computedStyle.visibility,
+                    opacity: computedStyle.opacity,
+                    objectFit: computedStyle.objectFit
+                },
+                boundingRect: img.getBoundingClientRect(),
+                loading: img.loading,
+                className: img.className
+            };
+        }
+        
+        // Wait for page to load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(() => {
+                    const result = inspectIncheolwooImage();
+                    document.getElementById('results').innerHTML = '<pre>' + JSON.stringify(result, null, 2) + '</pre>';
+                }, 1000);
+            });
+        } else {
+            setTimeout(() => {
+                const result = inspectIncheolwooImage();
+                document.getElementById('results').innerHTML = '<pre>' + JSON.stringify(result, null, 2) + '</pre>';
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
