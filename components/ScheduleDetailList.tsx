@@ -119,8 +119,9 @@ export default function ScheduleDetailList({ courses, fixedGrade }: Props) {
     return gradeFiltered.filter((c) => {
       const resolvedCategory = resolveCourseCategory(c);
       if (resolvedCategory === categoryFilter) return true;
-      // Keep compatibility if old rows still use category="제2외국어".
-      return c.category === "제2외국어" && c.subject === categoryFilter;
+      // Keep compatibility if old rows still use category="제2외국어" in raw string form.
+      const legacyCategory = c.category as unknown as string | undefined;
+      return legacyCategory === "제2외국어" && c.subject === categoryFilter;
     });
   }, [courses, gradeFilter, fixedGrade, categoryFilter]);
 
