@@ -67,12 +67,16 @@ const teacherNameAliasMap: Record<string, string> = {
   이재령: "이재령2",
 };
 
-function resolveTeacherImageSrc(instructorName: string, profileImg?: string) {
+/** 선생님 이미지가 없거나 로드 실패 시 사용하는 기본 프로필 이미지 */
+const DEFAULT_PROFILE_IMAGE = "/profile/profile.jpg";
+
+function resolveTeacherImageSrc(instructorName: string, profileImg?: string): string {
   if (profileImg && profileImg.trim()) return profileImg.trim();
   const direct = teacherImageMap[instructorName];
   if (direct) return direct;
   const alias = teacherNameAliasMap[instructorName];
-  return alias ? teacherImageMap[alias] : undefined;
+  const resolved = alias ? teacherImageMap[alias] : undefined;
+  return resolved ?? DEFAULT_PROFILE_IMAGE;
 }
 
 function isSecondLanguageCategory(value: string): value is (typeof SECOND_LANGUAGE_CATEGORIES)[number] {
@@ -226,25 +230,25 @@ export default function ScheduleDetailList({ courses, fixedGrade }: Props) {
                   const profileImgSrc = resolveTeacherImageSrc(item.instructorName, item.profileImg);
                   return (
                 <div className="relative flex h-20 w-20 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-slate-200 ring-2 ring-slate-100 md:h-24 md:w-24">
-                  {profileImgSrc ? (
-                    <>
-                      {/* eslint-disable-next-line @next/next/no-img-element -- 프로필 이미지 404 시 fallback 초기 이니셜 표시용 */}
-                      <img
-                        src={profileImgSrc}
-                        alt=""
-                        className="h-full w-full object-cover"
-                        onError={(e) => {
-                          e.currentTarget.style.display = "none";
-                          const fallback = e.currentTarget.nextElementSibling;
-                          if (fallback instanceof HTMLElement) fallback.classList.remove("hidden");
-                        }}
-                      />
-                    </>
-                  ) : null}
+                  {/* eslint-disable-next-line @next/next/no-img-element -- 프로필 이미지 404 시 fallback: 기본 이미지 → 이니셜 */}
+                  <img
+                    src={profileImgSrc}
+                    alt=""
+                    className="h-full w-full object-cover"
+                    onError={(e) => {
+                      const el = e.currentTarget;
+                      if (el.src.endsWith(DEFAULT_PROFILE_IMAGE) || el.dataset.fallback === "1") {
+                        el.style.display = "none";
+                        const fallback = el.nextElementSibling;
+                        if (fallback instanceof HTMLElement) fallback.classList.remove("hidden");
+                      } else {
+                        el.dataset.fallback = "1";
+                        el.src = DEFAULT_PROFILE_IMAGE;
+                      }
+                    }}
+                  />
                   <div
-                    className={`absolute inset-0 flex items-center justify-center rounded-full bg-[#002761] text-sm font-bold text-white ${
-                      profileImgSrc ? "hidden" : ""
-                    }`}
+                    className="absolute inset-0 hidden flex items-center justify-center rounded-full bg-[#002761] text-sm font-bold text-white"
                     aria-hidden
                   >
                     {getInitials(item.instructorName)}

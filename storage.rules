@@ -1,0 +1,22 @@
+rules_version = '2';
+// Firebase Storage 보안 규칙
+// 배포: firebase deploy --only storage
+// 콘솔에서 직접 수정해도 됨: Firebase Console → Storage → Rules
+service firebase.storage {
+  match /b/{bucket}/o {
+    // 요약시간표 이미지: 업로드(admin) + 누구나 읽기
+    match /images/timetables/{allPaths=**} {
+      allow read: if true;
+      allow write: if true;
+    }
+    // 공지/브리핑 이미지: 동일하게 허용
+    match /images/notices/{allPaths=**} {
+      allow read: if true;
+      allow write: if true;
+    }
+    match /images/briefings/{allPaths=**} {
+      allow read: if true;
+      allow write: if true;
+    }
+  }
+}

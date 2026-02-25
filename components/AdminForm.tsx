@@ -1,9 +1,6 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { storage, db } from "@/lib/firebase";
 import { Trash2 } from "lucide-react";
 import {
   DETAIL_CATEGORY_FILTERS,
@@ -194,53 +191,45 @@ export default function AdminForm() {
       setUploading(true);
       setSummaryMessage(null);
       const total = files.length;
-      let successCount = 0;
+      setUploadProgress({ current: 0, total });
 
       try {
-        for (let i = 0; i < files.length; i++) {
-          setUploadProgress({ current: i + 1, total });
-          const file = files[i];
-          const path = `images/timetables/${Date.now()}_${sanitizeFileName(file.name)}`;
-          const storageRef = ref(storage, path);
+        const formData = new FormData();
+        formData.set("school", school);
+        formData.set("grade", grade);
+        files.forEach((f) => formData.append("files", f));
 
-          await uploadBytes(storageRef, file, {
-            contentType: file.type || "application/octet-stream",
-          });
-          const fileUrl = await getDownloadURL(storageRef);
-          const fileType = getFileType(file.type || "");
-
-          await addDoc(collection(db, "timetables"), {
-            school,
-            grade,
-            fileUrl,
-            fileType,
-            fileName: file.name,
-            createdAt: serverTimestamp(),
-          });
-          successCount++;
-        }
-
-        setSummaryMessage({
-          type: "ok",
-          text:
-            successCount === 1
-              ? "요약시간표 이미지가 등록되었습니다."
-              : `요약시간표 이미지 ${successCount}개가 등록되었습니다.`,
+        const res = await fetch(`${apiBase}/api/timetables/upload`, {
+          method: "POST",
+          body: formData,
         });
-        setFiles([]);
-        const input = document.getElementById("admin-summary-file") as HTMLInputElement | null;
-        if (input) input.value = "";
-        await loadTimetableItems();
+        const data = (await res.json().catch(() => ({}))) as {
+          ok?: boolean;
+          count?: number;
+          message?: string;
+          error?: string;
+        };
+
+        if (res.ok && data.ok) {
+          setSummaryMessage({
+            type: "ok",
+            text: data.message ?? `${data.count ?? files.length}개가 등록되었습니다.`,
+          });
+          setFiles([]);
+          const input = document.getElementById("admin-summary-file") as HTMLInputElement | null;
+          if (input) input.value = "";
+          await loadTimetableItems();
+        } else {
+          setSummaryMessage({
+            type: "err",
+            text: data.error ?? "업로드에 실패했습니다.",
+          });
+        }
       } catch (err) {
         console.error(err);
         setSummaryMessage({
           type: "err",
-          text:
-            successCount > 0
-              ? `${successCount}개 등록 후 오류: ${err instanceof Error ? err.message : "업로드에 실패했습니다."}`
-              : err instanceof Error
-                ? err.message
-                : "업로드에 실패했습니다.",
+          text: err instanceof Error ? err.message : "업로드에 실패했습니다.",
         });
       } finally {
         setUploading(false);

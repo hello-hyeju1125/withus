@@ -49,7 +49,7 @@ function LoadingSpinner() {
         className="h-10 w-10 animate-spin rounded-full border-2 border-withus-navy border-t-transparent"
         aria-hidden
       />
-      <p className="text-sm text-slate-500">시간표를 불러오는 중...</p>
+      <p className="text-sm text-slate-500">조금만 기다려주세요 :) 시간표가 곧 로딩됩니다!</p>
     </div>
   );
 }

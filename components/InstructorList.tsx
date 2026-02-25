@@ -36,16 +36,22 @@ const imagePathFallbackMap: Record<string, string[]> = {
   "/profile/lee_ys_english.png": ["/profile/lee_ys_english..png"],
 };
 
+/** 선생님 이미지가 없거나 로드 실패 시 사용하는 기본 프로필 이미지 */
+const DEFAULT_PROFILE_IMAGE = "/profile/profile.jpg";
+
 function InstructorCard({ instructor }: { instructor: Instructor }) {
   const listId = useId();
   const [isImageError, setIsImageError] = useState(false);
+  const [defaultImageFailed, setDefaultImageFailed] = useState(false);
   const [imageCandidateIndex, setImageCandidateIndex] = useState(0);
   const imageCandidates = useMemo(() => {
     const direct = teacherImageMap[instructor.name];
     const aliasKey = teacherNameAliasMap[instructor.name];
     const mapped = direct ?? (aliasKey ? teacherImageMap[aliasKey] : undefined);
-    if (!mapped) return [];
-    return [mapped, ...(imagePathFallbackMap[mapped] ?? [])];
+    const list = mapped
+      ? [mapped, ...(imagePathFallbackMap[mapped] ?? []), DEFAULT_PROFILE_IMAGE]
+      : [DEFAULT_PROFILE_IMAGE];
+    return list;
   }, [instructor.name]);
 
   const imageSrc = imageCandidates[imageCandidateIndex];
@@ -54,6 +60,7 @@ function InstructorCard({ instructor }: { instructor: Instructor }) {
   // If source changes (or hot reload updates mappings), retry image loading.
   useEffect(() => {
     setIsImageError(false);
+    setDefaultImageFailed(false);
     setImageCandidateIndex(0);
   }, [instructor.name, imageCandidates.length]);
 
@@ -91,10 +98,17 @@ function InstructorCard({ instructor }: { instructor: Instructor }) {
                   setIsImageError(true);
                 }}
               />
-            ) : (
+            ) : defaultImageFailed ? (
               <span className="text-[10px] font-medium text-slate-400" aria-hidden>
                 Photo
               </span>
+            ) : (
+              <img
+                src={DEFAULT_PROFILE_IMAGE}
+                alt=""
+                className="h-full w-full object-cover"
+                onError={() => setDefaultImageFailed(true)}
+              />
             )}
           </div>
         </div>
