@@ -3,7 +3,7 @@ import { getAdminFirestore, getAdminBucket } from "@/lib/firebase-admin";
 
 export const dynamic = "force-dynamic";
 
-/** fileUrl에서 Storage 경로 추출 (Firebase 다운로드 URL 형식) */
+/** fileUrl에서 Storage 경로 추출 (다운로드 URL 또는 메타데이터 ?name= 형식) */
 function extractStoragePath(fileUrl: string): string | null {
   try {
     const u = new URL(fileUrl);
@@ -15,6 +15,8 @@ function extractStoragePath(fileUrl: string): string | null {
     ) {
       return null;
     }
+    const nameParam = u.searchParams.get("name");
+    if (nameParam) return decodeURIComponent(nameParam);
     const match = u.pathname.match(/\/o\/(.+?)(?:\?|$)/);
     if (!match) return null;
     return decodeURIComponent(match[1]);
