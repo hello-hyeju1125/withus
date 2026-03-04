@@ -25,19 +25,17 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: "Pretendard", system-ui, sans-serif;
-  /* 모바일 포함: 단어 중간 줄바꿈 방지(한국어/CJK), 긴 토큰만 필요시 줄바꿈 */
   word-break: keep-all;
   overflow-wrap: break-word;
+  overflow-x: hidden;
 }
 
-/* 텍스트 영역 전반 단어 깨짐 방지 */
+/* 텍스트 영역만 단어 깨짐 방지 (span/button 제외해 레이아웃 깨짐 방지) */
 main,
 p,
 h1, h2, h3, h4, h5, h6,
 li,
-span,
-label,
-button {
+label {
   word-break: keep-all;
   overflow-wrap: break-word;
 }
