@@ -2,7 +2,7 @@
  * 교육관 안내(Locations) 섹션용 데이터
  * 주소, 전화번호, 네이버 지도 공유(바로가기) URL
  */
-export type CampusLocationId = "premium" | "m" | "entrance";
+export type CampusLocationId = "premium" | "m" | "s" | "entrance";
 
 export interface CampusLocation {
   id: CampusLocationId;
@@ -16,22 +16,29 @@ export interface CampusLocation {
 export const campusLocations: CampusLocation[] = [
   {
     id: "premium",
-    name: "프리미엄 관",
-    address: "도곡로 77길 14 (양지빌딩 2층)",
+    name: "외고 P관",
+    address: "강남구 도곡로77길 14 양지빌딩, 2층",
     phone: "02-562-8787",
     naverMapUrl: "https://naver.me/GypQ6lbW",
   },
   {
     id: "m",
-    name: "M 관",
-    address: "도곡로 77길 5 (유성빌딩 2층)",
+    name: "외고 M관",
+    address: "강남구 도곡로77길 5 유성빌딩, 2·3층",
     phone: "02-562-5757",
     naverMapUrl: "https://naver.me/FgEeU654",
   },
   {
+    id: "s",
+    name: "외고 S관",
+    address: "강남구 대치동 929-11",
+    phone: "02-562-8787",
+    naverMapUrl: "https://naver.me/GypQ6lbW",
+  },
+  {
     id: "entrance",
     name: "입시관",
-    address: "도곡로 77길 5 (유성빌딩 3층)",
+    address: "강남구 도곡로77길 5 유성빌딩, 3층",
     phone: "02-562-5759",
     naverMapUrl: "https://naver.me/Gqf6Pgns",
   },

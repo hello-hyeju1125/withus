@@ -1,30 +1,46 @@
-export default function SMSBanner() {
+type SMSBannerProps = {
+  /** true면 바깥 section/패딩 없이 내용만 렌더 (InfoSection 내부 삽입용) */
+  nested?: boolean;
+};
+
+/** 상단 배너와 동일한 형태: 아이콘 + 텍스트(제목/설명) + 버튼, 동일 패딩·버튼 크기 */
+const MESSAGE_ICON = (
+  <svg className="h-10 w-10 shrink-0 object-contain sm:h-12 sm:w-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+  </svg>
+);
+
+export default function SMSBanner({ nested = false }: SMSBannerProps) {
+  const linkBlock = (
+    <a
+      href="https://docs.google.com/forms/d/1Avu-t9dSlfYuGvpNOul_p6mBiqVnz2zJvp2zZhkXZ_k/viewform?edit_requested=true"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="relative block min-w-0 overflow-hidden rounded-2xl bg-gradient-to-r from-gray-900 via-[#1e3a5f] to-[#1e3a8a] px-5 py-4 shadow-[0_10px_40px_rgba(0,39,97,0.2)] transition-opacity hover:opacity-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-withus-gold sm:px-6 sm:py-5"
+    >
+      <div className="relative flex min-w-0 flex-col items-center justify-between gap-4 sm:flex-row sm:gap-6">
+        <div className="flex min-w-0 flex-1 items-center gap-4 text-left">
+          <span className="text-white/95">{MESSAGE_ICON}</span>
+          <div className="min-w-0">
+            <p className="text-lg font-bold text-white sm:text-xl">학습에 필요한 정보를 문자로 알려드립니다!</p>
+            <p className="mt-0.5 text-sm text-white/85 sm:text-base">설명회 일정과 입시 뉴스를 가장 먼저 받아보세요.</p>
+          </div>
+        </div>
+        <span className="w-full shrink-0 rounded-xl bg-white px-6 py-3.5 text-center text-lg font-bold text-gray-900 shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/95 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 sm:w-auto sm:min-w-[180px] sm:px-8 sm:py-4">
+          문자 수신 등록
+        </span>
+      </div>
+    </a>
+  );
+
+  if (nested) {
+    return <div className="min-w-0 w-full">{linkBlock}</div>;
+  }
+
   return (
     <section className="px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <a
-          href="https://docs.google.com/forms/d/1Avu-t9dSlfYuGvpNOul_p6mBiqVnz2zJvp2zZhkXZ_k/viewform?edit_requested=true"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group relative block overflow-hidden rounded-2xl bg-gradient-to-r from-gray-900 to-[#1e3a8a] px-6 py-6 transition-opacity hover:opacity-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:px-8 sm:py-8"
-        >
-          <div className="relative flex flex-col items-center gap-4 text-center md:flex-row md:justify-between md:items-center md:gap-8 md:text-left">
-            {/* 좌측: 텍스트 그룹 */}
-            <div className="flex flex-col gap-0.5">
-              <h2 className="text-xl font-bold tracking-tight text-white sm:text-2xl">
-                학습에 필요한 정보를 문자로 알려드립니다!
-              </h2>
-              <p className="text-sm text-gray-300 sm:text-base">
-                설명회 일정과 입시 뉴스를 가장 먼저 받아보세요.
-              </p>
-            </div>
-
-            {/* 우측: 버튼 */}
-            <span className="shrink-0 rounded-full bg-white/90 px-6 py-2 text-sm font-bold text-blue-900 shadow-md transition-all duration-300 group-hover:scale-105 group-hover:shadow-[0_0_15px_rgba(255,255,255,0.5)] sm:px-7 sm:text-base">
-              문자 수신 등록 &gt;
-            </span>
-          </div>
-        </a>
+        {linkBlock}
       </div>
     </section>
   );

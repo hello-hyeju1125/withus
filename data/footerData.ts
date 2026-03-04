@@ -19,28 +19,24 @@ export const footerData = {
     consultationHours: "상담시간: 평일 10:00 ~ 21:00 / 주말 10:00 ~ 18:00",
   } as const,
 
-  /** 캠퍼스 정보 (프리미엄관, M관, 입시관) */
-  campuses: [
+  /**
+   * 교육관 정보: 외고관(P·M·S) / 입시관으로 구분.
+   * 각 그룹별로 관 이름(선택), 주소, 전화번호 표시.
+   */
+  campusGroups: [
     {
-      name: "프리미엄(외고/특목)관",
-      fullName: "대치위더스프리미엄관 학원",
-      phone: "02-562-8787",
-      address: "강남구 도곡로77길 14\n(대치동, 양지빌딩, 2층)",
-      registrationNumber: "제12945호",
+      groupName: "외고관",
+      locations: [
+        { name: "P관", address: "강남구 도곡로77길 14 양지빌딩, 2층", phone: "02-562-8787" },
+        { name: "M관", address: "강남구 도곡로77길 5 유성빌딩, 2·3층", phone: "02-562-5757" },
+        { name: "S관", address: "강남구 대치동 929-11", phone: "02-562-8787" },
+      ],
     },
     {
-      name: "M(외고/특목)관",
-      fullName: "대치위더스M관학원",
-      phone: "02-562-5757",
-      address: "강남구 도곡로77길 5\n(대치동, 유성빌딩, 2·3층)",
-      registrationNumber: "제13258호",
-    },
-    {
-      name: "입시(수학/과학)관",
-      fullName: "대치위더스 입시관 학원",
-      phone: "02-562-5759",
-      address: "강남구 도곡로77길 5\n(대치동, 유성빌딩, 3층)",
-      registrationNumber: "제10388호",
+      groupName: "입시관",
+      locations: [
+        { address: "강남구 도곡로77길 5 유성빌딩, 3층", phone: "02-562-5759" },
+      ],
     },
   ] as const,
 

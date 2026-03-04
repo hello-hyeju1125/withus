@@ -200,32 +200,10 @@ export default function ScheduleDetailList({ courses, fixedGrade }: Props) {
           filteredCourses.map((item) => (
             <article
               key={item.id}
-              className="relative grid gap-5 overflow-hidden rounded-2xl border border-slate-200/90 bg-white p-5 shadow-sm transition-shadow hover:shadow-md md:grid-cols-[170px_minmax(0,1fr)_240px_140px] md:items-start md:gap-5 md:p-6"
+              className="grid gap-5 overflow-hidden rounded-2xl border border-slate-200/90 bg-white p-5 shadow-sm transition-shadow hover:shadow-md md:grid-cols-[170px_minmax(0,1fr)_240px_140px] md:items-start md:gap-5 md:p-6"
             >
-              {/* 과목 뱃지: 카드 우측 상단 */}
-              {(() => {
-                const displayCategory = resolveCourseCategory(item);
-                const normalizedCategory = isSecondLanguageCategory(displayCategory)
-                  ? (displayCategory as DetailCategory)
-                  : displayCategory;
-                const displayLabel =
-                  CATEGORY_DISPLAY_LABELS[normalizedCategory as DetailCategoryFilter] ??
-                  normalizedCategory;
-                return (
-                  <div className="absolute right-4 top-4 md:right-6 md:top-6">
-                    <span
-                      className={`inline-flex items-center rounded-xl border px-3 py-1 text-sm font-extrabold tracking-[-0.01em] shadow-sm ${getSubjectStyle(
-                        normalizedCategory
-                      )}`}
-                    >
-                      {displayLabel}
-                    </span>
-                  </div>
-                );
-              })()}
-
-              {/* Column 1: 강사 프로필 + 이름 */}
-              <div className="flex flex-shrink-0 items-center gap-4 pr-28 md:flex-col md:items-center md:justify-center md:gap-3 md:pr-0">
+              {/* Column 1: 강사 프로필 + 이름 + 과목 태그 */}
+              <div className="flex flex-shrink-0 flex-col items-center gap-3">
                 {(() => {
                   const profileImgSrc = resolveTeacherImageSrc(item.instructorName, item.profileImg);
                   return (
@@ -259,6 +237,25 @@ export default function ScheduleDetailList({ courses, fixedGrade }: Props) {
                 <span className="text-lg font-extrabold tracking-[-0.01em] text-slate-900 md:text-center md:text-xl">
                   {item.instructorName}
                 </span>
+                {/* 과목 태그: 선생님 이름 밑 */}
+                {(() => {
+                  const displayCategory = resolveCourseCategory(item);
+                  const normalizedCategory = isSecondLanguageCategory(displayCategory)
+                    ? (displayCategory as DetailCategory)
+                    : displayCategory;
+                  const displayLabel =
+                    CATEGORY_DISPLAY_LABELS[normalizedCategory as DetailCategoryFilter] ??
+                    normalizedCategory;
+                  return (
+                    <span
+                      className={`inline-flex items-center rounded-xl border px-3 py-1 text-sm font-extrabold tracking-[-0.01em] shadow-sm ${getSubjectStyle(
+                        normalizedCategory
+                      )}`}
+                    >
+                      {displayLabel}
+                    </span>
+                  );
+                })()}
               </div>
 
               {/* Column 2: 강의 정보 + 버튼 */}

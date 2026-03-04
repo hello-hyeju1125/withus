@@ -56,8 +56,8 @@ const SCHOOLS = [
 
 export default function SchoolSelector() {
   return (
-    <section className="px-4 pt-2 pb-3 sm:px-6 sm:pt-3 sm:pb-4 lg:px-8">
-      <div className="mx-auto max-w-7xl">
+    <section className="min-w-0 px-4 pt-2 pb-3 sm:px-6 sm:pt-3 sm:pb-4 lg:px-8">
+      <div className="mx-auto max-w-7xl min-w-0">
         <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {SCHOOLS.map(({ label, subLabel, href, Icon, theme }) => (
             <Link

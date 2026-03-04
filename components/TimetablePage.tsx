@@ -128,12 +128,16 @@ function TimetableImage({
   );
 }
 
-const CONTENT_TABS = [
-  { id: "summary" as const, label: "요약시간표" },
+const GRADE_TABS = [
   { id: "1" as const, label: "고1" },
   { id: "2" as const, label: "고2" },
   { id: "3" as const, label: "고3" },
-];
+] as const;
+
+const CONTENT_TYPE_TABS = [
+  { id: "summary" as const, label: "요약시간표" },
+  { id: "detail" as const, label: "상세시간표" },
+] as const;
 
 export default function TimetablePage({
   currentSchool,
@@ -148,21 +152,21 @@ export default function TimetablePage({
       ? gradeFromUrl
       : "1";
 
-  const isForeignHighSchool = currentSchool === "daewon" || currentSchool === "hanyoung";
   const useTabLayout = currentSchool === "daewon" || currentSchool === "hanyoung" || currentSchool === "general";
 
-  // 탭 레이아웃: 요약시간표(이미지) | 고1 | 고2 | 고3(세부시간표) 탭 사용
-  const [activeTab, setActiveTab] = useState<"summary" | "1" | "2" | "3">("summary");
-  const summaryGrade = "1";
+  // 탭 레이아웃: 학년(고1|고2|고3) 선택 후 요약시간표|상세시간표 선택
+  const [selectedGrade, setSelectedGrade] = useState<"1" | "2" | "3">(initialGrade as "1" | "2" | "3");
+  const [contentTab, setContentTab] = useState<"summary" | "detail">("summary");
   // 일반/private용 기존 학년 상태 (showGradeRow 사용 시)
   const [grade, setGrade] = useState<string>(initialGrade);
 
   useEffect(() => {
     setGrade(initialGrade);
+    setSelectedGrade((initialGrade === "1" || initialGrade === "2" || initialGrade === "3") ? initialGrade : "1");
   }, [initialGrade]);
 
-  // 요약 탭일 때는 summaryGrade, 그 외에는 선택한 탭(고1/고2/고3)으로 이미지용 학년 결정
-  const imageGrade = activeTab === "summary" ? summaryGrade : activeTab;
+  // 학년별 요약(이미지)/상세 시간표 표시
+  const displayGrade = selectedGrade;
 
   const [items, setItems] = useState<TimetableItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -173,7 +177,7 @@ export default function TimetablePage({
     const q = query(
       collection(db, "timetables"),
       where("school", "==", currentSchool),
-      where("grade", "==", useTabLayout ? imageGrade : grade)
+      where("grade", "==", useTabLayout ? displayGrade : grade)
     );
     setQueryError(null);
     const unsub = onSnapshot(
@@ -198,7 +202,7 @@ export default function TimetablePage({
       }
     );
     return () => unsub();
-  }, [currentSchool, useTabLayout, imageGrade, grade]);
+  }, [currentSchool, useTabLayout, displayGrade, grade]);
 
   // 메타데이터 형식 URL을 서버 API로 실제 다운로드 URL 변환 (기존 잘못 저장된 데이터 대응, CORS 회피)
   useEffect(() => {
@@ -248,10 +252,9 @@ export default function TimetablePage({
 
   const showImageArea =
     !useTabLayout ||
-    (useTabLayout && activeTab === "summary") ||
-    (useTabLayout && !isForeignHighSchool);
+    (useTabLayout && contentTab === "summary");
 
-  const showDetailList = useTabLayout && isForeignHighSchool && activeTab !== "summary";
+  const showDetailList = useTabLayout && contentTab === "detail";
   const [detailCourses, setDetailCourses] = useState<ScheduleCourseItem[]>([]);
   const [detailLoading, setDetailLoading] = useState(false);
   const [detailError, setDetailError] = useState<string | null>(null);
@@ -264,7 +267,7 @@ export default function TimetablePage({
       setDetailError(null);
       try {
         const res = await fetch(
-          `${apiBase}/api/schedule-details?school=${encodeURIComponent(currentSchool)}&grade=${encodeURIComponent(activeTab)}`
+          `${apiBase}/api/schedule-details?school=${encodeURIComponent(currentSchool)}&grade=${encodeURIComponent(displayGrade)}`
         );
         const data = (await res.json().catch(() => [])) as ScheduleDetailApiItem[] | { error?: string };
         if (!res.ok) {
@@ -315,7 +318,7 @@ export default function TimetablePage({
     };
 
     fetchDetailCourses();
-  }, [showDetailList, currentSchool, activeTab]);
+  }, [showDetailList, currentSchool, displayGrade]);
 
   return (
     <div className="min-h-screen bg-cool-gray-50/50">
@@ -335,28 +338,55 @@ export default function TimetablePage({
           />
         </div>
 
-        {/* 2) 요약시간표 | 고1 | 고2 | 고3 탭 (대원/한영/일반일 때만) */}
+        {/* 2) 학년 탭(고1|고2|고3) + 요약시간표|상세시간표 탭 (대원/한영/일반일 때만) */}
         {useTabLayout && (
-          <div className="mt-7 flex justify-center">
-            <div className="inline-flex flex-wrap items-center justify-center gap-2 rounded-2xl border border-slate-200/80 bg-white/90 p-2 shadow-[0_10px_30px_rgba(15,23,42,0.08)] backdrop-blur">
-              {CONTENT_TABS.map(({ id, label }) => {
-                const isActive = activeTab === id;
-                return (
-                  <button
-                    key={id}
-                    type="button"
-                    onClick={() => setActiveTab(id)}
-                    className={`rounded-xl px-5 py-2.5 text-sm font-semibold tracking-[-0.01em] transition-all duration-200 md:min-w-[96px] ${
-                      isActive
-                        ? "bg-gradient-to-r from-[#002761] to-[#003bb3] text-white shadow-[0_8px_20px_rgba(0,39,97,0.35)]"
-                        : "text-slate-600 hover:-translate-y-0.5 hover:bg-slate-50 hover:text-[#002761] hover:shadow-md"
-                    }`}
-                    aria-pressed={isActive}
-                  >
-                    {label}
-                  </button>
-                );
-              })}
+          <div className="mt-7 flex flex-col items-center gap-3">
+            <div className="flex w-full max-w-sm flex-col gap-3">
+              {/* 학년 선택 */}
+              <div className="flex items-center justify-center gap-2 rounded-2xl border border-slate-200/80 bg-white/90 p-2 shadow-[0_10px_30px_rgba(15,23,42,0.08)] backdrop-blur">
+                {GRADE_TABS.map(({ id, label }) => {
+                  const isActive = selectedGrade === id;
+                  return (
+                    <button
+                      key={id}
+                      type="button"
+                      onClick={() => {
+                        setSelectedGrade(id);
+                        router.replace(`/schedule/${currentSchool}?grade=${id}`, { scroll: false });
+                      }}
+                      className={`flex-1 rounded-xl px-5 py-2.5 text-sm font-semibold tracking-[-0.01em] transition-all duration-200 ${
+                        isActive
+                          ? "bg-gradient-to-r from-[#002761] to-[#003bb3] text-white shadow-[0_8px_20px_rgba(0,39,97,0.35)]"
+                          : "text-slate-600 hover:-translate-y-0.5 hover:bg-slate-50 hover:text-[#002761] hover:shadow-md"
+                      }`}
+                      aria-pressed={isActive}
+                    >
+                      {label}
+                    </button>
+                  );
+                })}
+              </div>
+              {/* 요약시간표 | 상세시간표 */}
+              <div className="flex items-center justify-center gap-2 rounded-2xl border border-slate-200/80 bg-white/90 p-2 shadow-[0_10px_30px_rgba(15,23,42,0.08)] backdrop-blur">
+                {CONTENT_TYPE_TABS.map(({ id, label }) => {
+                  const isActive = contentTab === id;
+                  return (
+                    <button
+                      key={id}
+                      type="button"
+                      onClick={() => setContentTab(id)}
+                      className={`flex-1 rounded-xl px-5 py-2.5 text-sm font-semibold tracking-[-0.01em] transition-all duration-200 ${
+                        isActive
+                          ? "bg-gradient-to-r from-[#002761] to-[#003bb3] text-white shadow-[0_8px_20px_rgba(0,39,97,0.35)]"
+                          : "text-slate-600 hover:-translate-y-0.5 hover:bg-slate-50 hover:text-[#002761] hover:shadow-md"
+                      }`}
+                      aria-pressed={isActive}
+                    >
+                      {label}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
         )}
@@ -404,7 +434,7 @@ export default function TimetablePage({
                           resolvedUrl={resolvedUrls[item.id]}
                           alt={
                             item.fileName ??
-                            `${SCHOOLS.find((s) => s.slug === currentSchool)?.label ?? ""} 고${imageGrade} 시간표 ${i + 1}`
+                            `${SCHOOLS.find((s) => s.slug === currentSchool)?.label ?? ""} 고${displayGrade} 시간표 ${i + 1}`
                           }
                           priority={i === 0}
                         />
@@ -432,7 +462,7 @@ export default function TimetablePage({
             ) : (
               <ScheduleDetailList
                 courses={detailCourses}
-                fixedGrade={activeTab}
+                fixedGrade={displayGrade}
               />
             )}
           </div>

@@ -8,7 +8,7 @@ import {
   type CampusLocationId,
 } from "@/data/campusLocations";
 
-const VALID_TAB_IDS: CampusLocationId[] = ["premium", "m", "entrance"];
+const VALID_TAB_IDS: CampusLocationId[] = ["premium", "m", "s", "entrance"];
 
 const SELECTED_CARD_BG = "bg-[#0a1e40]";
 
@@ -80,7 +80,7 @@ function MapFrame({
   isLoading: boolean;
 }) {
   return (
-    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-cool-gray-100 shadow-md md:aspect-video">
+    <div className="relative h-full w-full overflow-hidden rounded-2xl bg-cool-gray-100 shadow-md">
       {isLoading && (
         <div
           className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-cool-gray-100"
@@ -169,8 +169,8 @@ export default function LocationsSection() {
       </header>
 
       {/* Mobile: 카드만 노출 / Desktop: 지도+카드 노출 */}
-      <div className="flex flex-col gap-6 lg:flex-row lg:gap-8">
-        {/* 지도 영역 - PC에서만 노출 */}
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-8">
+        {/* 지도 영역 - PC에서만 노출, 카드 리스트 높이에 맞춤 */}
         {isDesktop && (
           <div className="flex-1 lg:min-w-0 lg:order-2">
             <MapFrame

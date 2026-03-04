@@ -96,8 +96,8 @@ export default function PromoBanners() {
   const goNext = () => setCurrentPage((p) => Math.min(TOTAL_PAGES - 1, p + 1));
 
   return (
-    <section className="px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
-      <div className="mx-auto max-w-7xl">
+    <section className="min-w-0 px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
+      <div className="mx-auto max-w-7xl min-w-0 overflow-hidden">
         {/* Slider: 2 banners per page, 3 pages total (6 banners), slide on arrow */}
         <div className="overflow-hidden rounded-2xl">
           <div

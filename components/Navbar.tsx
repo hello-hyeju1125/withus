@@ -29,7 +29,7 @@ const menuItems = [
   {
     label: "오시는길",
     href: "/campus",
-    children: ["프리미엄관", "M관", "입시관"],
+    children: ["외고 P관", "외고 M관", "외고 S관", "입시관"],
   },
 ] as const;
 
@@ -37,6 +37,7 @@ export default function Navbar() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [activeTopMenu, setActiveTopMenu] = useState<string | null>(null);
   const navRef = useRef<HTMLElement>(null);
+  const openTriggeredRef = useRef(false);
 
   const closeDropdown = () => {
     setDropdownOpen(false);
@@ -44,32 +45,44 @@ export default function Navbar() {
   };
 
   const handleTopMenuClick = (label: string, e?: React.MouseEvent) => {
-    e?.stopPropagation();
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     if (dropdownOpen && activeTopMenu === label) {
       closeDropdown();
       return;
     }
-
+    openTriggeredRef.current = true;
     setDropdownOpen(true);
     setActiveTopMenu(label);
   };
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
+      if (openTriggeredRef.current) {
+        openTriggeredRef.current = false;
+        return;
+      }
       if (navRef.current && !navRef.current.contains(e.target as Node)) {
         closeDropdown();
       }
     }
     if (dropdownOpen) {
-      document.addEventListener("click", handleClickOutside);
-      return () => document.removeEventListener("click", handleClickOutside);
+      const t = setTimeout(() => {
+        document.addEventListener("click", handleClickOutside);
+      }, 0);
+      return () => {
+        clearTimeout(t);
+        document.removeEventListener("click", handleClickOutside);
+      };
     }
   }, [dropdownOpen]);
 
   return (
     <nav
       ref={navRef}
-      className="sticky top-[72px] z-[100] w-full bg-[#002761] sm:top-[84px]"
+      className="relative sticky top-[72px] z-[100] w-full bg-[#002761] sm:top-[84px]"
     >
       {/* Top Bar - height 80px */}
       <div className="mx-auto flex h-[60px] max-w-7xl items-center">
@@ -80,7 +93,7 @@ export default function Navbar() {
             const opensAllMenu = item.label === "전체보기" || item.label === "공지사항";
             const canOpenDropdown = hasChildren || opensAllMenu;
             const navButtonClass =
-              "group/menu relative flex h-full flex-1 items-center justify-center gap-1.5 border-b-2 border-transparent font-semibold text-white transition-all duration-300 ease-out hover:border-withus-gold hover:bg-white/25 hover:text-withus-gold hover:shadow-[inset_0_0_20px_rgba(254,246,0,0.08)] focus:outline-none focus-visible:ring-2 focus-visible:ring-withus-gold focus-visible:ring-offset-2 focus-visible:ring-offset-[#002761] active:scale-[0.98] text-[15px] sm:gap-2 sm:text-[17px] sm:font-normal";
+              "group/menu relative flex h-full flex-1 items-center justify-center gap-1.5 border-b-2 border-transparent font-bold text-white transition-all duration-300 ease-out hover:border-withus-gold hover:bg-white/25 hover:text-withus-gold hover:shadow-[inset_0_0_20px_rgba(254,246,0,0.08)] focus:outline-none focus-visible:ring-2 focus-visible:ring-withus-gold focus-visible:ring-offset-2 focus-visible:ring-offset-[#002761] active:scale-[0.98] text-[16px] sm:gap-2 sm:text-[20px]";
             const hideOnMobile = item.label === "전체보기";
 
             return (
@@ -105,7 +118,10 @@ export default function Navbar() {
                     <button
                       type="button"
                       onClick={(e) => handleTopMenuClick(item.label, e)}
-                      className={`hidden w-full sm:flex ${navButtonClass}`}
+                      onPointerDown={(e) => e.stopPropagation()}
+                      className={`hidden w-full cursor-pointer sm:flex ${navButtonClass}`}
+                      aria-expanded={dropdownOpen && activeTopMenu === item.label}
+                      aria-haspopup="true"
                     >
                       {index === 0 && (
                         <LayoutGrid className="h-3.5 w-3.5 shrink-0 transition-transform duration-300 group-hover/menu:scale-110 sm:h-4 sm:w-4" aria-hidden />
@@ -144,14 +160,11 @@ export default function Navbar() {
         />
       )}
 
-      {/* Full Dropdown Panel - absolute overlay so it appears above main content */}
+      {/* Full Dropdown Panel - 열릴 때만 렌더해 클릭 방해·겹침 제거 */}
+      {dropdownOpen && (
       <div
-        className={`absolute left-0 right-0 top-full z-[95] w-full border-t border-white/20 bg-[#002761] shadow-lg transition-all duration-300 ease-out ${
-          dropdownOpen
-            ? "visible opacity-100"
-            : "invisible opacity-0"
-        } hidden sm:block`}
-        aria-hidden={!dropdownOpen}
+        className="absolute left-0 right-0 top-full z-[95] w-full border-t border-white/20 bg-[#002761] shadow-lg hidden sm:block"
+        aria-hidden={false}
       >
         <div className="mx-auto flex max-w-7xl">
               {menuItems.map((item, index) => (
@@ -179,8 +192,9 @@ export default function Navbar() {
                           "개인팀 수업": "private",
                         };
                         const campusSlugMap: Record<string, string> = {
-                          프리미엄관: "premium",
-                          M관: "m",
+                          "외고 P관": "premium",
+                          "외고 M관": "m",
+                          "외고 S관": "s",
                           입시관: "entrance",
                         };
                         const href =
@@ -223,6 +237,7 @@ export default function Navbar() {
               ))}
             </div>
       </div>
+      )}
     </nav>
   );
 }

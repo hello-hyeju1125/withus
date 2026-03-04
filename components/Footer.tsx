@@ -8,7 +8,7 @@ import TermsModal from "@/components/TermsModal";
 import TuitionModal from "@/components/TuitionModal";
 
 export default function Footer() {
-  const { topLinks, brand, campuses, legal } = footerData;
+  const { topLinks, brand, campusGroups, legal } = footerData;
   const [privacyModalOpen, setPrivacyModalOpen] = useState(false);
   const [termsModalOpen, setTermsModalOpen] = useState(false);
   const [tuitionModalOpen, setTuitionModalOpen] = useState(false);
@@ -77,21 +77,45 @@ export default function Footer() {
                 <p className="text-sm text-white">{brand.consultationHours}</p>
               </div>
 
-              {/* 캠퍼스 정보 카드 3개: 관 이름·전화 한 줄, 주소 한 줄 (줄바꿈 없음) */}
-              <div className="flex flex-row flex-wrap gap-3">
-                {campuses.map((campus) => (
-                  <div
-                    key={campus.name}
-                    className="min-w-[180px] flex-1 rounded-lg bg-white/20 px-3 py-2 backdrop-blur"
-                  >
-                    <p className="whitespace-nowrap text-[11px] font-bold text-white leading-tight md:text-xs">
-                      {campus.name} {campus.phone}
+              {/* 교육관 정보: 모바일은 외고관(3박스) → 입시관(1박스) 세로 정렬, PC는 가로 배치 */}
+              <div className="flex min-w-0 flex-1 flex-col gap-4 sm:flex-row sm:gap-4">
+                {/* 외고관 그룹 */}
+                <div className="flex flex-col gap-2 sm:flex-[3]">
+                  <p className="text-sm font-bold text-withus-gold md:text-base">외고관</p>
+                  <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+                    {campusGroups[0].locations.map((loc, idx) => (
+                      <div
+                        key={idx}
+                        className="min-h-[72px] min-w-0 rounded-lg bg-white/20 px-3 py-2.5 backdrop-blur"
+                      >
+                        <p className="text-[11px] font-bold text-white leading-tight md:text-xs">
+                          {"name" in loc && loc.name ? loc.name : ""}
+                        </p>
+                        <p className="mt-0.5 text-[11px] text-white leading-tight md:text-xs">
+                          {loc.address}
+                        </p>
+                        <p className="mt-0.5 text-[11px] text-white/90 leading-tight md:text-xs">
+                          {loc.phone}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                {/* 입시관 그룹 */}
+                <div className="flex flex-col gap-2 sm:flex-[1]">
+                  <p className="text-sm font-bold text-withus-gold md:text-base">입시관</p>
+                  <div className="min-h-[72px] min-w-0 rounded-lg bg-white/20 px-3 py-2.5 backdrop-blur">
+                    <p className="text-[11px] font-bold text-white leading-tight md:text-xs">
+                      입시관
                     </p>
-                    <p className="mt-1 text-[11px] text-white leading-tight md:text-xs">
-                      {campus.address.replace(/\n/g, " ")}
+                    <p className="mt-0.5 text-[11px] text-white leading-tight md:text-xs">
+                      강남구 도곡로77길 5 유성빌딩, 3층
+                    </p>
+                    <p className="mt-0.5 text-[11px] text-white/90 leading-tight md:text-xs">
+                      02-562-5759
                     </p>
                   </div>
-                ))}
+                </div>
               </div>
             </div>
 
