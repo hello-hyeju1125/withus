@@ -10,7 +10,7 @@ import {
 
 const VALID_TAB_IDS: CampusLocationId[] = ["premium", "m", "s", "entrance"];
 
-const SELECTED_CARD_BG = "bg-[#0a1e40]";
+const SELECTED_CARD_BG = "bg-withus-navy";
 
 function LocationCard({
   location,
@@ -25,19 +25,19 @@ function LocationCard({
     <button
       type="button"
       onClick={onSelect}
-      className={`w-full rounded-xl border-2 p-4 text-left transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-withus-gold focus-visible:ring-offset-2 ${
+      className={`w-full rounded-xl border-2 p-4 text-left transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-withus-cta focus-visible:ring-offset-2 ${
         isSelected
-          ? `${SELECTED_CARD_BG} border-[#0a1e40] text-white shadow-md`
-          : "border-cool-gray-200 bg-white text-withus-navy hover:border-cool-gray-300 hover:shadow-sm"
+          ? `${SELECTED_CARD_BG} border-withus-navy text-white shadow-md`
+          : "border-withus-bg-hover bg-white text-withus-navy hover:border-withus-navy-200 hover:shadow-sm"
       }`}
       aria-pressed={isSelected}
       aria-label={`${location.name} 선택`}
     >
       <h3 className="font-semibold">{location.name}</h3>
-      <p className={`mt-1 text-sm ${isSelected ? "text-white/90" : "text-cool-gray-600"}`}>
+      <p className={`mt-1 text-sm ${isSelected ? "text-white/90" : "text-withus-navy-300"}`}>
         {location.address}
       </p>
-      <p className={`mt-0.5 text-sm ${isSelected ? "text-white/80" : "text-cool-gray-500"}`}>
+      <p className={`mt-0.5 text-sm ${isSelected ? "text-white/80" : "text-withus-navy-200"}`}>
         {location.phone}
       </p>
       <div className="mt-3 flex flex-wrap gap-2">
@@ -45,10 +45,10 @@ function LocationCard({
           href={location.naverMapUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className={`inline-flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-withus-gold focus-visible:ring-offset-2 ${
+          className={`inline-flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-withus-cta focus-visible:ring-offset-2 ${
             isSelected
               ? "bg-white/15 text-white hover:bg-white/25"
-              : "bg-cool-gray-100 text-withus-navy hover:bg-cool-gray-200"
+              : "bg-withus-bg text-withus-navy hover:bg-withus-bg-hover"
           }`}
           onClick={(e) => e.stopPropagation()}
         >
@@ -56,10 +56,10 @@ function LocationCard({
         </a>
         <a
           href={`tel:${location.phone.replace(/-/g, "")}`}
-          className={`inline-flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-withus-gold focus-visible:ring-offset-2 ${
+          className={`inline-flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-withus-cta focus-visible:ring-offset-2 ${
             isSelected
               ? "bg-white/15 text-white hover:bg-white/25"
-              : "bg-cool-gray-100 text-withus-navy hover:bg-cool-gray-200"
+              : "bg-withus-bg text-withus-navy hover:bg-withus-bg-hover"
           }`}
           onClick={(e) => e.stopPropagation()}
         >
@@ -80,18 +80,18 @@ function MapFrame({
   isLoading: boolean;
 }) {
   return (
-    <div className="relative h-full w-full overflow-hidden rounded-2xl bg-cool-gray-100 shadow-md">
+    <div className="relative h-full w-full overflow-hidden rounded-2xl bg-withus-bg-hover shadow-md">
       {isLoading && (
         <div
-          className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-cool-gray-100"
+          className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-withus-bg-hover"
           aria-hidden="true"
         >
           <div
-            className="h-10 w-10 animate-spin rounded-full border-2 border-withus-navy border-t-transparent"
+            className="h-10 w-10 animate-spin rounded-full border-2 border-withus-cta border-t-transparent"
             role="status"
             aria-label="로딩 중"
           />
-          <span className="text-sm text-cool-gray-500">로딩 중...</span>
+          <span className="text-sm text-withus-navy-200">로딩 중...</span>
         </div>
       )}
       <iframe
@@ -162,7 +162,7 @@ export default function LocationsSection() {
       <header className="mb-8 text-center">
         <p
           id="locations-heading"
-          className="font-sans text-2xl font-bold tracking-tight text-[#0a1e40] md:text-3xl lg:text-4xl"
+          className="font-sans text-2xl font-bold tracking-tight text-withus-navy md:text-3xl lg:text-4xl"
         >
           위더스의 교육관을 안내합니다.
         </p>

@@ -63,7 +63,7 @@ export default function AdminLayout() {
 
   if (!unlocked) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-cool-gray-100 p-4">
+      <div className="flex min-h-screen items-center justify-center bg-withus-bg-hover p-4">
         <div className="w-full max-w-sm rounded-xl border border-slate-200 bg-white p-6 shadow-lg">
           <h1 className="text-center font-serif text-xl font-bold text-withus-navy">
             관리자 로그인
@@ -101,10 +101,10 @@ export default function AdminLayout() {
   }
 
   return (
-    <div className="flex min-h-screen bg-cool-gray-100">
+    <div className="flex min-h-screen bg-withus-bg-hover">
       {/* 사이드바 */}
-      <aside className="flex w-52 shrink-0 flex-col border-r border-cool-gray-200 bg-white">
-        <div className="border-b border-cool-gray-200 px-4 py-6">
+      <aside className="flex w-52 shrink-0 flex-col border-r border-withus-bg-hover bg-white">
+        <div className="border-b border-withus-bg-hover px-4 py-6">
           <h2 className="font-serif text-lg font-bold text-withus-navy">
             관리자
           </h2>
@@ -116,7 +116,7 @@ export default function AdminLayout() {
             className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-colors ${
               activeTab === "schedule"
                 ? "bg-withus-navy text-white"
-                : "text-slate-600 hover:bg-cool-gray-100"
+                : "text-withus-navy-300 hover:bg-withus-bg"
             }`}
           >
             <LayoutDashboard className="h-5 w-5 shrink-0" aria-hidden />
@@ -128,7 +128,7 @@ export default function AdminLayout() {
             className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-colors ${
               activeTab === "briefing"
                 ? "bg-withus-navy text-white"
-                : "text-slate-600 hover:bg-cool-gray-100"
+                : "text-withus-navy-300 hover:bg-withus-bg"
             }`}
           >
             <Megaphone className="h-5 w-5 shrink-0" aria-hidden />
@@ -140,7 +140,7 @@ export default function AdminLayout() {
             className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-colors ${
               activeTab === "notice"
                 ? "bg-withus-navy text-white"
-                : "text-slate-600 hover:bg-cool-gray-100"
+                : "text-withus-navy-300 hover:bg-withus-bg"
             }`}
           >
             <Bell className="h-5 w-5 shrink-0" aria-hidden />
@@ -151,8 +151,8 @@ export default function AdminLayout() {
             onClick={() => setActiveTab("consultation")}
             className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-colors ${
               activeTab === "consultation"
-                ? "bg-[#0a1e40] text-white"
-                : "text-slate-600 hover:bg-cool-gray-100"
+                ? "bg-withus-navy text-white"
+                : "text-withus-navy-300 hover:bg-withus-bg"
             }`}
           >
             <MessagesSquare className="h-5 w-5 shrink-0" aria-hidden />

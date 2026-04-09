@@ -114,12 +114,12 @@ export default function ConsultationAdmin() {
   return (
     <div className="space-y-4 px-2 py-4 sm:px-4">
       <div className="rounded-xl border border-slate-200 bg-white p-4">
-        <h1 className="font-serif text-2xl font-bold text-[#0a1e40]">상담 문의 내역</h1>
+        <h1 className="font-serif text-2xl font-bold text-withus-navy">상담 문의 내역</h1>
         <p className="mt-1 text-sm text-slate-500">
           접수된 상담 문의를 확인하고 처리 상태를 관리할 수 있습니다.
         </p>
         <div className="mt-4 flex flex-wrap gap-2 text-sm">
-          <span className="rounded-full bg-[#0a1e40]/10 px-3 py-1 font-medium text-[#0a1e40]">
+          <span className="rounded-full bg-withus-navy/10 px-3 py-1 font-medium text-withus-navy">
             전체 {totalCount}건
           </span>
           <span className="rounded-full bg-amber-100 px-3 py-1 font-medium text-amber-800">
@@ -134,7 +134,7 @@ export default function ConsultationAdmin() {
       <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
         {loading ? (
           <div className="flex justify-center py-16">
-            <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#0a1e40] border-t-transparent" />
+            <div className="h-8 w-8 animate-spin rounded-full border-2 border-withus-cta border-t-transparent" />
           </div>
         ) : error ? (
           <div className="px-4 py-6 text-sm text-red-600">{error}</div>
@@ -145,7 +145,7 @@ export default function ConsultationAdmin() {
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-[860px] w-full text-sm">
-              <thead className="bg-[#0a1e40] text-white">
+              <thead className="bg-withus-navy text-white">
                 <tr>
                   <th className="px-3 py-3 text-left font-semibold">접수일</th>
                   <th className="px-3 py-3 text-left font-semibold">학생 성함</th>
@@ -193,7 +193,7 @@ export default function ConsultationAdmin() {
                       <button
                         type="button"
                         onClick={() => setSelected(item)}
-                        className="rounded-md px-3 py-1.5 text-xs font-semibold text-[#0a1e40] hover:bg-[#0a1e40]/10"
+                        className="rounded-md px-3 py-1.5 text-xs font-semibold text-withus-navy hover:bg-withus-navy/10"
                       >
                         보기
                       </button>
@@ -232,7 +232,7 @@ export default function ConsultationAdmin() {
           />
           <div className="relative w-full max-w-lg rounded-2xl bg-white shadow-2xl">
             <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
-              <h2 id="consultation-detail-title" className="text-lg font-bold text-[#0a1e40]">
+              <h2 id="consultation-detail-title" className="text-lg font-bold text-withus-navy">
                 상담 문의 상세
               </h2>
               <button

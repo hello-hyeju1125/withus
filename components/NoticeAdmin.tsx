@@ -322,7 +322,7 @@ export default function NoticeAdmin() {
             등록된 공지사항이 없습니다.
           </p>
         ) : (
-          <ul className="mt-4 divide-y divide-cool-gray-200 rounded-lg border border-cool-gray-200 bg-white">
+          <ul className="mt-4 divide-y divide-withus-bg-hover rounded-lg border border-withus-bg-hover bg-white">
             {items.map((item) => (
               <li
                 key={item.id}

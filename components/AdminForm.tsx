@@ -703,7 +703,7 @@ export default function AdminForm() {
           <button
             type="submit"
             disabled={savingDetail}
-            className="w-full rounded-xl bg-[#002761] py-3.5 text-base font-semibold text-white transition-colors hover:bg-[#002761]/90 disabled:opacity-60"
+            className="w-full rounded-xl bg-withus-cta py-3.5 text-base font-semibold text-white transition-colors hover:bg-withus-cta-hover disabled:opacity-60"
           >
             {savingDetail
               ? editingDetailId
@@ -726,7 +726,7 @@ export default function AdminForm() {
         ) : timetableItems.length === 0 ? (
           <p className="mt-4 text-sm text-slate-500">등록된 요약시간표가 없습니다.</p>
         ) : (
-          <ul className="mt-4 divide-y divide-cool-gray-200 rounded-lg border border-cool-gray-200 bg-white">
+          <ul className="mt-4 divide-y divide-withus-bg-hover rounded-lg border border-withus-bg-hover bg-white">
             {timetableItems.map((item) => (
               <li
                 key={item.id}
@@ -777,7 +777,7 @@ export default function AdminForm() {
         ) : detailItems.length === 0 ? (
           <p className="mt-4 text-sm text-slate-500">등록된 세부시간표가 없습니다.</p>
         ) : (
-          <ul className="mt-4 divide-y divide-cool-gray-200 rounded-lg border border-cool-gray-200 bg-white">
+          <ul className="mt-4 divide-y divide-withus-bg-hover rounded-lg border border-withus-bg-hover bg-white">
             {detailItems.map((item) => (
               <li key={item.id} className="px-4 py-3">
                 <div className="flex items-start justify-between gap-4">

@@ -87,7 +87,6 @@ function resolveCourseCategory(item: ScheduleCourseItem): string {
   const category = item.category?.trim();
   const subject = item.subject?.trim();
 
-  // Backward compatibility: old data saved as "제2외국어"
   if (category === "제2외국어") {
     if (subject) return subject;
     return category;
@@ -119,14 +118,16 @@ export default function ScheduleDetailList({ courses, fixedGrade }: Props) {
       return courses.filter((c) => c.grade === g);
     })();
 
-    if (categoryFilter === "전체") return gradeFiltered;
-    return gradeFiltered.filter((c) => {
-      const resolvedCategory = resolveCourseCategory(c);
-      if (resolvedCategory === categoryFilter) return true;
-      // Keep compatibility if old rows still use category="제2외국어" in raw string form.
-      const legacyCategory = c.category as unknown as string | undefined;
-      return legacyCategory === "제2외국어" && c.subject === categoryFilter;
-    });
+    const categoryFiltered = categoryFilter === "전체"
+      ? gradeFiltered
+      : gradeFiltered.filter((c) => {
+          const resolvedCategory = resolveCourseCategory(c);
+          if (resolvedCategory === categoryFilter) return true;
+          const legacyCategory = c.category as unknown as string | undefined;
+          return legacyCategory === "제2외국어" && c.subject === categoryFilter;
+        });
+
+    return categoryFiltered.sort((a, b) => a.instructorName.localeCompare(b.instructorName, "ko"));
   }, [courses, gradeFilter, fixedGrade, categoryFilter]);
 
   const openVideo = (url: string | undefined, title?: string) => {
@@ -145,7 +146,7 @@ export default function ScheduleDetailList({ courses, fixedGrade }: Props) {
     <>
       {/* 과목(학년) 탭: fixedGrade 없을 때만 전체/고1/고2/고3 표시 */}
       {!fixedGrade && (
-      <div className="mt-4 flex flex-wrap gap-2 border-b border-slate-200 pb-4">
+      <div className="mt-4 flex flex-wrap gap-2 border-b border-withus-bg-hover pb-4">
         {GRADE_TABS.map(({ id, label }) => {
           const isActive = gradeFilter === id;
           return (
@@ -155,8 +156,8 @@ export default function ScheduleDetailList({ courses, fixedGrade }: Props) {
               onClick={() => setGradeFilter(id)}
               className={`rounded-xl border-2 px-4 py-2.5 text-sm font-medium transition-all duration-200 ${
                 isActive
-                  ? "border-[#002761] bg-[#002761] text-white shadow-md"
-                  : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"
+                  ? "border-withus-navy bg-withus-navy text-white shadow-md"
+                  : "border-withus-bg-hover bg-white text-withus-navy-300 hover:border-slate-300 hover:bg-withus-bg"
               }`}
               aria-pressed={isActive}
             >
@@ -179,8 +180,8 @@ export default function ScheduleDetailList({ courses, fixedGrade }: Props) {
               onClick={() => setCategoryFilter(cat)}
               className={`rounded-xl border px-3.5 py-1.5 text-sm font-semibold transition-all ${
                 isActive
-                  ? "border-[#002761] bg-[#002761] text-white shadow-sm"
-                  : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"
+                  ? "border-withus-navy bg-withus-navy text-white shadow-sm"
+                  : "border-withus-bg-hover bg-white text-withus-navy-300 hover:border-slate-300 hover:bg-withus-bg"
               }`}
               aria-pressed={isActive}
             >
@@ -193,22 +194,36 @@ export default function ScheduleDetailList({ courses, fixedGrade }: Props) {
       {/* 세부 시간표 리스트 */}
       <div className="mt-6 space-y-4">
         {filteredCourses.length === 0 ? (
-          <div className="rounded-xl border border-slate-200 bg-white py-12 text-center text-slate-500">
+          <div className="rounded-xl border border-withus-bg-hover bg-white py-12 text-center text-withus-navy-300">
             해당 학년 강의가 없습니다.
           </div>
         ) : (
           filteredCourses.map((item) => (
             <article
               key={item.id}
-              className="grid gap-5 overflow-hidden rounded-2xl border border-slate-200/90 bg-white p-5 shadow-sm transition-shadow hover:shadow-md md:grid-cols-[170px_minmax(0,1fr)_240px_140px] md:items-start md:gap-5 md:p-6"
+              className="relative grid gap-5 overflow-hidden rounded border border-black/10 bg-white p-5 shadow-sm transition-shadow hover:shadow-md md:grid-cols-[200px_minmax(0,1fr)_340px] md:items-start md:gap-6 md:p-6"
             >
-              {/* Column 1: 강사 프로필 + 이름 + 과목 태그 */}
+              {/* Column 1: 과목 태그 + 강사 프로필 + 이름 */}
               <div className="flex flex-shrink-0 flex-col items-center gap-3">
+                {(() => {
+                  const displayCategory = resolveCourseCategory(item);
+                  const normalizedCategory = isSecondLanguageCategory(displayCategory)
+                    ? (displayCategory as DetailCategory)
+                    : displayCategory;
+                  const displayLabel =
+                    CATEGORY_DISPLAY_LABELS[normalizedCategory as DetailCategoryFilter] ??
+                    normalizedCategory;
+                  return (
+                    <span className="inline-flex items-center rounded bg-withus-navy px-4 py-1.5 text-base font-bold text-white shadow-sm md:text-lg">
+                      {displayLabel}
+                    </span>
+                  );
+                })()}
                 {(() => {
                   const profileImgSrc = resolveTeacherImageSrc(item.instructorName, item.profileImg);
                   return (
-                <div className="relative flex h-20 w-20 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-slate-200 ring-2 ring-slate-100 md:h-24 md:w-24">
-                  {/* eslint-disable-next-line @next/next/no-img-element -- 프로필 이미지 404 시 fallback: 기본 이미지 → 이니셜 */}
+                <div className="relative flex h-32 w-32 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg bg-slate-200 ring-2 ring-withus-bg-hover sm:h-36 sm:w-36 md:h-40 md:w-40">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={profileImgSrc}
                     alt=""
@@ -226,7 +241,7 @@ export default function ScheduleDetailList({ courses, fixedGrade }: Props) {
                     }}
                   />
                   <div
-                    className="absolute inset-0 hidden flex items-center justify-center rounded-full bg-[#002761] text-sm font-bold text-white"
+                    className="absolute inset-0 hidden items-center justify-center rounded-lg bg-withus-navy text-base font-bold text-white"
                     aria-hidden
                   >
                     {getInitials(item.instructorName)}
@@ -234,66 +249,46 @@ export default function ScheduleDetailList({ courses, fixedGrade }: Props) {
                 </div>
                   );
                 })()}
-                <span className="text-lg font-extrabold tracking-[-0.01em] text-slate-900 md:text-center md:text-xl">
+                <span className="font-gmarket text-2xl font-extrabold tracking-tight text-withus-navy md:text-center md:text-3xl">
                   {item.instructorName}
                 </span>
-                {/* 과목 태그: 선생님 이름 밑 */}
-                {(() => {
-                  const displayCategory = resolveCourseCategory(item);
-                  const normalizedCategory = isSecondLanguageCategory(displayCategory)
-                    ? (displayCategory as DetailCategory)
-                    : displayCategory;
-                  const displayLabel =
-                    CATEGORY_DISPLAY_LABELS[normalizedCategory as DetailCategoryFilter] ??
-                    normalizedCategory;
-                  return (
-                    <span
-                      className={`inline-flex items-center rounded-xl border px-3 py-1 text-sm font-extrabold tracking-[-0.01em] shadow-sm ${getSubjectStyle(
-                        normalizedCategory
-                      )}`}
-                    >
-                      {displayLabel}
-                    </span>
-                  );
-                })()}
               </div>
 
-              {/* Column 2: 강의 정보 + 버튼 */}
+              {/* Column 2: 강의 정보 + 설명회 버튼 */}
               <div className="min-w-0">
-                <h3 className="mt-0 text-lg font-bold text-slate-900 md:mt-2 md:text-xl">
+                <h3 className="mt-0 font-gmarket text-xl font-bold text-withus-navy md:mt-1 md:text-2xl">
                   {item.courseTitle ?? item.subject}
                 </h3>
-                <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-slate-700 md:text-base">
+                <p className="mt-2 whitespace-pre-line text-base leading-relaxed text-withus-navy-500 md:text-lg">
                   {item.teachingStyle}
                 </p>
 
-                {/* 설명회 버튼: 우측이 아닌 강의 스타일 바로 아래 배치 */}
                 <button
                   type="button"
                   onClick={() => openVideo(item.videoUrl, item.courseTitle ?? item.subject)}
-                  className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#FEF600] px-5 py-3 text-sm font-bold text-[#002761] shadow-sm transition-all hover:-translate-y-0.5 hover:bg-[#FEF600]/90 hover:shadow-[0_10px_20px_rgba(0,39,97,0.2)] md:w-auto"
+                  className="mt-4 inline-flex items-center gap-1.5 rounded border border-withus-navy-200 px-3 py-1.5 text-sm font-medium text-withus-navy-300 transition-colors hover:border-withus-navy hover:text-withus-navy md:text-base"
                 >
-                  <Play className="h-4 w-4" aria-hidden />
-                  설명회 영상 보기
+                  <Play className="h-3.5 w-3.5" aria-hidden />
+                  설명회 영상
                 </button>
               </div>
 
-              {/* Column 3+4: 요일/시간 + 개강 (카드 위젯형) */}
-              <div className="min-w-0 self-center md:col-span-2">
-                <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
+              {/* Column 3: 요일/시간 + 개강 */}
+              <div className="min-w-0 self-center">
+                <div className="overflow-hidden rounded border border-gray-200 bg-white">
                   <section className="px-4 py-4">
-                    <p className="text-xs font-semibold tracking-[0.08em] text-slate-500">요일/시간</p>
-                    <p className="mt-2 whitespace-pre-line text-[15px] font-semibold leading-6 text-slate-800">
+                    <p className="text-sm font-semibold tracking-wide text-withus-navy-300">요일/시간</p>
+                    <p className="mt-1.5 whitespace-pre-line text-base font-semibold leading-relaxed text-withus-navy md:text-lg">
                       {item.schedule}
                     </p>
                   </section>
                   <section className="border-t border-gray-100 px-4 py-4">
-                    <p className="text-xs font-semibold tracking-[0.08em] text-slate-500">개강</p>
-                    <p className="mt-2 whitespace-pre-line text-[15px] font-semibold leading-6 text-slate-800">
+                    <p className="text-sm font-semibold tracking-wide text-withus-navy-300">개강</p>
+                    <p className="mt-1.5 whitespace-pre-line text-base font-semibold leading-relaxed text-withus-navy md:text-lg">
                       {item.startDate ?? "-"}
                     </p>
                     {item.status && (
-                      <p className="mt-2 text-sm font-semibold text-rose-600">{item.status}</p>
+                      <p className="mt-2 text-base font-semibold text-rose-600">{item.status}</p>
                     )}
                   </section>
                 </div>

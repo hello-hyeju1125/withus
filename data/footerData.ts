@@ -16,20 +16,19 @@ export const footerData = {
     mainPhone: "02-562-8787",
     academyRegistration: "학원설립·운영 등록번호: 제10388호",
     mainAddress: "서울시 강남구 도곡로77길 14 양지빌딩 2층(대치동 932-3)",
-    consultationHours: "상담시간: 평일 10:00 ~ 21:00 / 주말 10:00 ~ 18:00",
+    consultationHours: "평일 14:00 ~ 22:00 / 주말 09:00 ~ 22:00",
   } as const,
 
   /**
    * 교육관 정보: 외고관(P·M·S) / 입시관으로 구분.
-   * 각 그룹별로 관 이름(선택), 주소, 전화번호 표시.
    */
   campusGroups: [
     {
       groupName: "외고관",
       locations: [
-        { name: "P관", address: "강남구 도곡로77길 14 양지빌딩, 2층", phone: "02-562-8787" },
+        { name: "P(프리미엄)관", address: "강남구 도곡로77길 14 양지빌딩, 2층", phone: "02-562-8787" },
         { name: "M관", address: "강남구 도곡로77길 5 유성빌딩, 2·3층", phone: "02-562-5757" },
-        { name: "S관", address: "강남구 대치동 929-11", phone: "02-562-8787" },
+        { name: "S관", address: "강남구 대치동 929-11", phone: "02-562-5759" },
       ],
     },
     {
@@ -40,7 +39,7 @@ export const footerData = {
     },
   ] as const,
 
-  /** 법적 정보 (우측 하단) */
+  /** 법적 정보 */
   legal: {
     businessNumber: "사업자등록번호: 592-87-01265",
     reportingAgency: "신고기관명: 서울시 강남서초교육지원청",

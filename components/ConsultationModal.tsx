@@ -133,8 +133,8 @@ export default function ConsultationModal({ isOpen, onClose }: Props) {
         aria-hidden
       />
       <div className="relative flex max-h-[92vh] w-full max-w-xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl">
-        <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
-          <h2 id="consultation-modal-title" className="text-lg font-bold text-[#0a1e40]">
+        <div className="flex items-center justify-between border-b border-withus-bg-hover px-5 py-4">
+          <h2 id="consultation-modal-title" className="text-lg font-bold text-withus-navy">
             상담 문의
           </h2>
           <button
@@ -143,7 +143,7 @@ export default function ConsultationModal({ isOpen, onClose }: Props) {
               if (!submitting) onClose();
             }}
             disabled={submitting}
-            className="rounded-md p-1.5 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700 disabled:opacity-50"
+            className="rounded-md p-1.5 text-withus-navy-300 transition-colors hover:bg-withus-bg-hover hover:text-withus-navy disabled:opacity-50"
             aria-label="닫기"
           >
             <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -153,59 +153,59 @@ export default function ConsultationModal({ isOpen, onClose }: Props) {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4 overflow-y-auto px-5 py-5">
-          <label className="block text-sm font-medium text-slate-700">
+          <label className="block text-sm font-medium text-withus-navy-500">
             학생 성함
             <input
               id="consultation-student-name"
               value={form.studentName}
               onChange={onChange("studentName")}
               placeholder="예: 홍길동"
-              className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:border-[#0a1e40] focus:outline-none focus:ring-1 focus:ring-[#0a1e40]"
+              className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:border-withus-cta focus:outline-none focus:ring-1 focus:ring-withus-cta"
               disabled={submitting || !readyForInput}
             />
           </label>
 
-          <label className="block text-sm font-medium text-slate-700">
+          <label className="block text-sm font-medium text-withus-navy-500">
             학부모 연락처
             <input
               value={form.parentPhone}
               onChange={onChange("parentPhone")}
               placeholder="예: 010-1234-5678"
-              className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:border-[#0a1e40] focus:outline-none focus:ring-1 focus:ring-[#0a1e40]"
+              className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:border-withus-cta focus:outline-none focus:ring-1 focus:ring-withus-cta"
               disabled={submitting || !readyForInput}
             />
           </label>
 
-          <label className="block text-sm font-medium text-slate-700">
+          <label className="block text-sm font-medium text-withus-navy-500">
             학교/학년
             <input
               value={form.schoolGrade}
               onChange={onChange("schoolGrade")}
               placeholder="예: 대원외고 1학년"
-              className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:border-[#0a1e40] focus:outline-none focus:ring-1 focus:ring-[#0a1e40]"
+              className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:border-withus-cta focus:outline-none focus:ring-1 focus:ring-withus-cta"
               disabled={submitting || !readyForInput}
             />
           </label>
 
-          <label className="block text-sm font-medium text-slate-700">
+          <label className="block text-sm font-medium text-withus-navy-500">
             상담 희망 과목
             <input
               value={form.subject}
               onChange={onChange("subject")}
               placeholder="예: 영어 / 수학"
-              className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:border-[#0a1e40] focus:outline-none focus:ring-1 focus:ring-[#0a1e40]"
+              className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:border-withus-cta focus:outline-none focus:ring-1 focus:ring-withus-cta"
               disabled={submitting || !readyForInput}
             />
           </label>
 
-          <label className="block text-sm font-medium text-slate-700">
+          <label className="block text-sm font-medium text-withus-navy-500">
             문의 내용
             <textarea
               value={form.content}
               onChange={onChange("content")}
               placeholder="문의하실 내용을 자세히 작성해주세요."
               rows={5}
-              className="mt-1 w-full resize-y rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:border-[#0a1e40] focus:outline-none focus:ring-1 focus:ring-[#0a1e40]"
+              className="mt-1 w-full resize-y rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:border-withus-cta focus:outline-none focus:ring-1 focus:ring-withus-cta"
               disabled={submitting || !readyForInput}
             />
           </label>
@@ -224,7 +224,7 @@ export default function ConsultationModal({ isOpen, onClose }: Props) {
           <button
             type="submit"
             disabled={!isValid || submitting}
-            className="w-full rounded-xl bg-[#0a1e40] py-3 text-sm font-semibold text-white transition-colors hover:bg-[#0a1e40]/90 disabled:cursor-not-allowed disabled:opacity-60"
+            className="w-full rounded-xl bg-withus-cta py-3 text-sm font-semibold text-white transition-colors hover:bg-withus-cta-hover disabled:cursor-not-allowed disabled:opacity-60"
           >
             {submitting ? "전송 중..." : "상담 문의 전송"}
           </button>

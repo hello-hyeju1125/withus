@@ -16,7 +16,7 @@ export default function SMSBanner({ nested = false }: SMSBannerProps) {
       href="https://docs.google.com/forms/d/1Avu-t9dSlfYuGvpNOul_p6mBiqVnz2zJvp2zZhkXZ_k/viewform?edit_requested=true"
       target="_blank"
       rel="noopener noreferrer"
-      className="relative block min-w-0 overflow-hidden rounded-2xl bg-gradient-to-r from-gray-900 via-[#1e3a5f] to-[#1e3a8a] px-5 py-4 shadow-[0_10px_40px_rgba(0,39,97,0.2)] transition-opacity hover:opacity-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-withus-gold sm:px-6 sm:py-5"
+      className="relative block min-w-0 overflow-hidden rounded-2xl bg-gradient-to-r from-withus-navy via-withus-navy-700 to-withus-navy-500 px-5 py-4 shadow-[0_10px_40px_rgba(15,26,46,0.15)] transition-opacity hover:opacity-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-withus-cta sm:px-6 sm:py-5"
     >
       <div className="relative flex min-w-0 flex-col items-center justify-between gap-4 sm:flex-row sm:gap-6">
         <div className="flex min-w-0 flex-1 items-center gap-4 text-left">

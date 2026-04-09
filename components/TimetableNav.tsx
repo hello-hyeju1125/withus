@@ -71,7 +71,7 @@ export default function TimetableNav({
               type="button"
               onClick={() => handleSchoolChange(slug)}
               className={`relative pb-3 pt-2 text-xl font-bold transition-colors md:pb-4 md:pt-3 md:text-2xl lg:pb-5 lg:pt-4 lg:text-3xl ${
-                isActive ? "text-[#002761]" : "text-slate-400"
+                isActive ? "text-withus-navy" : "text-slate-400"
               }`}
               aria-pressed={isActive}
               aria-current={isActive ? "true" : undefined}
@@ -79,7 +79,7 @@ export default function TimetableNav({
               {label}
               <span
                 className={`absolute bottom-0 left-0 right-0 block border-b-4 md:border-b-[6px] ${
-                  isActive ? "border-[#FEF600]" : "border-slate-200"
+                  isActive ? "border-withus-cta" : "border-withus-bg-hover"
                 }`}
               />
             </button>
@@ -97,10 +97,10 @@ export default function TimetableNav({
                 key={id}
                 type="button"
                 onClick={() => handleGradeChange(id)}
-                className={`cursor-pointer rounded-lg border-2 py-3 text-base font-medium transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#002761] focus-visible:ring-offset-2 ${
+                className={`cursor-pointer rounded-lg border-2 py-3 text-base font-medium transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-withus-navy focus-visible:ring-offset-2 ${
                   isActive
-                    ? "border-[#002761] bg-[#002761] text-white shadow-md"
-                    : "border-slate-200 bg-white text-slate-500 shadow-sm hover:border-slate-300 hover:bg-slate-50 hover:text-slate-700 hover:shadow"
+                    ? "border-withus-navy bg-withus-navy text-white shadow-md"
+                    : "border-withus-bg-hover bg-white text-withus-navy-300 shadow-sm hover:border-slate-300 hover:bg-withus-bg hover:text-withus-navy-500 hover:shadow"
                 }`}
                 aria-pressed={isActive}
                 aria-current={isActive ? "true" : undefined}

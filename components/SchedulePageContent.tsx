@@ -32,12 +32,12 @@ export default function SchedulePageContent({
   };
 
   return (
-    <div className="min-h-screen bg-cool-gray-50/50">
+    <div className="min-h-screen bg-withus-bg">
       <div className="mx-auto max-w-7xl px-4 py-8">
         <h1 className="font-serif text-2xl font-bold text-withus-navy md:text-3xl">
           시간표
         </h1>
-        <p className="mt-2 text-cool-gray-500">
+        <p className="mt-2 text-withus-navy-300">
           대원외고, 한영외고, 일반고 시간표를 확인하실 수 있습니다.
         </p>
 
@@ -50,7 +50,7 @@ export default function SchedulePageContent({
               className={`rounded-lg border-2 px-5 py-2.5 text-sm font-medium transition-colors ${
                 currentSchool === slug
                   ? "border-withus-navy bg-withus-navy text-white"
-                  : "border-cool-gray-200 bg-white text-cool-gray-700 hover:border-withus-navy/50 hover:bg-cool-gray-50"
+                  : "border-withus-bg-hover bg-white text-withus-navy-500 hover:border-withus-navy/50 hover:bg-withus-bg"
               }`}
             >
               {label}
@@ -59,13 +59,13 @@ export default function SchedulePageContent({
         </div>
 
         {/* 고1, 고2, 고3 스크롤 이동 링크 */}
-        <div className="mt-6 flex flex-wrap gap-2 border-b border-cool-gray-200 pb-4">
+        <div className="mt-6 flex flex-wrap gap-2 border-b border-withus-bg-hover pb-4">
           {GRADES.map(({ id, label }) => (
             <button
               key={id}
               type="button"
               onClick={() => scrollToGrade(id)}
-              className="rounded-md bg-cool-gray-100 px-4 py-2 text-sm font-medium text-cool-gray-700 transition-colors hover:bg-withus-navy hover:text-white"
+              className="rounded-md bg-withus-bg-hover px-4 py-2 text-sm font-medium text-withus-navy-500 transition-colors hover:bg-withus-navy hover:text-white"
             >
               {label}
             </button>
@@ -77,12 +77,12 @@ export default function SchedulePageContent({
           <section
             id="grade-1"
             ref={grade1Ref}
-            className="scroll-mt-8 rounded-lg border border-cool-gray-200 bg-white p-6 shadow-sm"
+            className="scroll-mt-8 rounded-lg border border-withus-bg-hover bg-white p-6 shadow-sm"
           >
             <h2 className="font-serif text-xl font-bold text-withus-navy">
               고1
             </h2>
-            <p className="mt-3 text-sm text-cool-gray-500">
+            <p className="mt-3 text-sm text-withus-navy-300">
               고1 시간표 내용이 여기에 표시됩니다.
             </p>
           </section>
@@ -90,12 +90,12 @@ export default function SchedulePageContent({
           <section
             id="grade-2"
             ref={grade2Ref}
-            className="scroll-mt-8 rounded-lg border border-cool-gray-200 bg-white p-6 shadow-sm"
+            className="scroll-mt-8 rounded-lg border border-withus-bg-hover bg-white p-6 shadow-sm"
           >
             <h2 className="font-serif text-xl font-bold text-withus-navy">
               고2
             </h2>
-            <p className="mt-3 text-sm text-cool-gray-500">
+            <p className="mt-3 text-sm text-withus-navy-300">
               고2 시간표 내용이 여기에 표시됩니다.
             </p>
           </section>
@@ -103,12 +103,12 @@ export default function SchedulePageContent({
           <section
             id="grade-3"
             ref={grade3Ref}
-            className="scroll-mt-8 rounded-lg border border-cool-gray-200 bg-white p-6 shadow-sm"
+            className="scroll-mt-8 rounded-lg border border-withus-bg-hover bg-white p-6 shadow-sm"
           >
             <h2 className="font-serif text-xl font-bold text-withus-navy">
               고3
             </h2>
-            <p className="mt-3 text-sm text-cool-gray-500">
+            <p className="mt-3 text-sm text-withus-navy-300">
               고3 시간표 내용이 여기에 표시됩니다.
             </p>
           </section>

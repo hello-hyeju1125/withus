@@ -48,7 +48,7 @@ export default function BriefingTabContent() {
 
   if (error) {
     return (
-      <div className="rounded-lg border border-amber-200 bg-amber-50 py-8 text-center text-sm text-amber-800">
+      <div className="rounded-lg border border-withus-accent-gold-tint bg-withus-cta-tint py-8 text-center text-sm text-withus-navy">
         <p className="font-medium">설명회를 불러오지 못했습니다.</p>
         <p className="mt-1 text-xs">{error}</p>
       </div>

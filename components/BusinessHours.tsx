@@ -24,16 +24,16 @@ const 교육관연락처 = [
 export default function BusinessHours() {
   return (
     <section className="mx-auto w-full max-w-7xl px-4 py-12 md:py-16">
-      <div className="rounded-2xl border border-blue-100 bg-white p-6 shadow-sm md:p-8">
+      <div className="rounded-2xl border border-withus-bg-hover bg-white p-6 shadow-sm md:p-8">
         <header className="mb-8">
-          <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold text-[#0a1e40]">
+          <div className="inline-flex items-center gap-2 rounded-full bg-withus-cta-tint px-3 py-1 text-sm font-semibold text-withus-navy">
             <Clock className="h-4 w-4" aria-hidden />
             근무시간 및 상담안내
           </div>
-          <h1 className="mt-3 text-2xl font-bold tracking-tight text-[#0a1e40] md:text-3xl">
+          <h1 className="mt-3 text-2xl font-bold tracking-tight text-withus-navy md:text-3xl">
             학부모 상담 가능 시간을 확인하세요
           </h1>
-          <p className="mt-2 text-sm text-slate-600 md:text-base">
+          <p className="mt-2 text-sm text-withus-navy-300 md:text-base">
             아래 시간 외에는 연결이 지연될 수 있습니다.
           </p>
         </header>
@@ -47,15 +47,15 @@ export default function BusinessHours() {
                 key={item.title}
                 className={`rounded-xl border p-5 ${
                   isWeekday
-                    ? "border-blue-200 bg-gradient-to-br from-blue-50 to-white text-[#0a1e40]"
-                    : "border-pink-200 bg-gradient-to-br from-pink-50 to-white text-[#0a1e40]"
+                    ? "border-withus-accent-blue-tint bg-withus-accent-blue-tint/50 text-withus-navy"
+                    : "border-withus-accent-purple-tint bg-withus-accent-purple-tint/50 text-withus-navy"
                 }`}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <span
                       className={`inline-flex rounded-full px-2.5 py-1 text-xs font-bold ${
-                        isWeekday ? "bg-blue-100 text-blue-800" : "bg-pink-100 text-pink-800"
+                        isWeekday ? "bg-withus-accent-blue-tint text-withus-accent-blue" : "bg-withus-accent-purple-tint text-withus-accent-purple"
                       }`}
                     >
                       {isWeekday ? "WEEKDAY" : "WEEKEND"}
@@ -63,7 +63,7 @@ export default function BusinessHours() {
                     <h2 className="mt-2 text-lg font-semibold">{item.title}</h2>
                   </div>
                   <Clock
-                    className={`h-5 w-5 shrink-0 ${isWeekday ? "text-blue-700" : "text-pink-700"}`}
+                    className={`h-5 w-5 shrink-0 ${isWeekday ? "text-withus-accent-blue" : "text-withus-accent-purple"}`}
                     aria-hidden
                   />
                 </div>
@@ -74,8 +74,8 @@ export default function BusinessHours() {
           })}
         </div>
 
-        <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4">
-          <p className="flex items-start gap-2 text-sm text-amber-900 md:text-base">
+        <div className="mt-4 rounded-xl border border-withus-accent-gold-tint bg-withus-accent-gold-tint/50 p-4">
+          <p className="flex items-start gap-2 text-sm text-withus-accent-gold md:text-base">
             <Clock className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
             <span>
               <strong>점심시간:</strong> 13:00 ~ 14:00 (이 시간대에는 전화 연결이 어려울 수 있습니다.)
@@ -84,13 +84,13 @@ export default function BusinessHours() {
         </div>
 
         <div className="mt-8">
-          <h3 className="text-base font-semibold text-[#0a1e40] md:text-lg">빠른 전화 연결</h3>
+          <h3 className="text-base font-semibold text-withus-navy md:text-lg">빠른 전화 연결</h3>
           <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {교육관연락처.map((item) => (
               <a
                 key={item.label}
                 href={`tel:${item.phone.replace(/-/g, "")}`}
-                className="inline-flex items-center justify-between rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm font-semibold text-[#0a1e40] transition-colors hover:bg-blue-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                className="inline-flex items-center justify-between rounded-xl border border-withus-bg-hover bg-withus-bg px-4 py-3 text-sm font-semibold text-withus-navy transition-colors hover:bg-withus-bg-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-withus-cta focus-visible:ring-offset-2"
                 aria-label={`${item.label} 전화걸기 ${item.phone}`}
               >
                 <span>{item.label}</span>
@@ -100,7 +100,7 @@ export default function BusinessHours() {
           </div>
         </div>
 
-        <p className="mt-8 rounded-lg bg-slate-50 px-4 py-3 text-center text-sm font-extrabold text-[#0a1e40] md:text-base">
+        <p className="mt-8 rounded-lg bg-withus-bg px-4 py-3 text-center text-sm font-extrabold text-withus-navy md:text-base">
           방문 상담은 예약제로 운영되오니 미리 전화 부탁드립니다.
         </p>
       </div>

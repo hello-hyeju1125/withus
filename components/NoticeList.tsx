@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 
-const DEEP_NAVY = "#0a1e40";
+const DEEP_NAVY = "#0F1A2E";
 
 export interface NoticeItem {
   id: string;
@@ -36,7 +36,7 @@ function formatContent(text: string) {
               <img
                 src={part}
                 alt="첨부 이미지"
-                className="max-h-64 max-w-full rounded-lg border border-cool-gray-200 object-contain"
+                className="max-h-64 max-w-full rounded-lg border border-withus-bg-hover object-contain"
               />
             </a>
           ) : (
@@ -45,7 +45,7 @@ function formatContent(text: string) {
               href={part}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-withus-navy underline hover:opacity-80"
+              className="text-withus-cta underline hover:opacity-80"
             >
               {part}
             </a>
@@ -102,20 +102,20 @@ export default function NoticeList({
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center gap-4 rounded-lg border border-cool-gray-200 bg-white py-16">
+      <div className="flex flex-col items-center justify-center gap-4 rounded-lg border border-withus-bg-hover bg-white py-16">
         <div
-          className="h-10 w-10 animate-spin rounded-full border-2 border-withus-navy border-t-transparent"
+          className="h-10 w-10 animate-spin rounded-full border-2 border-withus-cta border-t-transparent"
           aria-hidden
         />
-        <p className="text-sm text-slate-500">공지사항을 불러오는 중...</p>
+        <p className="text-sm text-withus-navy-300">공지사항을 불러오는 중...</p>
       </div>
     );
   }
 
   if (items.length === 0) {
     return (
-      <div className="overflow-hidden rounded-lg border border-cool-gray-200 bg-white shadow-sm">
-        <div className="py-16 text-center text-sm text-slate-500">
+      <div className="overflow-hidden rounded-lg border border-withus-bg-hover bg-white shadow-sm">
+        <div className="py-16 text-center text-sm text-withus-navy-300">
           등록된 공지사항이 없습니다.
         </div>
       </div>
@@ -123,15 +123,15 @@ export default function NoticeList({
   }
 
   return (
-    <div className="overflow-hidden rounded-lg border border-cool-gray-200 bg-white shadow-sm">
+    <div className="overflow-hidden rounded-lg border border-withus-bg-hover bg-white shadow-sm">
       {/* 헤더 */}
-      <div className="grid grid-cols-[auto_1fr_auto] gap-3 border-b border-cool-gray-200 bg-cool-gray-50/60 px-4 py-3 text-sm font-semibold text-cool-gray-600 md:grid-cols-[60px_1fr_100px]">
+      <div className="grid grid-cols-[auto_1fr_auto] gap-3 border-b border-withus-bg-hover bg-withus-bg/60 px-4 py-3 text-sm font-semibold text-withus-navy-300 md:grid-cols-[60px_1fr_100px]">
         <span className="w-8 shrink-0 md:w-[60px]">번호</span>
         <span className="min-w-0">제목</span>
         <span className="hidden shrink-0 md:block">작성자</span>
       </div>
 
-      <ul className="divide-y divide-cool-gray-100">
+      <ul className="divide-y divide-withus-bg-hover">
         {items.map((item, index) => {
           const isOpen = openId === item.id;
           const displayNumber = index + 1;
@@ -140,14 +140,14 @@ export default function NoticeList({
               <button
                 type="button"
                 onClick={(e) => handleTitleClick(item.id, e.currentTarget)}
-                className={`scroll-mt-[170px] grid w-full grid-cols-[auto_1fr_auto] gap-2 border-b border-cool-gray-100 px-4 py-3 text-left transition-all duration-200 hover:bg-cool-gray-50/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-withus-gold md:grid-cols-[60px_1fr_100px] md:gap-3 ${
-                  item.isImportant ? "bg-amber-50/60" : "bg-white"
+                className={`scroll-mt-[170px] grid w-full grid-cols-[auto_1fr_auto] gap-2 border-b border-withus-bg-hover px-4 py-3 text-left transition-all duration-200 hover:bg-withus-bg/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-withus-cta md:grid-cols-[60px_1fr_100px] md:gap-3 ${
+                  item.isImportant ? "bg-withus-cta-tint/60" : "bg-white"
                 }`}
                 aria-expanded={isOpen}
                 aria-controls={`notice-content-${item.id}`}
                 id={`notice-trigger-${item.id}`}
               >
-                <span className="w-8 shrink-0 text-sm text-cool-gray-500 md:w-[60px] md:text-base">
+                <span className="w-8 shrink-0 text-sm text-withus-navy-200 md:w-[60px] md:text-base">
                   {displayNumber}
                 </span>
                 <span
@@ -155,18 +155,18 @@ export default function NoticeList({
                   style={{ color: DEEP_NAVY }}
                 >
                   {item.isImportant && (
-                    <span className="mr-2 inline-flex rounded bg-amber-500 px-1.5 py-0.5 text-xs font-semibold text-white">
+                    <span className="mr-2 inline-flex rounded bg-withus-cta px-1.5 py-0.5 text-xs font-semibold text-white">
                       중요
                     </span>
                   )}
                   {item.title}
                 </span>
                 <span className="flex shrink-0 items-center justify-end gap-2">
-                  <span className="hidden text-sm text-cool-gray-500 md:inline">
+                  <span className="hidden text-sm text-withus-navy-200 md:inline">
                     {item.author}
                   </span>
                   <ChevronDown
-                    className="h-5 w-5 shrink-0 text-cool-gray-400 transition-transform duration-300"
+                    className="h-5 w-5 shrink-0 text-withus-navy-200 transition-transform duration-300"
                     style={{
                       transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
                     }}
@@ -176,7 +176,7 @@ export default function NoticeList({
               </button>
 
               <div className="px-4 pb-2 md:hidden">
-                <span className="text-xs text-cool-gray-500">
+                <span className="text-xs text-withus-navy-200">
                   작성자: {item.author}
                 </span>
               </div>
@@ -191,14 +191,14 @@ export default function NoticeList({
                 }}
               >
                 <div className="min-h-0 overflow-hidden">
-                  <div className="border-b border-cool-gray-100 bg-cool-gray-50/40 px-4 py-5">
+                  <div className="border-b border-withus-bg-hover bg-withus-bg/40 px-4 py-5">
                     <div className="space-y-4">
                       {item.imageUrls && item.imageUrls.length > 0 && (
                         <div className="flex flex-col gap-4">
                           {item.imageUrls.map((url) => (
                             <div
                               key={url}
-                              className="relative w-full overflow-hidden rounded-lg border border-cool-gray-200 bg-white"
+                              className="relative w-full overflow-hidden rounded-lg border border-withus-bg-hover bg-white"
                             >
                               <Image
                                 src={url}
@@ -213,11 +213,11 @@ export default function NoticeList({
                         </div>
                       )}
                       {item.content ? (
-                        <div className="rounded-lg border border-cool-gray-200 bg-white p-6 text-sm leading-relaxed text-cool-gray-800">
+                        <div className="rounded-lg border border-withus-bg-hover bg-white p-6 text-sm leading-relaxed text-withus-navy-500">
                           {formatContent(item.content)}
                         </div>
                       ) : !item.imageUrls?.length ? (
-                        <div className="rounded-lg border border-dashed border-cool-gray-200 bg-white p-6 text-center text-sm text-cool-gray-500">
+                        <div className="rounded-lg border border-dashed border-withus-bg-hover bg-white p-6 text-center text-sm text-withus-navy-200">
                           상세 내용이 없습니다.
                         </div>
                       ) : null}

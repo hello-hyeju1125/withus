@@ -4,22 +4,22 @@ const SCHOOLS = [
   {
     label: "대원외고",
     href: "/school/daewon",
-    gradient: "from-emerald-100/90 to-teal-50/90",
+    gradient: "from-withus-bg to-white/95",
   },
   {
     label: "한영외고",
     href: "/school/hanyoung",
-    gradient: "from-sky-100/90 to-cyan-50/90",
+    gradient: "from-withus-bg to-white/95",
   },
   {
     label: "일반고",
     href: "/school/general",
-    gradient: "from-violet-100/90 to-purple-50/90",
+    gradient: "from-withus-bg to-white/95",
   },
   {
     label: "개인팀수업",
     href: "/school/private",
-    gradient: "from-slate-100/90 to-cool-gray-100/90",
+    gradient: "from-withus-bg to-white/95",
   },
 ] as const;
 
@@ -43,7 +43,7 @@ export default function HeroSection() {
             <Link
               key={href}
               href={href}
-              className="group relative flex min-h-[120px] flex-col justify-end overflow-hidden rounded-2xl p-5 shadow-lg transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-xl hover:shadow-[#002761]/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-withus-gold sm:min-h-[140px] sm:p-6"
+              className="group relative flex min-h-[120px] flex-col justify-end overflow-hidden rounded-2xl p-5 shadow-lg transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-xl hover:shadow-withus-navy/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-withus-cta sm:min-h-[140px] sm:p-6"
             >
               {/* Base gradient */}
               <div className={`absolute inset-0 bg-gradient-to-br ${gradient} transition-transform duration-300 ease-out group-hover:scale-105`} aria-hidden />
@@ -51,7 +51,7 @@ export default function HeroSection() {
               <div
                 className="absolute inset-0 opacity-[0.12] transition-opacity duration-300 group-hover:opacity-[0.18]"
                 style={{
-                  backgroundImage: `radial-gradient(circle at 50% 50%, #002761 1px, transparent 1px)`,
+                  backgroundImage: `radial-gradient(circle at 50% 50%, #0F1A2E 1px, transparent 1px)`,
                   backgroundSize: "14px 14px",
                 }}
                 aria-hidden
@@ -62,7 +62,7 @@ export default function HeroSection() {
                 aria-hidden
               />
               <WMark />
-              <span className="relative z-10 text-lg font-bold tracking-tight transition-transform duration-300 group-hover:translate-x-0.5 sm:text-xl lg:text-2xl" style={{ color: "#002761" }}>
+              <span className="relative z-10 text-lg font-bold tracking-tight text-withus-navy transition-transform duration-300 group-hover:translate-x-0.5 sm:text-xl lg:text-2xl">
                 {label}
               </span>
             </Link>

@@ -42,7 +42,6 @@ export default function VideoModal({
 
   if (!mounted || !isOpen) return null;
 
-  // YouTube URL을 embed 형식으로 변환 (watch?v=xxx, youtu.be/xxx -> https://www.youtube.com/embed/xxx)
   const embedUrl = (() => {
     if (!videoUrl) return "";
     const m = videoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s?]+)/);
@@ -58,7 +57,7 @@ export default function VideoModal({
       aria-modal="true"
       aria-labelledby="video-modal-title"
     >
-      {/* Backdrop - 클릭 시 닫기 */}
+      {/* Backdrop */}
       <button
         type="button"
         className="absolute inset-0 bg-black/60 transition-opacity"
@@ -67,17 +66,17 @@ export default function VideoModal({
       />
       {/* Modal panel */}
       <div className="relative flex w-full max-w-4xl flex-col rounded-2xl bg-white shadow-xl">
-        <div className="flex shrink-0 items-center justify-between border-b border-slate-200 px-4 py-3 sm:px-5 sm:py-4">
+        <div className="flex shrink-0 items-center justify-between border-b border-withus-bg-hover px-4 py-3 sm:px-5 sm:py-4">
           <h2
             id="video-modal-title"
-            className="text-base font-bold text-slate-800 sm:text-lg"
+            className="text-base font-bold text-withus-navy sm:text-lg"
           >
             {title}
           </h2>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg p-2 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700"
+            className="rounded-lg p-2 text-withus-navy-300 transition-colors hover:bg-withus-bg-hover hover:text-withus-navy-500"
             aria-label="닫기"
           >
             <svg
@@ -105,7 +104,7 @@ export default function VideoModal({
               allowFullScreen
             />
           ) : (
-            <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center rounded-b-2xl bg-slate-100 text-slate-500">
+            <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center rounded-b-2xl bg-withus-bg-hover text-withus-navy-300">
               영상 URL이 없습니다.
             </div>
           )}

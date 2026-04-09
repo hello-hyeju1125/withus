@@ -49,7 +49,7 @@ function LoadingSpinner() {
         className="h-10 w-10 animate-spin rounded-full border-2 border-withus-navy border-t-transparent"
         aria-hidden
       />
-      <p className="text-sm text-slate-500">조금만 기다려주세요 :) 시간표가 곧 로딩됩니다!</p>
+      <p className="text-sm text-withus-navy-300">조금만 기다려주세요 :) 시간표가 곧 로딩됩니다!</p>
     </div>
   );
 }
@@ -107,7 +107,7 @@ function TimetableImage({
 
   if (isResolving) {
     return (
-      <div className="flex aspect-[3/4] max-h-[70vh] items-center justify-center bg-slate-100">
+      <div className="flex aspect-[3/4] max-h-[70vh] items-center justify-center bg-withus-bg-hover">
         <div className="h-8 w-8 animate-spin rounded-full border-2 border-withus-navy border-t-transparent" />
       </div>
     );
@@ -154,10 +154,8 @@ export default function TimetablePage({
 
   const useTabLayout = currentSchool === "daewon" || currentSchool === "hanyoung" || currentSchool === "general";
 
-  // 탭 레이아웃: 학년(고1|고2|고3) 선택 후 요약시간표|상세시간표 선택
   const [selectedGrade, setSelectedGrade] = useState<"1" | "2" | "3">(initialGrade as "1" | "2" | "3");
   const [contentTab, setContentTab] = useState<"summary" | "detail">("summary");
-  // 일반/private용 기존 학년 상태 (showGradeRow 사용 시)
   const [grade, setGrade] = useState<string>(initialGrade);
 
   useEffect(() => {
@@ -165,7 +163,6 @@ export default function TimetablePage({
     setSelectedGrade((initialGrade === "1" || initialGrade === "2" || initialGrade === "3") ? initialGrade : "1");
   }, [initialGrade]);
 
-  // 학년별 요약(이미지)/상세 시간표 표시
   const displayGrade = selectedGrade;
 
   const [items, setItems] = useState<TimetableItem[]>([]);
@@ -174,6 +171,7 @@ export default function TimetablePage({
   const [resolvedUrls, setResolvedUrls] = useState<Record<string, string>>({});
 
   useEffect(() => {
+    setLoading(true);
     const q = query(
       collection(db, "timetables"),
       where("school", "==", currentSchool),
@@ -204,7 +202,6 @@ export default function TimetablePage({
     return () => unsub();
   }, [currentSchool, useTabLayout, displayGrade, grade]);
 
-  // 메타데이터 형식 URL을 서버 API로 실제 다운로드 URL 변환 (기존 잘못 저장된 데이터 대응, CORS 회피)
   useEffect(() => {
     const toResolve = items.filter(
       (item) => item.fileType === "image" && isStorageMetadataUrl(item.fileUrl)
@@ -227,10 +224,9 @@ export default function TimetablePage({
       }
     };
 
-    toResolve.forEach(resolve);
+    Promise.all(toResolve.map(resolve));
   }, [items]);
 
-  // 첫 번째 시간표 이미지 URL이 준비되면 preload로 즉시 다운로드 시작
   const firstImageItem = items.find((i) => i.fileType === "image");
   const firstImageUrl =
     firstImageItem &&
@@ -321,7 +317,7 @@ export default function TimetablePage({
   }, [showDetailList, currentSchool, displayGrade]);
 
   return (
-    <div className="min-h-screen bg-cool-gray-50/50">
+    <div className="min-h-screen bg-withus-bg">
       <div className="mx-auto max-w-7xl px-4 py-6 md:py-8">
         {/* 1) 학교 선택: 대원 / 한영 / 일반 (탭 레이아웃일 때는 학년 행 없음) */}
         <div>
@@ -343,7 +339,7 @@ export default function TimetablePage({
           <div className="mt-7 flex flex-col items-center gap-3">
             <div className="flex w-full max-w-sm flex-col gap-3">
               {/* 학년 선택 */}
-              <div className="flex items-center justify-center gap-2 rounded-2xl border border-slate-200/80 bg-white/90 p-2 shadow-[0_10px_30px_rgba(15,23,42,0.08)] backdrop-blur">
+              <div className="flex items-center justify-center gap-2 rounded-2xl border border-withus-bg-hover/80 bg-white/90 p-2 shadow-[0_10px_30px_rgba(15,23,42,0.08)] backdrop-blur">
                 {GRADE_TABS.map(({ id, label }) => {
                   const isActive = selectedGrade === id;
                   return (
@@ -356,8 +352,8 @@ export default function TimetablePage({
                       }}
                       className={`flex-1 rounded-xl px-5 py-2.5 text-sm font-semibold tracking-[-0.01em] transition-all duration-200 ${
                         isActive
-                          ? "bg-gradient-to-r from-[#002761] to-[#003bb3] text-white shadow-[0_8px_20px_rgba(0,39,97,0.35)]"
-                          : "text-slate-600 hover:-translate-y-0.5 hover:bg-slate-50 hover:text-[#002761] hover:shadow-md"
+                          ? "bg-gradient-to-r from-withus-navy to-withus-cta text-white shadow-[0_8px_20px_rgba(15,26,46,0.15)]"
+                          : "text-withus-navy-300 hover:-translate-y-0.5 hover:bg-withus-bg hover:text-withus-navy hover:shadow-md"
                       }`}
                       aria-pressed={isActive}
                     >
@@ -367,7 +363,7 @@ export default function TimetablePage({
                 })}
               </div>
               {/* 요약시간표 | 상세시간표 */}
-              <div className="flex items-center justify-center gap-2 rounded-2xl border border-slate-200/80 bg-white/90 p-2 shadow-[0_10px_30px_rgba(15,23,42,0.08)] backdrop-blur">
+              <div className="flex items-center justify-center gap-2 rounded-2xl border border-withus-bg-hover/80 bg-white/90 p-2 shadow-[0_10px_30px_rgba(15,23,42,0.08)] backdrop-blur">
                 {CONTENT_TYPE_TABS.map(({ id, label }) => {
                   const isActive = contentTab === id;
                   return (
@@ -377,8 +373,8 @@ export default function TimetablePage({
                       onClick={() => setContentTab(id)}
                       className={`flex-1 rounded-xl px-5 py-2.5 text-sm font-semibold tracking-[-0.01em] transition-all duration-200 ${
                         isActive
-                          ? "bg-gradient-to-r from-[#002761] to-[#003bb3] text-white shadow-[0_8px_20px_rgba(0,39,97,0.35)]"
-                          : "text-slate-600 hover:-translate-y-0.5 hover:bg-slate-50 hover:text-[#002761] hover:shadow-md"
+                          ? "bg-gradient-to-r from-withus-navy to-withus-cta text-white shadow-[0_8px_20px_rgba(15,26,46,0.15)]"
+                          : "text-withus-navy-300 hover:-translate-y-0.5 hover:bg-withus-bg hover:text-withus-navy hover:shadow-md"
                       }`}
                       aria-pressed={isActive}
                     >
@@ -397,13 +393,13 @@ export default function TimetablePage({
             {loading ? (
               <LoadingSpinner />
             ) : queryError ? (
-              <div className="rounded-xl border border-amber-200 bg-amber-50 py-8 text-center text-sm text-amber-800">
+              <div className="rounded-xl border border-withus-accent-gold-tint bg-withus-cta-tint py-8 text-center text-sm text-withus-navy">
                 <p className="font-medium">시간표를 불러오지 못했습니다.</p>
                 <p className="mt-1 text-xs">{queryError}</p>
                 <p className="mt-2 text-xs">Firestore 규칙과 인덱스를 확인하세요. (docs/STORAGE_SETUP.md)</p>
               </div>
             ) : items.length === 0 ? (
-              <div className="rounded-xl border border-slate-200 bg-white py-12 text-center text-sm text-slate-500">
+              <div className="rounded-xl border border-withus-bg-hover bg-white py-12 text-center text-sm text-withus-navy-300">
                 해당 학년 시간표가 없습니다. 이미지 업로드 후 제공됩니다.
               </div>
             ) : (
@@ -411,11 +407,11 @@ export default function TimetablePage({
                 {items.map((item, i) => (
                   <div
                     key={item.id}
-                    className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm"
+                    className="overflow-hidden rounded-xl border border-withus-bg-hover bg-white shadow-sm"
                   >
                     {item.fileType === "pdf" ? (
                       <div className="flex flex-col gap-3 p-4 md:flex-row md:items-center md:gap-4">
-                        <span className="text-sm font-medium text-slate-700 md:min-w-0 md:truncate">
+                        <span className="text-sm font-medium text-withus-navy-500 md:min-w-0 md:truncate">
                           {item.fileName ?? "문서"}
                         </span>
                         <a
@@ -451,11 +447,11 @@ export default function TimetablePage({
         {showDetailList && (
           <div className="mt-6">
             {detailLoading ? (
-              <div className="rounded-xl border border-slate-200 bg-white py-10">
+              <div className="rounded-xl border border-withus-bg-hover bg-white py-10">
                 <LoadingSpinner />
               </div>
             ) : detailError ? (
-              <div className="rounded-xl border border-amber-200 bg-amber-50 py-8 text-center text-sm text-amber-800">
+              <div className="rounded-xl border border-withus-accent-gold-tint bg-withus-cta-tint py-8 text-center text-sm text-withus-navy">
                 <p className="font-medium">세부 시간표를 불러오지 못했습니다.</p>
                 <p className="mt-1 text-xs">{detailError}</p>
               </div>

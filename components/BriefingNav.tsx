@@ -31,7 +31,7 @@ export default function BriefingNav() {
               type="button"
               onClick={() => handleTabChange(value)}
               className={`relative pb-3 pt-2 text-xl font-bold transition-colors ${
-                isActive ? "text-[#002761]" : "text-slate-400"
+                isActive ? "text-withus-navy" : "text-withus-navy-200"
               }`}
               aria-pressed={isActive}
               aria-current={isActive ? "true" : undefined}
@@ -39,7 +39,7 @@ export default function BriefingNav() {
               {label}
               <span
                 className={`absolute bottom-0 left-0 right-0 block border-b-4 ${
-                  isActive ? "border-[#FEF600]" : "border-slate-200"
+                  isActive ? "border-withus-cta" : "border-withus-bg-hover"
                 }`}
               />
             </button>

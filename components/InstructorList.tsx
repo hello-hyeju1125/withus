@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useMemo, useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   instructors,
   SUBJECTS,
@@ -11,7 +11,26 @@ import {
   type SchoolKey,
 } from "@/data/instructors";
 
-const SCHOOL_OPTIONS: readonly (SchoolKey | "전체")[] = ["전체", ...SCHOOLS];
+const DEFAULT_SCHOOL: SchoolKey = "대원외고";
+
+const TAB_TO_SCHOOL: Record<string, SchoolKey> = {
+  daewon: "대원외고",
+  hanyoung: "한영외고",
+  general: "일반고",
+};
+
+function schoolToTabParam(school: SchoolKey): string {
+  if (school === "대원외고") return "daewon";
+  if (school === "한영외고") return "hanyoung";
+  return "general";
+}
+
+const SCHOOL_ACCENT: Record<SchoolKey, string> = {
+  대원외고: "bg-withus-accent-blue",
+  한영외고: "bg-withus-accent-green",
+  일반고: "bg-withus-accent-gold",
+};
+
 const teacherImageMap: Record<string, string> = {
   강성현: "/profile/kang_sh_science.png",
   김경숙: "/profile/kim_ks_japanese.png",
@@ -36,8 +55,11 @@ const imagePathFallbackMap: Record<string, string[]> = {
   "/profile/lee_ys_english.png": ["/profile/lee_ys_english..png"],
 };
 
-/** 선생님 이미지가 없거나 로드 실패 시 사용하는 기본 프로필 이미지 */
 const DEFAULT_PROFILE_IMAGE = "/profile/profile.jpg";
+
+function koreanSort(a: string, b: string): number {
+  return a.localeCompare(b, "ko");
+}
 
 function InstructorCard({ instructor }: { instructor: Instructor }) {
   const listId = useId();
@@ -57,33 +79,27 @@ function InstructorCard({ instructor }: { instructor: Instructor }) {
   const imageSrc = imageCandidates[imageCandidateIndex];
   const shouldShowImage = Boolean(imageSrc) && !isImageError;
 
-  // If source changes (or hot reload updates mappings), retry image loading.
   useEffect(() => {
     setIsImageError(false);
     setDefaultImageFailed(false);
     setImageCandidateIndex(0);
   }, [instructor.name, imageCandidates.length]);
 
+  const accentClass = SCHOOL_ACCENT[instructor.school] ?? "bg-withus-accent-blue";
+
   return (
     <article
-      className="relative overflow-hidden rounded-2xl border border-slate-100 bg-white p-5 shadow-[0_1px_3px_rgba(0,49,183,0.04)] transition-shadow hover:shadow-[0_4px_12px_rgba(0,49,183,0.08)] sm:p-6"
+      className="relative overflow-hidden rounded border border-black/10 bg-white p-5 shadow-sm transition-shadow hover:shadow-md sm:p-6"
       aria-labelledby={`${listId}-name`}
     >
-      {/* 좌측 악센트 라인 */}
-      <div className="absolute left-0 top-6 bottom-6 w-0.5 rounded-full bg-gradient-to-b from-withus-gold to-withus-navy opacity-80" aria-hidden />
+      <div className={`absolute -left-px -top-px -bottom-px w-[5px] ${accentClass}`} aria-hidden />
 
-      {/* 우측 상단: 과목 박스 (PC에서만 절대 위치, 모바일은 이름 옆에 표시) */}
-      <div className="absolute right-4 top-4 hidden sm:block sm:right-5 sm:top-5">
-        <span className="inline-block rounded-lg border border-withus-navy/20 bg-withus-navy/5 px-3 py-1.5 font-sans text-sm font-medium text-withus-navy">
-          {instructor.subject}
-        </span>
-      </div>
-
-      <div className="flex flex-col gap-4 sm:flex-row sm:gap-5 sm:pr-28 sm:pl-1">
-        {/* 아바타 */}
-        <div className="flex shrink-0">
-          <div className="relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-slate-50 to-slate-100 ring-1 ring-slate-100 sm:h-16 sm:w-16">
+      <div className="flex gap-6 sm:gap-8">
+        {/* 프로필 사진 */}
+        <div className="shrink-0">
+          <div className="relative flex h-32 w-32 items-center justify-center overflow-hidden rounded-lg bg-withus-bg ring-1 ring-withus-bg-hover sm:h-40 sm:w-40 md:h-48 md:w-48">
             {shouldShowImage ? (
+              /* eslint-disable-next-line @next/next/no-img-element */
               <img
                 key={imageSrc}
                 src={imageSrc!}
@@ -99,10 +115,11 @@ function InstructorCard({ instructor }: { instructor: Instructor }) {
                 }}
               />
             ) : defaultImageFailed ? (
-              <span className="text-[10px] font-medium text-slate-400" aria-hidden>
+              <span className="text-xs font-medium text-withus-navy-200" aria-hidden>
                 Photo
               </span>
             ) : (
+              /* eslint-disable-next-line @next/next/no-img-element */
               <img
                 src={DEFAULT_PROFILE_IMAGE}
                 alt=""
@@ -113,28 +130,23 @@ function InstructorCard({ instructor }: { instructor: Instructor }) {
           </div>
         </div>
 
-        {/* 이름 + 과목(모바일) + 이력: 모바일에서 이력이 카드 전체 폭으로 읽기 편하게 */}
+        {/* 정보 */}
         <div className="min-w-0 flex-1">
           <div className="mb-2 flex flex-wrap items-center gap-2 sm:mb-3">
             <h3
               id={`${listId}-name`}
-              className="font-serif text-base font-bold tracking-tight text-[#0a1e40] sm:text-lg"
+              className="font-gmarket text-lg font-bold tracking-tight text-withus-navy sm:text-xl md:text-2xl"
             >
               {instructor.name} 선생님
-              {instructor.language && (
-                <span className="ml-1.5 font-sans text-sm font-medium text-slate-500">
-                  ({instructor.language})
-                </span>
-              )}
             </h3>
-            <span className="rounded-lg border border-withus-navy/20 bg-withus-navy/5 px-3 py-1 font-sans text-xs font-medium text-withus-navy sm:hidden">
+            <span className="rounded border border-withus-bg-hover bg-withus-bg px-3 py-1 font-sans text-sm font-medium text-withus-navy-500 md:text-base">
               {instructor.subject}
             </span>
           </div>
-          <ul className="space-y-1.5 font-sans text-sm leading-relaxed text-slate-600" aria-label="이력">
+          <ul className="space-y-1.5 font-sans text-base leading-relaxed text-withus-navy-500 md:text-lg" aria-label="이력">
             {instructor.info.map((item, i) => (
               <li key={i} className="flex gap-2.5">
-                <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-slate-300" aria-hidden />
+                <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-withus-navy-200" aria-hidden />
                 <span>{item}</span>
               </li>
             ))}
@@ -146,26 +158,34 @@ function InstructorCard({ instructor }: { instructor: Instructor }) {
 }
 
 export default function InstructorList() {
-  const [activeSchool, setActiveSchool] = useState<SchoolKey | "전체">("전체");
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const tab = searchParams.get("tab");
+  const activeSchool: SchoolKey =
+    tab && tab in TAB_TO_SCHOOL ? TAB_TO_SCHOOL[tab as keyof typeof TAB_TO_SCHOOL] : DEFAULT_SCHOOL;
+
+  const setSchoolFromUi = (school: SchoolKey) => {
+    router.replace(`${pathname}?tab=${schoolToTabParam(school)}`, { scroll: false });
+  };
+
   const [activeSubject, setActiveSubject] = useState<SubjectKey | "전체">("전체");
-  const [searchName, setSearchName] = useState("");
 
-  const normalizedSearch = searchName.trim().toLowerCase();
+  useEffect(() => {
+    setActiveSubject("전체");
+  }, [activeSchool]);
 
-  const filteredInstructors = instructors.filter((i) => {
-    const matchSchool = activeSchool === "전체" || i.school === activeSchool;
-    const matchSubject = activeSubject === "전체" || i.subject === activeSubject;
-    const matchName =
-      !normalizedSearch || i.name.toLowerCase().includes(normalizedSearch);
-    return matchSchool && matchSubject && matchName;
-  });
+  const filteredInstructors = instructors
+    .filter((i) => {
+      const matchSchool = i.school === activeSchool;
+      const matchSubject = activeSubject === "전체" || i.subject === activeSubject;
+      return matchSchool && matchSubject;
+    })
+    .sort((a, b) => koreanSort(a.name, b.name));
 
   const subjectsInSchool = Array.from(
-    new Set(
-      activeSchool === "전체"
-        ? instructors.map((i) => i.subject)
-        : instructors.filter((i) => i.school === activeSchool).map((i) => i.subject)
-    )
+    new Set(instructors.filter((i) => i.school === activeSchool).map((i) => i.subject))
   ).sort((a, b) => {
     const ia = SUBJECTS.indexOf(a as SubjectKey);
     const ib = SUBJECTS.indexOf(b as SubjectKey);
@@ -173,38 +193,37 @@ export default function InstructorList() {
   });
 
   return (
-    <section className="min-h-screen bg-withus-cream/40 px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
-      <div className="mx-auto max-w-3xl">
-        {/* 헤더 */}
-        <header className="mb-10 text-center sm:mb-12">
-          <h1 className="font-sans text-2xl font-bold tracking-tight text-[#0a1e40] md:text-3xl lg:text-4xl">
+    <section className="min-h-screen bg-withus-bg px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+      <div className="mx-auto max-w-6xl">
+        <header className="mb-6 text-center sm:mb-8">
+          <h1 className="font-gmarket text-2xl font-bold tracking-tight text-withus-navy md:text-3xl lg:text-4xl">
             학교별 전문 강사님을 소개합니다.
           </h1>
         </header>
 
-        {/* 필터 패널 */}
-        <div className="mb-8 rounded-2xl border border-slate-100 bg-white p-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)] sm:p-6">
+        {/* 필터 영역 */}
+        <div className="mb-6 rounded border border-black/10 bg-white p-5 shadow-sm sm:p-6">
           {/* 학교 선택 */}
           <div className="mb-5">
-            <p className="mb-2.5 font-sans text-xs font-medium uppercase tracking-wider text-slate-400 sm:text-sm">
+            <p className="mb-2.5 font-sans text-sm font-semibold text-withus-navy-300 md:text-base">
               학교 선택
             </p>
             <div
-              className="inline-flex rounded-xl bg-slate-50 p-1 ring-1 ring-slate-100"
+              className="inline-flex flex-wrap gap-1.5 rounded bg-withus-bg p-1 ring-1 ring-withus-bg-hover"
               role="tablist"
               aria-label="학교 선택"
             >
-              {SCHOOL_OPTIONS.map((school) => (
+              {SCHOOLS.map((school) => (
                 <button
                   key={school}
                   type="button"
                   role="tab"
                   aria-selected={activeSchool === school}
-                  onClick={() => setActiveSchool(school)}
-                  className={`rounded-lg px-4 py-2.5 font-sans text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-withus-navy/30 focus:ring-offset-2 focus:ring-offset-white sm:px-5 ${
+                  onClick={() => setSchoolFromUi(school)}
+                  className={`rounded px-5 py-2.5 font-gmarket text-base font-medium transition-all focus:outline-none focus:ring-2 focus:ring-withus-cta/30 focus:ring-offset-2 focus:ring-offset-white sm:px-6 md:text-lg ${
                     activeSchool === school
                       ? "bg-withus-navy text-white shadow-sm"
-                      : "text-slate-600 hover:bg-slate-100 hover:text-slate-800"
+                      : "text-withus-navy-500 hover:bg-withus-bg-hover hover:text-withus-navy"
                   }`}
                 >
                   {school}
@@ -213,69 +232,58 @@ export default function InstructorList() {
             </div>
           </div>
 
-          {/* 과목 필터 */}
+          {/* 과목 선택 (버튼 나열) */}
           <div>
-            <label htmlFor="instructor-subject" className="mb-2.5 block font-sans text-xs font-medium uppercase tracking-wider text-slate-400 sm:text-sm">
+            <p className="mb-2.5 font-sans text-sm font-semibold text-withus-navy-300 md:text-base">
               과목
-            </label>
-            <div className="relative w-full max-w-xs">
-              <select
-                id="instructor-subject"
-                value={activeSubject}
-                onChange={(e) => setActiveSubject((e.target.value || "전체") as SubjectKey | "전체")}
-                className="w-full cursor-pointer appearance-none rounded-xl border border-slate-200 bg-gradient-to-b from-white to-slate-50/80 py-3 pl-4 pr-11 font-sans text-sm font-medium text-slate-700 shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-all focus:border-withus-navy focus:outline-none focus:ring-2 focus:ring-withus-navy/20 focus:ring-offset-0"
+            </p>
+            <div className="flex flex-wrap gap-2" role="tablist" aria-label="과목 선택">
+              <button
+                type="button"
+                role="tab"
+                aria-selected={activeSubject === "전체"}
+                onClick={() => setActiveSubject("전체")}
+                className={`rounded px-4 py-2 font-sans text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-withus-cta/30 focus:ring-offset-2 focus:ring-offset-white md:text-base ${
+                  activeSubject === "전체"
+                    ? "bg-withus-navy text-white shadow-sm"
+                    : "border border-withus-bg-hover bg-white text-withus-navy-500 hover:bg-withus-bg-hover hover:text-withus-navy"
+                }`}
               >
-                <option value="전체">전체 과목</option>
-                {subjectsInSchool.map((sub) => (
-                  <option key={sub} value={sub}>
-                    {sub}
-                  </option>
-                ))}
-              </select>
-              <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
-                <ChevronDown className="h-5 w-5" strokeWidth={2} aria-hidden />
-              </span>
+                전체
+              </button>
+              {subjectsInSchool.map((sub) => (
+                <button
+                  key={sub}
+                  type="button"
+                  role="tab"
+                  aria-selected={activeSubject === sub}
+                  onClick={() => setActiveSubject(sub as SubjectKey)}
+                  className={`rounded px-4 py-2 font-sans text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-withus-cta/30 focus:ring-offset-2 focus:ring-offset-white md:text-base ${
+                    activeSubject === sub
+                      ? "bg-withus-navy text-white shadow-sm"
+                      : "border border-withus-bg-hover bg-white text-withus-navy-500 hover:bg-withus-bg-hover hover:text-withus-navy"
+                  }`}
+                >
+                  {sub}
+                </button>
+              ))}
             </div>
-          </div>
-
-          {/* 이름 검색 */}
-          <div className="mt-5">
-            <label
-              htmlFor="instructor-name-search"
-              className="mb-2.5 block font-sans text-xs font-medium uppercase tracking-wider text-slate-400 sm:text-sm"
-            >
-              선생님 이름 검색
-            </label>
-            <input
-              id="instructor-name-search"
-              type="text"
-              value={searchName}
-              onChange={(e) => setSearchName(e.target.value)}
-              placeholder="선생님 이름을 입력하세요"
-              className="w-full max-w-xs rounded-xl border border-slate-200 bg-gradient-to-b from-white to-slate-50/80 px-4 py-3 font-sans text-sm text-slate-700 shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-all focus:border-withus-navy focus:outline-none focus:ring-2 focus:ring-withus-navy/20 focus:ring-offset-0"
-            />
           </div>
         </div>
 
-        {/* 카드 리스트: 1열로 읽기 편하게 */}
-        <ul className="space-y-4 sm:space-y-5">
+        {/* 강사 목록 */}
+        <div className="space-y-4 sm:space-y-5">
           {filteredInstructors.map((instructor, index) => (
-            <li key={`${instructor.school}-${instructor.subject}-${instructor.name}-${index}`}>
-              <InstructorCard instructor={instructor} />
-            </li>
+            <InstructorCard
+              key={`${instructor.school}-${instructor.subject}-${instructor.name}-${index}`}
+              instructor={instructor}
+            />
           ))}
-        </ul>
+        </div>
 
         {filteredInstructors.length === 0 && (
-          <div className="rounded-2xl border border-slate-100 bg-white py-16 text-center shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
-            <p className="font-sans text-slate-500">해당 조건의 강사가 없습니다.</p>
-            <button
-              type="button"
-              onClick={() => setActiveSubject("전체")}
-              className="mt-4 rounded-lg border border-withus-navy/30 bg-white px-4 py-2 font-sans text-sm font-medium text-withus-navy transition-colors hover:bg-withus-navy/5"
-            >
-              전체 과목 보기
-            </button>
+          <div className="rounded border border-black/10 bg-white py-16 text-center shadow-sm">
+            <p className="font-sans text-lg text-withus-navy-300">해당 조건의 강사가 없습니다.</p>
           </div>
         )}
       </div>

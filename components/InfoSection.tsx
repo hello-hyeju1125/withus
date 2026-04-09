@@ -1,17 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
+import { ArrowRight } from "lucide-react";
 import ConsultationModal from "@/components/ConsultationModal";
-import SMSBanner from "@/components/SMSBanner";
 
-const iconSize = 28;
-
-const INFO_LINK_BUTTONS = [
-  { label: "강사진 소개", href: "/instructors", iconSrc: "/asset/icon_teacher.svg" },
-  { label: "근무시간", href: "/hours", iconSrc: "/asset/icont_time.svg" },
-  { label: "교육관 안내", href: "/campus", iconSrc: "/asset/icon_location.svg" },
-] as const;
+const SMS_FORM_URL =
+  "https://docs.google.com/forms/d/1Avu-t9dSlfYuGvpNOul_p6mBiqVnz2zJvp2zZhkXZ_k/viewform?edit_requested=true";
 
 export default function InfoSection() {
   const [consultationOpen, setConsultationOpen] = useState(false);
@@ -19,58 +13,50 @@ export default function InfoSection() {
   return (
     <div className="w-full min-w-0">
       <section className="min-w-0 px-4 py-3 sm:px-6 sm:py-4 lg:px-8" aria-label="안내 메뉴">
-        <div className="mx-auto max-w-7xl min-w-0 space-y-6 sm:space-y-8">
-          {/* 공통 배너 형태: 동일 레이아웃·패딩·버튼 크기, 색만 구분 */}
+        <div className="mx-auto max-w-7xl min-w-0">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
 
-          {/* 입학·상담 문의 배너 */}
-          <div className="relative min-w-0 overflow-hidden rounded-2xl bg-gradient-to-r from-[#002761] via-[#003380] to-[#002761] px-5 py-4 shadow-[0_10px_40px_rgba(0,39,97,0.2)] sm:px-6 sm:py-5">
-            <div className="relative flex min-w-0 flex-col items-center justify-between gap-4 sm:flex-row sm:gap-6">
-              <div className="flex min-w-0 flex-1 items-center gap-4 text-left">
-                {/* 상담 문의 아이콘: 헤드셋(고객상담), 흰색·간결 */}
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center text-white sm:h-14 sm:w-14" aria-hidden>
-                  <svg className="h-7 w-7 sm:h-9 sm:w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
-                    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
-                  </svg>
-                </span>
-                <div className="min-w-0">
-                  <p className="text-lg font-bold text-white sm:text-xl">입학·상담 문의</p>
-                  <p className="mt-0.5 text-sm text-white/85 sm:text-base">전화·문자 상담 신청을 남겨주시면 안내해 드립니다.</p>
-                </div>
+            <button
+              type="button"
+              onClick={() => setConsultationOpen(true)}
+              className="group relative flex items-center gap-5 overflow-hidden rounded border-2 border-withus-navy bg-[#E8EBF0] p-5 text-left transition-all duration-300 hover:-translate-y-0.5 hover:bg-withus-navy hover:shadow-md sm:p-6"
+            >
+              <span className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-withus-navy shadow-sm transition-colors duration-300 group-hover:bg-white sm:h-14 sm:w-14">
+                <svg className="h-6 w-6 text-white transition-colors duration-300 group-hover:text-withus-navy sm:h-7 sm:w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+                </svg>
+              </span>
+
+              <div className="relative min-w-0 flex-1">
+                <p className="text-lg font-bold text-withus-navy transition-colors duration-300 group-hover:text-white sm:text-xl md:text-2xl"><span className="font-gmarket">입학 상담</span><span className="ml-4 text-sm font-normal text-withus-navy-300 transition-colors duration-300 group-hover:text-white/70 sm:text-base">전화·문자로 빠르게 안내해 드려요</span></p>
               </div>
-              <button
-                type="button"
-                onClick={() => setConsultationOpen(true)}
-                className="w-full shrink-0 rounded-xl px-6 py-3.5 text-lg font-bold shadow-lg transition-all duration-200 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 sm:w-auto sm:min-w-[180px] sm:px-8 sm:py-4 bg-[#FEF600] text-[#002761] hover:bg-[#FEF600]/95 hover:shadow-[0_12px_28px_rgba(254,246,0,0.35)] focus-visible:outline-withus-gold"
-              >
-                상담 문의하기
-              </button>
-            </div>
-          </div>
 
-          {/* 학습에 필요한 정보를 문자로 알려드립니다! */}
-          <SMSBanner nested />
+              <span className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-withus-navy shadow-sm transition-all duration-300 group-hover:scale-110 group-hover:bg-white group-hover:shadow-md sm:h-11 sm:w-11">
+                <ArrowRight className="h-5 w-5 text-white transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-withus-navy" strokeWidth={2.5} aria-hidden />
+              </span>
+            </button>
 
-          {/* 강사진 소개 · 근무시간 · 교육관 안내 */}
-          <div className="grid grid-cols-1 gap-3 pt-2 sm:grid-cols-3 sm:gap-4 sm:pt-4">
-            {INFO_LINK_BUTTONS.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="group flex flex-col items-center justify-center rounded-2xl border border-slate-200/80 bg-[#f2f6fb] py-4 text-center shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[#002761] hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-withus-gold sm:py-5"
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={item.iconSrc}
-                  alt=""
-                  className="mb-2 h-7 w-7 shrink-0 object-contain transition-transform duration-300 group-hover:scale-110"
-                  width={iconSize}
-                  height={iconSize}
-                  aria-hidden
-                />
-                <span className="text-sm font-semibold text-withus-navy sm:text-base">{item.label}</span>
-              </Link>
-            ))}
+            <a
+              href={SMS_FORM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative flex items-center gap-5 overflow-hidden rounded border-2 border-withus-navy bg-[#E8EBF0] p-5 text-left transition-all duration-300 hover:-translate-y-0.5 hover:bg-withus-navy hover:shadow-md sm:p-6"
+            >
+              <span className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-withus-navy shadow-sm transition-colors duration-300 group-hover:bg-white sm:h-14 sm:w-14">
+                <svg className="h-6 w-6 text-white transition-colors duration-300 group-hover:text-withus-navy sm:h-7 sm:w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg>
+              </span>
+
+              <div className="relative min-w-0 flex-1">
+                <p className="text-lg font-bold text-withus-navy transition-colors duration-300 group-hover:text-white sm:text-xl md:text-2xl"><span className="font-gmarket">문자 수신 등록</span><span className="ml-4 text-sm font-normal text-withus-navy-300 transition-colors duration-300 group-hover:text-white/70 sm:text-base">설명회·입시 소식을 먼저 받아보세요</span></p>
+              </div>
+
+              <span className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-withus-navy shadow-sm transition-all duration-300 group-hover:scale-110 group-hover:bg-white group-hover:shadow-md sm:h-11 sm:w-11">
+                <ArrowRight className="h-5 w-5 text-white transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-withus-navy" strokeWidth={2.5} aria-hidden />
+              </span>
+            </a>
+
           </div>
         </div>
       </section>

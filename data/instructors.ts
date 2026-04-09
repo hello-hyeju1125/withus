@@ -1,8 +1,8 @@
 /**
- * 강사 소개 데이터 - 대원외고 / 한영외고 구분
+ * 강사 소개 데이터 - 대원외고 / 한영외고 / 일반고 구분
  */
 
-export type SchoolKey = "대원외고" | "한영외고";
+export type SchoolKey = "대원외고" | "한영외고" | "일반고";
 
 export interface Instructor {
   school: SchoolKey;
@@ -334,7 +334,7 @@ export const instructors: Instructor[] = [
 ];
 
 /** 학교 필터 옵션 */
-export const SCHOOLS: readonly SchoolKey[] = ["대원외고", "한영외고"] as const;
+export const SCHOOLS: readonly SchoolKey[] = ["대원외고", "한영외고", "일반고"] as const;
 
 /** 필터에 사용할 과목 목록 (실제 데이터 기준) */
 export const SUBJECTS = [

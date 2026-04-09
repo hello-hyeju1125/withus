@@ -4,8 +4,6 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 
-const DEEP_NAVY = "#0a1e40";
-
 export interface BriefingItem {
   id: string;
   title: string;
@@ -82,20 +80,20 @@ export default function BriefingList({
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center gap-4 rounded-lg border border-cool-gray-200 bg-white py-16">
+      <div className="flex flex-col items-center justify-center gap-4 rounded-lg border border-withus-bg-hover bg-white py-16">
         <div
           className="h-10 w-10 animate-spin rounded-full border-2 border-withus-navy border-t-transparent"
           aria-hidden
         />
-        <p className="text-sm text-slate-500">설명회를 불러오는 중...</p>
+        <p className="text-sm text-withus-navy-300">설명회를 불러오는 중...</p>
       </div>
     );
   }
 
   if (items.length === 0) {
     return (
-      <div className="overflow-hidden rounded-lg border border-cool-gray-200 bg-white shadow-sm">
-        <div className="py-16 text-center text-sm text-slate-500">
+      <div className="overflow-hidden rounded-lg border border-withus-bg-hover bg-white shadow-sm">
+        <div className="py-16 text-center text-sm text-withus-navy-300">
           등록된 설명회가 없습니다.
         </div>
       </div>
@@ -103,15 +101,15 @@ export default function BriefingList({
   }
 
   return (
-    <div className="overflow-hidden rounded-lg border border-cool-gray-200 bg-white shadow-sm">
+    <div className="overflow-hidden rounded-lg border border-withus-bg-hover bg-white shadow-sm">
       {/* 헤더 */}
-      <div className="grid grid-cols-[auto_1fr_auto] gap-3 border-b border-cool-gray-200 bg-cool-gray-50/60 px-4 py-3 text-sm font-semibold text-cool-gray-600 md:grid-cols-[60px_1fr_100px]">
+      <div className="grid grid-cols-[auto_1fr_auto] gap-3 border-b border-withus-bg-hover bg-withus-bg px-4 py-3 text-sm font-semibold text-withus-navy-300 md:grid-cols-[60px_1fr_100px]">
         <span className="w-8 shrink-0 md:w-[60px]">번호</span>
         <span className="min-w-0">제목</span>
         <span className="hidden shrink-0 md:block">작성자</span>
       </div>
 
-      <ul className="divide-y divide-cool-gray-100">
+      <ul className="divide-y divide-withus-bg-hover">
         {items.map((item, index) => {
           const isOpen = openId === item.id;
           const displayNumber = index + 1;
@@ -120,26 +118,25 @@ export default function BriefingList({
               <button
                 type="button"
                 onClick={(e) => handleTitleClick(item.id, e.currentTarget)}
-                className="scroll-mt-[170px] grid w-full grid-cols-[auto_1fr_auto] gap-2 border-b border-cool-gray-100 bg-white px-4 py-3 text-left transition-all duration-200 hover:bg-cool-gray-50/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-withus-gold md:grid-cols-[60px_1fr_100px] md:gap-3"
+                className="scroll-mt-[170px] grid w-full grid-cols-[auto_1fr_auto] gap-2 border-b border-withus-bg-hover bg-white px-4 py-3 text-left transition-all duration-200 hover:bg-withus-bg focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-withus-cta md:grid-cols-[60px_1fr_100px] md:gap-3"
                 aria-expanded={isOpen}
                 aria-controls={`briefing-content-${item.id}`}
                 id={`briefing-trigger-${item.id}`}
               >
-                <span className="w-8 shrink-0 text-sm text-cool-gray-500 md:w-[60px] md:text-base">
+                <span className="w-8 shrink-0 text-sm text-withus-navy-300 md:w-[60px] md:text-base">
                   {displayNumber}
                 </span>
                 <span
-                  className="min-w-0 truncate text-left text-sm font-medium md:text-base"
-                  style={{ color: DEEP_NAVY }}
+                  className="min-w-0 truncate text-left text-sm font-medium text-withus-navy md:text-base"
                 >
                   {item.title}
                 </span>
                 <span className="flex shrink-0 items-center justify-end gap-2">
-                  <span className="hidden text-sm text-cool-gray-500 md:inline">
+                  <span className="hidden text-sm text-withus-navy-300 md:inline">
                     {item.author}
                   </span>
                   <ChevronDown
-                    className="h-5 w-5 shrink-0 text-cool-gray-400 transition-transform duration-300"
+                    className="h-5 w-5 shrink-0 text-withus-navy-300 transition-transform duration-300"
                     style={{
                       transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
                     }}
@@ -149,7 +146,7 @@ export default function BriefingList({
               </button>
 
               <div className="px-4 pb-2 md:hidden">
-                <span className="text-xs text-cool-gray-500">
+                <span className="text-xs text-withus-navy-300">
                   작성자: {item.author}
                 </span>
               </div>
@@ -164,10 +161,10 @@ export default function BriefingList({
                 }}
               >
                 <div className="min-h-0 overflow-hidden">
-                  <div className="border-b border-cool-gray-100 bg-cool-gray-50/40 px-4 py-5">
+                  <div className="border-b border-withus-bg-hover bg-withus-bg px-4 py-5">
                     <div className="space-y-4">
                       {item.imageUrl && (
-                        <div className="relative w-full overflow-hidden rounded-lg border border-cool-gray-200 bg-white">
+                        <div className="relative w-full overflow-hidden rounded-lg border border-withus-bg-hover bg-white">
                           <Image
                             src={item.imageUrl}
                             alt={item.title}
@@ -179,11 +176,11 @@ export default function BriefingList({
                         </div>
                       )}
                       {item.content ? (
-                        <div className="rounded-lg border border-cool-gray-200 bg-white p-6 text-sm leading-relaxed text-cool-gray-800">
+                        <div className="rounded-lg border border-withus-bg-hover bg-white p-6 text-sm leading-relaxed text-withus-navy-500">
                           {formatContent(item.content)}
                         </div>
                       ) : !item.imageUrl ? (
-                        <div className="rounded-lg border border-dashed border-cool-gray-200 bg-white p-6 text-center text-sm text-cool-gray-500">
+                        <div className="rounded-lg border border-dashed border-withus-bg-hover bg-white p-6 text-center text-sm text-withus-navy-300">
                           상세 내용이 없습니다.
                         </div>
                       ) : null}

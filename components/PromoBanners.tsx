@@ -58,7 +58,7 @@ function BannerSlot({
   caption: string;
 }) {
   const content = (
-    <div className="group/banner relative aspect-[3/1] w-full overflow-hidden rounded-2xl shadow-md ring-1 ring-black/5">
+    <div className="group/banner relative aspect-[3/1] w-full overflow-hidden rounded shadow-md ring-1 ring-black/5">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={src}
@@ -66,13 +66,12 @@ function BannerSlot({
         className="h-full w-full object-cover"
       />
       <div
-        className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/20 px-4 pt-5 transition-colors duration-300 group-hover/banner:bg-black/30"
-        style={{ fontFamily: "var(--font-gmarket)" }}
+        className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-withus-navy/30 px-4 pt-5 transition-colors duration-300 group-hover/banner:bg-withus-navy/40"
       >
-        <span className="text-center text-[1.35rem] font-medium text-white drop-shadow-md sm:text-[1.5rem] md:text-[1.8rem]">
+        <span className="font-gmarket text-center text-[1.6rem] font-medium text-white drop-shadow-md sm:text-[1.8rem] md:text-[2.2rem]">
           {caption}
         </span>
-        <span className="rounded-full bg-white/90 px-4 py-2 text-sm font-semibold text-[#002761] shadow-md transition-colors duration-300 group-hover/banner:bg-white sm:px-5 sm:py-2.5 sm:text-base">
+        <span className="font-gmarket rounded-full bg-white/90 px-4 py-2 text-base font-semibold text-withus-navy shadow-md transition-colors duration-300 group-hover/banner:bg-white sm:px-6 sm:py-3 sm:text-lg">
           시간표 바로 가기
         </span>
       </div>
@@ -82,7 +81,7 @@ function BannerSlot({
   return (
     <Link
       href={href}
-      className="block cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-withus-gold focus-visible:rounded-2xl"
+      className="block min-w-0 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-withus-cta focus-visible:rounded"
     >
       {content}
     </Link>
@@ -98,11 +97,10 @@ export default function PromoBanners() {
   return (
     <section className="min-w-0 px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
       <div className="mx-auto max-w-7xl min-w-0 overflow-hidden">
-        {/* Slider: 2 banners per page, 3 pages total (6 banners), slide on arrow */}
-        <div className="overflow-hidden rounded-2xl">
+        <div className="min-w-0 overflow-hidden rounded">
           <div
-            className="flex w-[300%] transition-transform duration-300 ease-out"
-            style={{ transform: `translateX(-${currentPage * (100 / 3)}%)` }}
+            className="flex min-w-0 w-[300%] transition-transform duration-300 ease-out"
+            style={{ transform: `translateX(-${currentPage * (100 / TOTAL_PAGES)}%)` }}
           >
             {Array.from({ length: TOTAL_PAGES }, (_, pageIndex) => {
               const start = pageIndex * BANNERS_PER_PAGE;
@@ -110,10 +108,10 @@ export default function PromoBanners() {
               return (
                 <div
                   key={pageIndex}
-                  className="grid w-1/3 flex-shrink-0 grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4"
+                  className="grid min-w-0 w-1/3 shrink-0 grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4"
                 >
                   {pageBanners.map((banner) => (
-                    <div key={banner.src} className="lg:col-span-2">
+                    <div key={banner.src} className="min-w-0 lg:col-span-2">
                       <BannerSlot
                         src={banner.src}
                         alt={banner.alt}
@@ -128,25 +126,24 @@ export default function PromoBanners() {
           </div>
         </div>
 
-        {/* Navigation controls - below slider, centered */}
         <div className="mt-3 flex items-center justify-center gap-4 sm:mt-4">
           <button
             type="button"
             onClick={goPrev}
             disabled={currentPage === 0}
-            className="flex h-9 w-9 items-center justify-center rounded-full text-[#002761] transition-colors hover:bg-[#002761]/10 disabled:opacity-40 disabled:hover:bg-transparent"
+            className="flex h-9 w-9 items-center justify-center rounded-full text-withus-navy transition-colors hover:bg-withus-bg-hover disabled:opacity-40 disabled:hover:bg-transparent"
             aria-label="이전 배너"
           >
             <ChevronLeft className="h-5 w-5" strokeWidth={2} />
           </button>
-          <span className="min-w-[4rem] text-center text-sm font-medium text-[#002761] tabular-nums">
+          <span className="min-w-[4rem] text-center text-sm font-medium text-withus-navy tabular-nums">
             {currentPage + 1} / {TOTAL_PAGES}
           </span>
           <button
             type="button"
             onClick={goNext}
             disabled={currentPage === TOTAL_PAGES - 1}
-            className="flex h-9 w-9 items-center justify-center rounded-full text-[#002761] transition-colors hover:bg-[#002761]/10 disabled:opacity-40 disabled:hover:bg-transparent"
+            className="flex h-9 w-9 items-center justify-center rounded-full text-withus-navy transition-colors hover:bg-withus-bg-hover disabled:opacity-40 disabled:hover:bg-transparent"
             aria-label="다음 배너"
           >
             <ChevronRight className="h-5 w-5" strokeWidth={2} />

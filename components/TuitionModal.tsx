@@ -42,14 +42,14 @@ export default function TuitionModal({ isOpen, onClose }: Props) {
       />
       {/* Modal panel */}
       <div className="relative flex max-h-[90vh] w-full max-w-4xl flex-col rounded-xl bg-white shadow-xl">
-        <div className="flex shrink-0 items-center justify-between border-b border-slate-200 px-5 py-4">
-          <h2 id="tuition-modal-title" className="text-lg font-bold text-slate-800">
+        <div className="flex shrink-0 items-center justify-between border-b border-withus-bg-hover px-5 py-4">
+          <h2 id="tuition-modal-title" className="text-lg font-bold text-withus-navy">
             교습비
           </h2>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg p-1.5 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700"
+            className="rounded-lg p-1.5 text-withus-navy-300 transition-colors hover:bg-withus-bg-hover hover:text-withus-navy"
             aria-label="닫기"
           >
             <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -64,7 +64,7 @@ export default function TuitionModal({ isOpen, onClose }: Props) {
                 key={src}
                 src={src}
                 alt={`교습비등 게시표 ${index + 1}`}
-                className="h-auto w-full rounded-lg border border-slate-200 object-contain"
+                className="h-auto w-full rounded-lg border border-withus-bg-hover object-contain"
               />
             ))}
           </div>

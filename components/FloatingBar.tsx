@@ -9,7 +9,7 @@ const FLOATING_ITEMS = [
     href: "https://docs.google.com/forms/d/1Avu-t9dSlfYuGvpNOul_p6mBiqVnz2zJvp2zZhkXZ_k/viewform?edit_requested=true",
     external: true,
     icon: (
-      <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+      <svg className="h-5 w-5 shrink-0 sm:h-6 sm:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
       </svg>
     ),
@@ -21,7 +21,7 @@ export default function FloatingBar() {
     if (typeof window === "undefined") return false;
     try {
       const stored = window.localStorage.getItem("withus-floating-bar-collapsed");
-      if (stored === null) return false; // 기본값: 열림
+      if (stored === null) return false;
       return stored === "true";
     } catch {
       return false;
@@ -38,7 +38,7 @@ export default function FloatingBar() {
   }, [collapsed]);
 
   const consultationIcon = (
-    <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+    <svg className="h-5 w-5 shrink-0 sm:h-6 sm:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -62,7 +62,7 @@ export default function FloatingBar() {
                 href={href}
                 target={external ? "_blank" : undefined}
                 rel={external ? "noopener noreferrer" : undefined}
-                className="flex items-center gap-2 rounded-full bg-[#002761] px-4 py-3 text-sm font-bold text-white shadow-md transition-colors hover:bg-[#002761]/90 hover:text-withus-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-withus-gold sm:px-5"
+                className="flex items-center gap-2.5 rounded-full bg-withus-cta px-5 py-3.5 text-base font-bold text-white shadow-lg transition-colors hover:bg-withus-cta-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-withus-cta sm:px-6 sm:py-4 sm:text-lg"
               >
                 {icon}
                 <span className="whitespace-nowrap">{label}</span>
@@ -71,7 +71,7 @@ export default function FloatingBar() {
             <button
               type="button"
               onClick={() => setConsultationOpen(true)}
-              className="flex items-center gap-2 rounded-full bg-[#002761] px-4 py-3 text-sm font-bold text-white shadow-md transition-colors hover:bg-[#002761]/90 hover:text-withus-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-withus-gold sm:px-5"
+              className="flex items-center gap-2.5 rounded-full bg-withus-cta px-5 py-3.5 text-base font-bold text-white shadow-lg transition-colors hover:bg-withus-cta-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-withus-cta sm:px-6 sm:py-4 sm:text-lg"
             >
               {consultationIcon}
               <span className="whitespace-nowrap">상담 문의</span>
@@ -81,7 +81,7 @@ export default function FloatingBar() {
         <button
           type="button"
           onClick={() => setCollapsed((c) => !c)}
-          className="flex h-12 w-12 items-center justify-center rounded-full bg-[#002761] text-white shadow-md transition-transform hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-withus-gold sm:h-14 sm:w-14"
+          className="flex h-12 w-12 items-center justify-center rounded-full bg-withus-cta text-white shadow-md transition-transform hover:scale-105 hover:bg-withus-cta-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-withus-cta sm:h-14 sm:w-14"
           aria-expanded={!collapsed}
           aria-label={collapsed ? "퀵 메뉴 열기" : "퀵 메뉴 닫기"}
         >
