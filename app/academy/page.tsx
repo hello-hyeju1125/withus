@@ -20,10 +20,10 @@ const galleryImages = [
 
 export default function AcademyPage() {
   return (
-    <div className="min-h-screen bg-cool-gray-50/50">
+    <div className="min-h-screen bg-withus-bg">
       <div className="mx-auto max-w-7xl px-4 py-12">
         <header className="mb-16 text-center">
-          <p className="font-sans text-2xl font-bold tracking-tight text-[#0a1e40] md:text-3xl lg:text-4xl">
+          <p className="font-sans text-2xl font-bold tracking-tight text-withus-navy md:text-3xl lg:text-4xl">
             위더스 학원을 소개합니다.
           </p>
         </header>

@@ -6,11 +6,18 @@
 @tailwind utilities;
 
 :root {
-  --withus-navy: #0031B7;
-  --withus-gold: #FEF600;
-  --withus-cream: #faf9f6;
+  --withus-navy-900: #0F1A2E;
+  --withus-navy-700: #1E2D45;
+  --withus-navy-500: #3A4D68;
+  --withus-navy-300: #6B7A8D;
+  --withus-navy-200: #8896A6;
+  --withus-bg: #F7F8FA;
+  --withus-bg-hover: #EDF0F5;
+  --withus-cta: #3B82F6;
+  --withus-cta-hover: #2563EB;
+  --withus-cta-tint: #EFF6FF;
   --font-gmarket: "Gmarket Sans", sans-serif;
-  --body-bg: #f8fafb;
+  --body-bg: #F7F8FA;
 }
 
 html {
@@ -21,7 +28,7 @@ html {
 
 body {
   background-color: var(--body-bg);
-  color: var(--withus-navy);
+  color: var(--withus-navy-500);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: "Pretendard", system-ui, sans-serif;
@@ -30,7 +37,6 @@ body {
   overflow-x: hidden;
 }
 
-/* 텍스트 영역만 단어 깨짐 방지 (span/button 제외해 레이아웃 깨짐 방지) */
 main,
 p,
 h1, h2, h3, h4, h5, h6,
@@ -40,7 +46,6 @@ label {
   overflow-wrap: break-word;
 }
 
-/* Premium focus states */
 *:focus-visible {
-  @apply outline-2 outline-offset-2 outline-withus-gold;
+  @apply outline-2 outline-offset-2 outline-withus-cta;
 }

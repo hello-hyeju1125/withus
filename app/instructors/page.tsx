@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import InstructorList from "@/components/InstructorList";
 
 export const metadata = {
@@ -6,5 +7,9 @@ export const metadata = {
 };
 
 export default function InstructorsPage() {
-  return <InstructorList />;
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-withus-bg" aria-hidden />}>
+      <InstructorList />
+    </Suspense>
+  );
 }

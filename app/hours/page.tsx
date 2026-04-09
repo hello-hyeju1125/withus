@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function HoursPage() {
   return (
-    <div className="min-h-screen bg-cool-gray-50/50">
+    <div className="min-h-screen bg-withus-bg">
       <BusinessHours />
     </div>
   );
