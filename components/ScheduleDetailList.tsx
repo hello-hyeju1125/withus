@@ -197,7 +197,7 @@ export default function ScheduleDetailList({ courses, fixedGrade }: Props) {
                     CATEGORY_DISPLAY_LABELS[normalizedCategory as DetailCategoryFilter] ??
                     normalizedCategory;
                   return (
-                    <span className="inline-flex items-center rounded bg-withus-navy px-4 py-1.5 text-base font-bold text-white shadow-sm md:text-lg">
+                    <span className="inline-flex items-center rounded bg-withus-navy px-5 py-2.5 text-xl font-bold text-white shadow-sm md:px-4 md:py-1.5 md:text-lg">
                       {displayLabel}
                     </span>
                   );
@@ -205,7 +205,7 @@ export default function ScheduleDetailList({ courses, fixedGrade }: Props) {
                 {(() => {
                   const profileImgSrc = resolveTeacherImageSrc(item.instructorName, item.profileImg);
                   return (
-                <div className="relative flex h-44 w-44 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg bg-slate-200 ring-2 ring-withus-bg-hover sm:h-44 sm:w-44 md:h-48 md:w-48">
+                <div className="relative flex h-56 w-56 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg bg-slate-200 ring-2 ring-withus-bg-hover md:h-48 md:w-48">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={profileImgSrc}
@@ -239,7 +239,7 @@ export default function ScheduleDetailList({ courses, fixedGrade }: Props) {
 
               {/* Column 2: 강의 정보 + 설명회 버튼 */}
               <div className="min-w-0">
-                <h3 className="mt-0 text-center font-gmarket text-xl font-bold text-withus-navy md:mt-1 md:text-left md:text-2xl">
+                <h3 className="mt-0 text-center font-gmarket text-xl font-medium text-withus-navy md:mt-1 md:text-left md:text-2xl">
                   {item.courseTitle ?? item.subject}
                 </h3>
                 <p className="mt-2 whitespace-pre-line text-base leading-relaxed text-withus-navy-500 md:text-lg">

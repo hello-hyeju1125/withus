@@ -28,7 +28,12 @@ export default function InfoSection() {
               </span>
 
               <div className="relative min-w-0 flex-1">
-                <p className="text-lg font-bold text-withus-navy transition-colors duration-300 group-hover:text-white sm:text-xl md:text-2xl"><span className="font-gmarket font-medium">입학 상담</span><span className="ml-4 text-sm font-normal text-withus-navy-300 transition-colors duration-300 group-hover:text-white/70 sm:text-base">전화·문자로 빠르게 안내해 드려요</span></p>
+                <p className="flex flex-col gap-1 text-lg font-bold text-withus-navy transition-colors duration-300 group-hover:text-white sm:flex-row sm:items-baseline sm:gap-0 sm:text-xl md:text-2xl">
+                  <span className="font-gmarket font-medium">입학 상담</span>
+                  <span className="text-sm font-normal text-withus-navy-300 transition-colors duration-300 group-hover:text-white/70 sm:ml-4 sm:text-base">
+                    전화·문자로 빠르게 안내해 드려요
+                  </span>
+                </p>
               </div>
 
               <span className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-withus-navy shadow-sm transition-all duration-300 group-hover:scale-110 group-hover:bg-white group-hover:shadow-md sm:h-11 sm:w-11">
@@ -49,7 +54,12 @@ export default function InfoSection() {
               </span>
 
               <div className="relative min-w-0 flex-1">
-                <p className="text-lg font-bold text-withus-navy transition-colors duration-300 group-hover:text-white sm:text-xl md:text-2xl"><span className="font-gmarket font-medium">문자 수신 등록</span><span className="ml-4 text-sm font-normal text-withus-navy-300 transition-colors duration-300 group-hover:text-white/70 sm:text-base">설명회·입시 소식을 먼저 받아보세요</span></p>
+                <p className="flex flex-col gap-1 text-lg font-bold text-withus-navy transition-colors duration-300 group-hover:text-white sm:flex-row sm:items-baseline sm:gap-0 sm:text-xl md:text-2xl">
+                  <span className="font-gmarket font-medium">문자 수신 등록</span>
+                  <span className="text-sm font-normal text-withus-navy-300 transition-colors duration-300 group-hover:text-white/70 sm:ml-4 sm:text-base">
+                    설명회·입시 소식을 먼저 받아보세요
+                  </span>
+                </p>
               </div>
 
               <span className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-withus-navy shadow-sm transition-all duration-300 group-hover:scale-110 group-hover:bg-white group-hover:shadow-md sm:h-11 sm:w-11">
