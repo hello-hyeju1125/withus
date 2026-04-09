@@ -44,7 +44,7 @@ const config: Config = {
       fontFamily: {
         sans: ["Pretendard", "system-ui", "sans-serif"],
         serif: ["var(--font-noto-serif)", "Georgia", "serif"],
-        gmarket: ["'GmarketSansBold'", "'Gmarket Sans'", "sans-serif"],
+        gmarket: ["'Gmarket Sans'", "sans-serif"],
       },
       screens: {
         xs: "375px",

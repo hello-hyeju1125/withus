@@ -77,7 +77,7 @@ export default function Footer() {
 
           {/* 상단: 브랜드 + 대표번호 + 상담시간 */}
           <div className="mb-6">
-            <p className="font-gmarket text-xl font-bold text-white md:text-2xl">{brand.name}</p>
+            <p className="font-gmarket text-xl font-medium text-white md:text-2xl">{brand.name}</p>
             <div className="mt-2 flex flex-col gap-5 sm:flex-row sm:items-start sm:gap-8">
               {/* 전화번호 */}
               <div className="flex shrink-0 flex-col gap-0.5">

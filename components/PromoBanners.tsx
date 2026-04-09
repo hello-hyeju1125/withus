@@ -7,38 +7,38 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 const BANNERS = [
   {
     src: "/asset/banner_01.svg",
-    alt: "예비 고3 대원외고 시간표",
-    caption: "예비 고3 대원외고 시간표",
+    alt: "고3 대원외고 시간표",
+    caption: "고3 대원외고 시간표",
     href: "/schedule/daewon?grade=3",
   },
   {
     src: "/asset/banner_02.svg",
-    alt: "예비 고2 대원외고 시간표",
-    caption: "예비 고2 대원외고 시간표",
+    alt: "고2 대원외고 시간표",
+    caption: "고2 대원외고 시간표",
     href: "/schedule/daewon?grade=2",
   },
   {
     src: "/asset/banner_03.svg",
-    alt: "예비 고1 대원외고 시간표",
-    caption: "예비 고1 대원외고 시간표",
+    alt: "고1 대원외고 시간표",
+    caption: "고1 대원외고 시간표",
     href: "/schedule/daewon?grade=1",
   },
   {
     src: "/asset/banner_04.svg",
-    alt: "예비 고3 한영외고 시간표",
-    caption: "예비 고3 한영외고 시간표",
+    alt: "고3 한영외고 시간표",
+    caption: "고3 한영외고 시간표",
     href: "/schedule/hanyoung?grade=3",
   },
   {
     src: "/asset/banner_05.svg",
-    alt: "예비 고1 한영외고 시간표",
-    caption: "예비 고1 한영외고 시간표",
+    alt: "고1 한영외고 시간표",
+    caption: "고1 한영외고 시간표",
     href: "/schedule/hanyoung?grade=1",
   },
   {
     src: "/asset/banner_06.svg",
-    alt: "예비 고2 한영외고 시간표",
-    caption: "예비 고2 한영외고 시간표",
+    alt: "고2 한영외고 시간표",
+    caption: "고2 한영외고 시간표",
     href: "/schedule/hanyoung?grade=2",
   },
 ] as const;
@@ -71,7 +71,7 @@ function BannerSlot({
         <span className="font-gmarket text-center text-[1.6rem] font-medium text-white drop-shadow-md sm:text-[1.8rem] md:text-[2.2rem]">
           {caption}
         </span>
-        <span className="font-gmarket rounded-full bg-white/90 px-4 py-2 text-base font-semibold text-withus-navy shadow-md transition-colors duration-300 group-hover/banner:bg-white sm:px-6 sm:py-3 sm:text-lg">
+        <span className="font-gmarket rounded-full bg-white/90 px-4 py-2 text-base font-medium text-withus-navy shadow-md transition-colors duration-300 group-hover/banner:bg-white sm:px-6 sm:py-3 sm:text-lg">
           시간표 바로 가기
         </span>
       </div>

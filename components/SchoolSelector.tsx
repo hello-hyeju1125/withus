@@ -76,7 +76,7 @@ export default function SchoolSelector() {
               />
 
               <div className="relative z-10 flex min-w-0 flex-col">
-                <span className="font-gmarket text-2xl font-extrabold tracking-tight text-withus-navy sm:text-3xl lg:text-[2rem]">
+                <span className="font-gmarket text-2xl font-medium tracking-tight text-withus-navy sm:text-3xl lg:text-[2rem]">
                   {label}
                 </span>
                 <span className={`mt-1 text-sm font-semibold sm:text-base ${textAccent}`}>

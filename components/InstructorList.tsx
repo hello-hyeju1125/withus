@@ -94,10 +94,11 @@ function InstructorCard({ instructor }: { instructor: Instructor }) {
     >
       <div className={`absolute -left-px -top-px -bottom-px w-[5px] ${accentClass}`} aria-hidden />
 
-      <div className="flex gap-6 sm:gap-8">
+      {/* 모바일: 세로(이미지 → 이름 → 과목 → 소개) / sm+: 가로 */}
+      <div className="flex flex-col items-center gap-5 sm:flex-row sm:items-start sm:gap-8">
         {/* 프로필 사진 */}
-        <div className="shrink-0">
-          <div className="relative flex h-32 w-32 items-center justify-center overflow-hidden rounded-lg bg-withus-bg ring-1 ring-withus-bg-hover sm:h-40 sm:w-40 md:h-48 md:w-48">
+        <div className="flex w-full shrink-0 justify-center sm:w-auto sm:justify-start">
+          <div className="relative flex h-56 w-56 items-center justify-center overflow-hidden rounded-xl bg-withus-bg ring-1 ring-withus-bg-hover sm:h-40 sm:w-40 sm:rounded-lg md:h-48 md:w-48">
             {shouldShowImage ? (
               /* eslint-disable-next-line @next/next/no-img-element */
               <img
@@ -131,19 +132,22 @@ function InstructorCard({ instructor }: { instructor: Instructor }) {
         </div>
 
         {/* 정보 */}
-        <div className="min-w-0 flex-1">
-          <div className="mb-2 flex flex-wrap items-center gap-2 sm:mb-3">
+        <div className="flex w-full min-w-0 flex-1 flex-col gap-3 text-center sm:text-left">
+          <div className="flex flex-col items-center gap-2.5 sm:mb-1 sm:flex-row sm:flex-wrap sm:items-center sm:justify-start sm:gap-3">
             <h3
               id={`${listId}-name`}
-              className="font-gmarket text-lg font-bold tracking-tight text-withus-navy sm:text-xl md:text-2xl"
+              className="font-gmarket text-2xl font-bold tracking-tight text-withus-navy md:text-3xl"
             >
               {instructor.name} 선생님
             </h3>
-            <span className="rounded border border-withus-bg-hover bg-withus-bg px-3 py-1 font-sans text-sm font-medium text-withus-navy-500 md:text-base">
+            <span className="inline-flex rounded border border-withus-bg-hover bg-withus-bg px-3.5 py-1.5 font-sans text-lg font-semibold text-withus-navy-500 md:text-xl">
               {instructor.subject}
             </span>
           </div>
-          <ul className="space-y-1.5 font-sans text-base leading-relaxed text-withus-navy-500 md:text-lg" aria-label="이력">
+          <ul
+            className="space-y-2 text-left font-sans text-base leading-relaxed text-withus-navy-500 sm:space-y-1.5 md:text-lg"
+            aria-label="이력"
+          >
             {instructor.info.map((item, i) => (
               <li key={i} className="flex gap-2.5">
                 <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-withus-navy-200" aria-hidden />
@@ -272,7 +276,7 @@ export default function InstructorList() {
         </div>
 
         {/* 강사 목록 */}
-        <div className="space-y-4 sm:space-y-5">
+        <div className="space-y-6 sm:space-y-5">
           {filteredInstructors.map((instructor, index) => (
             <InstructorCard
               key={`${instructor.school}-${instructor.subject}-${instructor.name}-${index}`}

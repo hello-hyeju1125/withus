@@ -6,6 +6,7 @@
     "node": ">=18.18.0"
   },
   "scripts": {
+    "clean": "rm -rf .next node_modules/.cache",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

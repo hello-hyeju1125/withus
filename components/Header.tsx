@@ -9,7 +9,7 @@ export default function Header() {
           className="flex cursor-pointer items-center"
           aria-label="위더스 학원 홈"
         >
-          <span className="font-gmarket text-2xl font-extrabold tracking-tight text-withus-navy sm:text-3xl md:text-4xl">
+          <span className="font-gmarket text-2xl font-medium tracking-tight text-withus-navy sm:text-3xl md:text-4xl">
             <span className="text-[1.25em] text-[#FFD600]">W</span> 대치위더스학원
           </span>
         </Link>

@@ -28,9 +28,27 @@ const menuItems = [
   {
     label: "공지사항",
     href: "/notice",
-    children: undefined,
+    children: [
+      { label: "공지게시판", href: "/notice" },
+      { label: "오시는 길", href: "/campus" },
+      { label: "시설 안내", href: "/academy" },
+    ] as const,
   },
 ] as const;
+
+type SubmenuLink = { readonly label: string; readonly href: string };
+
+function isSubmenuLinks(
+  children: readonly unknown[] | undefined
+): children is readonly SubmenuLink[] {
+  return (
+    children !== undefined &&
+    children.length > 0 &&
+    typeof children[0] === "object" &&
+    children[0] !== null &&
+    "href" in children[0]
+  );
+}
 
 export default function Navbar() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -87,7 +105,9 @@ export default function Navbar() {
         <ul className="flex h-full w-full flex-1">
           {menuItems.map((item, index) => {
             const hasChildren =
-              item.children !== undefined && Array.isArray(item.children) && (item.children as readonly string[]).length > 0;
+              item.children !== undefined &&
+              Array.isArray(item.children) &&
+              item.children.length > 0;
             const opensAllMenu = item.label === "전체보기";
             const canOpenDropdown = hasChildren || opensAllMenu;
             const navButtonClass =
@@ -176,8 +196,23 @@ export default function Navbar() {
                       className="flex items-center justify-center rounded-lg py-2 px-3 text-sm text-white/90 transition-all duration-200 hover:bg-white/15 hover:text-withus-cta hover:shadow-sm sm:text-base"
                       onClick={closeDropdown}
                     >
-                      {item.label === "공지사항" ? "공지 게시판" : item.label}
+                      {item.label}
                     </Link>
+                  ) : item.children.length > 0 && isSubmenuLinks(item.children) ? (
+                    <ul className="flex flex-col items-center gap-0.5 px-4 text-center">
+                      {item.children.map((child) => (
+                        <li key={child.href}>
+                          <Link
+                            href={child.href}
+                            className="group flex items-center justify-center gap-1.5 rounded-lg py-2 px-3 text-sm text-white/90 transition-all duration-200 hover:bg-white/15 hover:text-withus-cta hover:shadow-sm sm:text-base"
+                            onClick={closeDropdown}
+                          >
+                            <ChevronRight className="h-3.5 w-0 shrink-0 overflow-hidden opacity-0 transition-all duration-200 group-hover:w-[14px] group-hover:opacity-100" aria-hidden />
+                            <span className="transition-transform duration-200 group-hover:translate-x-0.5">{child.label}</span>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
                   ) : item.children.length > 0 ? (
                     <ul className="flex flex-col items-center gap-0.5 px-4 text-center">
                       {(item.children as readonly string[]).map((child) => {
