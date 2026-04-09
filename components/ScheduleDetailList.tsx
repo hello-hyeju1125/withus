@@ -26,23 +26,6 @@ const CATEGORY_DISPLAY_LABELS: Partial<Record<DetailCategoryFilter, string>> = {
   "통사/한국사": "사회",
 };
 
-const SUBJECT_COLORS: Record<string, string> = {
-  국어: "bg-rose-100 text-rose-900 border-rose-300 ring-1 ring-rose-200/70",
-  수학: "bg-sky-100 text-sky-900 border-sky-300 ring-1 ring-sky-200/70",
-  영어: "bg-amber-100 text-amber-900 border-amber-300 ring-1 ring-amber-200/70",
-  통과: "bg-violet-100 text-violet-900 border-violet-300 ring-1 ring-violet-200/70",
-  "통사/한국사": "bg-emerald-100 text-emerald-900 border-emerald-300 ring-1 ring-emerald-200/70",
-  독일어: "bg-indigo-100 text-indigo-900 border-indigo-300 ring-1 ring-indigo-200/70",
-  스페인어: "bg-indigo-100 text-indigo-900 border-indigo-300 ring-1 ring-indigo-200/70",
-  일본어: "bg-indigo-100 text-indigo-900 border-indigo-300 ring-1 ring-indigo-200/70",
-  중국어: "bg-indigo-100 text-indigo-900 border-indigo-300 ring-1 ring-indigo-200/70",
-  프랑스어: "bg-indigo-100 text-indigo-900 border-indigo-300 ring-1 ring-indigo-200/70",
-};
-
-function getSubjectStyle(subject: string) {
-  return SUBJECT_COLORS[subject] ?? "bg-slate-100 text-slate-900 border-slate-300 ring-1 ring-slate-200/70";
-}
-
 function getInitials(name: string) {
   return name.slice(0, 2).toUpperCase();
 }

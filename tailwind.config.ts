@@ -10,20 +10,32 @@ const config: Config = {
     extend: {
       colors: {
         withus: {
-          navy: "#0031B7",
-          "navy-light": "#1a4ac9",
-          gold: "#FEF600",
-          "gold-light": "#FFF9B0",
-          cream: "#faf9f6",
-          "cream-dark": "#f0ede8",
-        },
-        "cool-gray": {
-          50: "#f8fafb",
-          100: "#f1f5f9",
-          200: "#e2e8f0",
-          300: "#cbd5e1",
-          400: "#94a3b8",
-          500: "#64748b",
+          navy: {
+            DEFAULT: "#0F1A2E",
+            700: "#1E2D45",
+            500: "#3A4D68",
+            300: "#6B7A8D",
+            200: "#8896A6",
+          },
+          bg: {
+            DEFAULT: "#F7F8FA",
+            hover: "#EDF0F5",
+          },
+          accent: {
+            blue: "#3466AE",
+            "blue-tint": "#EBF1F9",
+            green: "#2E8B6A",
+            "green-tint": "#E8F5EF",
+            gold: "#B8860B",
+            "gold-tint": "#FBF4E4",
+            purple: "#7B5EA7",
+            "purple-tint": "#F3EEF8",
+          },
+          cta: {
+            DEFAULT: "#3B82F6",
+            hover: "#2563EB",
+            tint: "#EFF6FF",
+          },
         },
       },
       boxShadow: {
@@ -32,6 +44,7 @@ const config: Config = {
       fontFamily: {
         sans: ["Pretendard", "system-ui", "sans-serif"],
         serif: ["var(--font-noto-serif)", "Georgia", "serif"],
+        gmarket: ["'GmarketSansBold'", "'Gmarket Sans'", "sans-serif"],
       },
       screens: {
         xs: "375px",

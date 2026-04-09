@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Image from "next/image";
 
 type Props = {
   isOpen: boolean;
@@ -60,11 +61,15 @@ export default function TuitionModal({ isOpen, onClose }: Props) {
         <div className="overflow-y-auto px-5 py-4">
           <div className="flex flex-col gap-6">
             {TUITION_IMAGES.map((src, index) => (
-              <img
+              <Image
                 key={src}
                 src={src}
                 alt={`교습비등 게시표 ${index + 1}`}
+                width={1200}
+                height={1600}
                 className="h-auto w-full rounded-lg border border-withus-bg-hover object-contain"
+                sizes="(max-width: 896px) 100vw, 896px"
+                priority={index === 0}
               />
             ))}
           </div>
