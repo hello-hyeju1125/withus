@@ -75,6 +75,12 @@ export default function Navbar() {
     setActiveTopMenu(label);
   };
 
+  const handleTopMenuHover = (label: string) => {
+    openTriggeredRef.current = true;
+    setDropdownOpen(true);
+    setActiveTopMenu(label);
+  };
+
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (openTriggeredRef.current) {
@@ -101,6 +107,7 @@ export default function Navbar() {
       ref={navRef}
       className="relative sticky top-[72px] z-[100] w-full bg-withus-navy sm:top-[84px]"
     >
+      <div onMouseLeave={closeDropdown}>
       <div className="mx-auto flex h-[60px] max-w-7xl items-center">
         <ul className="flex h-full w-full flex-1">
           {menuItems.map((item, index) => {
@@ -111,13 +118,14 @@ export default function Navbar() {
             const opensAllMenu = item.label === "전체보기";
             const canOpenDropdown = hasChildren || opensAllMenu;
             const navButtonClass =
-              "group/menu relative flex h-full flex-1 items-center justify-center gap-1.5 border-b-2 border-transparent font-gmarket font-medium text-white transition-all duration-300 ease-out hover:border-withus-cta hover:bg-white/15 hover:text-withus-cta focus:outline-none focus-visible:ring-2 focus-visible:ring-withus-cta focus-visible:ring-offset-2 focus-visible:ring-offset-withus-navy active:scale-[0.98] text-[17px] sm:gap-2 sm:text-[19px] md:text-[20px]";
+              "group/menu relative flex h-full flex-1 items-center justify-center gap-1.5 border-b-4 border-transparent font-medium text-white transition-all duration-300 ease-out hover:border-withus-gold hover:bg-white/15 hover:text-withus-gold focus:outline-none focus-visible:ring-2 focus-visible:ring-withus-gold focus-visible:ring-offset-2 focus-visible:ring-offset-withus-navy active:scale-[0.98] text-[17px] sm:gap-2 sm:text-[19px] md:text-[20px]";
             const hideOnMobile = item.label === "전체보기";
 
             return (
               <li
                 key={item.href}
                 className={`${hideOnMobile ? "hidden sm:flex" : "flex"} h-full flex-1`}
+                onMouseEnter={canOpenDropdown ? () => handleTopMenuHover(item.label) : undefined}
               >
                 {canOpenDropdown ? (
                   <>
@@ -170,14 +178,6 @@ export default function Navbar() {
       </div>
 
       {dropdownOpen && (
-        <div
-          className="fixed inset-0 top-[calc(72px+60px)] z-[90] hidden sm:block sm:top-[calc(84px+60px)]"
-          aria-hidden
-          onClick={closeDropdown}
-        />
-      )}
-
-      {dropdownOpen && (
       <div
         className="absolute left-0 right-0 top-full z-[95] w-full border-t border-white/20 bg-withus-navy shadow-lg hidden sm:block"
         aria-hidden={false}
@@ -193,7 +193,7 @@ export default function Navbar() {
                   {item.children === undefined ? (
                     <Link
                       href={item.href}
-                      className="flex items-center justify-center rounded-lg py-2 px-3 text-sm text-white/90 transition-all duration-200 hover:bg-white/15 hover:text-withus-cta hover:shadow-sm sm:text-base"
+                      className="flex items-center justify-center rounded-lg py-2 px-3 text-sm text-white/90 transition-all duration-200 hover:bg-white/15 hover:text-withus-gold hover:shadow-sm sm:text-base"
                       onClick={closeDropdown}
                     >
                       {item.label}
@@ -204,7 +204,7 @@ export default function Navbar() {
                         <li key={child.href}>
                           <Link
                             href={child.href}
-                            className="group flex items-center justify-center gap-1.5 rounded-lg py-2 px-3 text-sm text-white/90 transition-all duration-200 hover:bg-white/15 hover:text-withus-cta hover:shadow-sm sm:text-base"
+                            className="group flex items-center justify-center gap-1.5 rounded-lg py-2 px-3 text-sm text-white/90 transition-all duration-200 hover:bg-white/15 hover:text-withus-gold hover:shadow-sm sm:text-base"
                             onClick={closeDropdown}
                           >
                             <ChevronRight className="h-3.5 w-0 shrink-0 overflow-hidden opacity-0 transition-all duration-200 group-hover:w-[14px] group-hover:opacity-100" aria-hidden />
@@ -237,7 +237,7 @@ export default function Navbar() {
                           <li key={child}>
                             <Link
                               href={href}
-                              className="group flex items-center justify-center gap-1.5 rounded-lg py-2 px-3 text-sm text-white/90 transition-all duration-200 hover:bg-white/15 hover:text-withus-cta hover:shadow-sm sm:text-base"
+                              className="group flex items-center justify-center gap-1.5 rounded-lg py-2 px-3 text-sm text-white/90 transition-all duration-200 hover:bg-white/15 hover:text-withus-gold hover:shadow-sm sm:text-base"
                               onClick={closeDropdown}
                             >
                               <ChevronRight className="h-3.5 w-0 shrink-0 overflow-hidden opacity-0 transition-all duration-200 group-hover:w-[14px] group-hover:opacity-100" aria-hidden />
@@ -250,7 +250,7 @@ export default function Navbar() {
                   ) : (
                     <Link
                       href={item.href}
-                      className="flex items-center justify-center rounded-lg py-2 px-3 text-sm text-white/90 transition-all duration-200 hover:bg-white/15 hover:text-withus-cta hover:shadow-sm sm:text-base"
+                      className="flex items-center justify-center rounded-lg py-2 px-3 text-sm text-white/90 transition-all duration-200 hover:bg-white/15 hover:text-withus-gold hover:shadow-sm sm:text-base"
                       onClick={closeDropdown}
                     >
                       {item.label}
@@ -260,6 +260,15 @@ export default function Navbar() {
               ))}
             </div>
       </div>
+      )}
+      </div>
+
+      {dropdownOpen && (
+        <div
+          className="fixed inset-0 top-[calc(72px+60px)] z-[90] hidden sm:block sm:top-[calc(84px+60px)]"
+          aria-hidden
+          onClick={closeDropdown}
+        />
       )}
     </nav>
   );

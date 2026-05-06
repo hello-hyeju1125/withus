@@ -39,7 +39,7 @@ export default function BriefingNav() {
               {label}
               <span
                 className={`absolute bottom-0 left-0 right-0 block border-b-4 ${
-                  isActive ? "border-withus-cta" : "border-withus-bg-hover"
+                  isActive ? "border-withus-gold" : "border-withus-bg-hover"
                 }`}
               />
             </button>

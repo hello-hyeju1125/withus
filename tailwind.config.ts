@@ -11,11 +11,17 @@ const config: Config = {
       colors: {
         withus: {
           navy: {
-            DEFAULT: "#0F1A2E",
-            700: "#1E2D45",
-            500: "#3A4D68",
-            300: "#6B7A8D",
-            200: "#8896A6",
+            DEFAULT: "#1E2A5E",
+            900: "#142048",
+            700: "#1E2A5E",
+            500: "#3F4F8A",
+            300: "#6B7AAF",
+            200: "#9CA8CB",
+            100: "#DDE3F2",
+          },
+          gold: {
+            DEFAULT: "#FFE600",
+            tint: "#FFFBE0",
           },
           bg: {
             DEFAULT: "#F7F8FA",
@@ -32,9 +38,9 @@ const config: Config = {
             "purple-tint": "#F3EEF8",
           },
           cta: {
-            DEFAULT: "#3B82F6",
-            hover: "#2563EB",
-            tint: "#EFF6FF",
+            DEFAULT: "#1E2A5E",
+            hover: "#142048",
+            tint: "#E5E9F5",
           },
         },
       },
@@ -44,7 +50,6 @@ const config: Config = {
       fontFamily: {
         sans: ["Pretendard", "system-ui", "sans-serif"],
         serif: ["var(--font-noto-serif)", "Georgia", "serif"],
-        gmarket: ["'Gmarket Sans'", "sans-serif"],
       },
       screens: {
         xs: "375px",

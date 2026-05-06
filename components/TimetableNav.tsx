@@ -79,7 +79,7 @@ export default function TimetableNav({
               {label}
               <span
                 className={`absolute bottom-0 left-0 right-0 block border-b-4 md:border-b-[6px] ${
-                  isActive ? "border-withus-cta" : "border-withus-bg-hover"
+                  isActive ? "border-withus-gold" : "border-withus-bg-hover"
                 }`}
               />
             </button>

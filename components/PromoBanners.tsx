@@ -58,7 +58,7 @@ function BannerSlot({
   caption: string;
 }) {
   const content = (
-    <div className="group/banner relative aspect-[3/1] w-full overflow-hidden rounded shadow-md ring-1 ring-black/5">
+    <div className="group/banner relative aspect-[3/1] w-full overflow-hidden rounded-2xl shadow-md ring-1 ring-withus-navy/15 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl hover:ring-withus-navy/25">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={src}
@@ -66,12 +66,12 @@ function BannerSlot({
         className="h-full w-full object-cover"
       />
       <div
-        className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-withus-navy/30 px-4 pt-5 transition-colors duration-300 group-hover/banner:bg-withus-navy/40"
+        className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-withus-navy/30 px-4 pt-5 transition-colors duration-300 group-hover/banner:bg-withus-gold/90"
       >
-        <span className="font-gmarket text-center text-[1.6rem] font-medium text-white drop-shadow-md sm:text-[1.8rem] md:text-[2.2rem]">
+        <span className="text-center text-[1.6rem] font-bold text-white drop-shadow-md transition-all duration-300 group-hover/banner:text-withus-navy group-hover/banner:drop-shadow-none sm:text-[1.8rem] md:text-[2.2rem]">
           {caption}
         </span>
-        <span className="font-gmarket rounded-full bg-white/90 px-4 py-2 text-base font-medium text-withus-navy shadow-md transition-colors duration-300 group-hover/banner:bg-white sm:px-6 sm:py-3 sm:text-lg">
+        <span className="rounded-full bg-white/90 px-4 py-2 text-base font-semibold text-withus-navy shadow-md transition-colors duration-300 group-hover/banner:bg-withus-navy group-hover/banner:text-white sm:px-6 sm:py-3 sm:text-lg">
           시간표 바로 가기
         </span>
       </div>
@@ -81,7 +81,7 @@ function BannerSlot({
   return (
     <Link
       href={href}
-      className="block min-w-0 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-withus-cta focus-visible:rounded"
+      className="block min-w-0 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-withus-cta focus-visible:rounded-2xl"
     >
       {content}
     </Link>
@@ -97,7 +97,7 @@ export default function PromoBanners() {
   return (
     <section className="min-w-0 px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
       <div className="mx-auto max-w-7xl min-w-0 overflow-hidden">
-        <div className="min-w-0 overflow-hidden rounded">
+        <div className="min-w-0 overflow-hidden rounded-2xl">
           <div
             className="flex min-w-0 w-[300%] transition-transform duration-300 ease-out"
             style={{ transform: `translateX(-${currentPage * (100 / TOTAL_PAGES)}%)` }}

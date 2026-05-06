@@ -175,7 +175,7 @@ export default function ScheduleDetailList({ courses, fixedGrade }: Props) {
       </div>
 
       {/* 세부 시간표 리스트 */}
-      <div className="mt-6 space-y-4">
+      <div className="mt-6 space-y-8 md:space-y-10">
         {filteredCourses.length === 0 ? (
           <div className="rounded-xl border border-withus-bg-hover bg-white py-12 text-center text-withus-navy-300">
             해당 학년 강의가 없습니다.
@@ -184,7 +184,7 @@ export default function ScheduleDetailList({ courses, fixedGrade }: Props) {
           filteredCourses.map((item) => (
             <article
               key={item.id}
-              className="relative grid gap-5 overflow-hidden rounded border border-black/10 bg-white p-5 shadow-sm transition-shadow hover:shadow-md md:grid-cols-[200px_minmax(0,1fr)_340px] md:items-start md:gap-6 md:p-6"
+              className="relative grid gap-5 overflow-hidden rounded-2xl border border-black/10 bg-white p-5 shadow-sm transition-shadow hover:shadow-md md:grid-cols-[200px_minmax(0,1fr)_340px] md:items-start md:gap-6 md:p-6"
             >
               {/* Column 1: 과목 태그 + 강사 프로필 + 이름 */}
               <div className="flex flex-shrink-0 flex-col items-center gap-3">
@@ -205,7 +205,7 @@ export default function ScheduleDetailList({ courses, fixedGrade }: Props) {
                 {(() => {
                   const profileImgSrc = resolveTeacherImageSrc(item.instructorName, item.profileImg);
                   return (
-                <div className="relative flex h-56 w-56 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg bg-slate-200 ring-2 ring-withus-bg-hover md:h-48 md:w-48">
+                <div className="relative flex h-48 w-48 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg bg-slate-200 ring-2 ring-withus-bg-hover md:h-40 md:w-40">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={profileImgSrc}
@@ -232,33 +232,35 @@ export default function ScheduleDetailList({ courses, fixedGrade }: Props) {
                 </div>
                   );
                 })()}
-                <span className="text-center font-gmarket text-3xl font-extrabold tracking-tight text-withus-navy">
+                <span className="text-center text-3xl font-extrabold tracking-tight text-withus-navy">
                   {item.instructorName}
                 </span>
               </div>
 
               {/* Column 2: 강의 정보 + 설명회 버튼 */}
               <div className="min-w-0">
-                <h3 className="mt-0 text-center font-gmarket text-xl font-medium text-withus-navy md:mt-1 md:text-left md:text-2xl">
+                <h3 className="mt-0 text-center text-lg font-bold text-withus-navy md:mt-1 md:text-left md:text-xl">
                   {item.courseTitle ?? item.subject}
                 </h3>
-                <p className="mt-2 whitespace-pre-line text-base leading-relaxed text-withus-navy-500 md:text-lg">
+                <p className="mt-2 whitespace-pre-line text-sm leading-snug text-withus-navy-500 md:text-base">
                   {item.teachingStyle}
                 </p>
 
                 <button
                   type="button"
                   onClick={() => openVideo(item.videoUrl, item.courseTitle ?? item.subject)}
-                  className="mt-4 inline-flex items-center gap-1.5 rounded border border-withus-navy-200 px-3 py-1.5 text-sm font-medium text-withus-navy-300 transition-colors hover:border-withus-navy hover:text-withus-navy md:text-base"
+                  className="group/video mt-4 inline-flex items-center gap-2.5 rounded-full bg-withus-gold py-1.5 pl-1.5 pr-5 text-sm font-bold text-withus-navy shadow-md transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-lg md:text-base"
                 >
-                  <Play className="h-3.5 w-3.5" aria-hidden />
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-withus-navy transition-transform duration-300 group-hover/video:scale-110 md:h-8 md:w-8">
+                    <Play className="h-3 w-3 fill-white text-white md:h-3.5 md:w-3.5" aria-hidden />
+                  </span>
                   설명회 영상
                 </button>
               </div>
 
               {/* Column 3: 요일/시간 + 개강 */}
               <div className="min-w-0 self-center">
-                <div className="overflow-hidden rounded border border-gray-200 bg-white">
+                <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
                   <section className="px-4 py-4">
                     <p className="text-sm font-semibold tracking-wide text-withus-navy-300">요일/시간</p>
                     <p className="mt-1.5 whitespace-pre-line text-base font-semibold leading-relaxed text-withus-navy md:text-lg">
